@@ -2,7 +2,7 @@
 
 This repository is the framework-agnostic source for Tiptree's visual system and component contracts. It contains the portable token source, generated consumer formats, canonical component CSS, component specifications, Python package data, validation, payload budgets, and a small showcase.
 
-The governing architecture is documented in [`../workspace-files/markdown/DESIGN_SYSTEM_PLAN.md`](../workspace-files/markdown/DESIGN_SYSTEM_PLAN.md). Component contracts live in [`specs/`](specs/).
+The governing architecture is documented in the Tiptree Design System Architecture & Experiment Plan maintained in the Tiptree planning workspace. Component contracts live in [`specs/`](specs/).
 
 ## Architecture
 
@@ -15,7 +15,7 @@ The governing architecture is documented in [`../workspace-files/markdown/DESIGN
 
 ## Commands
 
-Requires Node 20 or newer. The scaffold intentionally has no npm dependencies.
+Requires Node 20 or newer. Building the Python wheel requires Python 3.11 or newer; check `python3 --version` rather than assuming the system alias is compatible. The scaffold intentionally has no npm dependencies.
 
 ```sh
 npm run dev
