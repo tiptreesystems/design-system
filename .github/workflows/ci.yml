@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run ci
+
+  candidate-artifacts:
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build generated package files
+        run: npm run build
+      - name: Build unpublished npm and wheel candidates
+        run: |
+          mkdir -p candidate/npm candidate/python
+          npm pack --pack-destination candidate/npm
+          python -m pip wheel python/ --no-deps --wheel-dir candidate/python
+      - name: Create SHA-256 checksums
+        working-directory: candidate
+        run: sha256sum npm/*.tgz python/*.whl > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: design-system-candidates-${{ github.sha }}
+          path: |
+            candidate/npm/*.tgz
+            candidate/python/*.whl
+            candidate/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 14

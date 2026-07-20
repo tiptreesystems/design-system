@@ -1,0 +1,52 @@
+name: Release candidate artifacts
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run release gates
+        run: npm run ci
+      - name: Build retained npm and wheel artifacts
+        run: |
+          mkdir -p release/npm release/python
+          npm pack --pack-destination release/npm
+          python -m pip wheel python/ --no-deps --wheel-dir release/python
+      - name: Create SHA-256 checksums
+        working-directory: release
+        run: sha256sum npm/*.tgz python/*.whl > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: design-system-release-${{ github.ref_name }}
+          path: |
+            release/npm/*.tgz
+            release/python/*.whl
+            release/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 90
+
+      # PUBLISHING IS GATED by DESIGN_SYSTEM_PLAN.md section 7.
+      # npm registry: TBD. Uncomment only after Martin selects the registry,
+      # credentials are provisioned, and the release procedure is reviewed.
+      # - name: Publish npm package
+      #   run: npm publish release/npm/*.tgz
+
+      # Python delivery: TBD between GCP Artifact Registry and a vendored wheel.
+      # Artifact Registry publishing also requires scoped authentication that
+      # has not been selected or provisioned. A vendored wheel is not published.
+      # - name: Publish Python wheel
+      #   run: python -m twine upload release/python/*.whl

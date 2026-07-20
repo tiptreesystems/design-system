@@ -1,0 +1,28 @@
+{
+  "name": "@tiptree/design-system",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Tiptree design system — tokens, tt.css component classes, behavior JS. CSS is the contract; bindings are conveniences.",
+  "type": "module",
+  "files": [
+    "dist/css/",
+    "dist/tailwind/",
+    "specs/",
+    "themes/"
+  ],
+  "exports": {
+    "./tokens.css": "./dist/css/tokens.css",
+    "./tt.css": "./dist/css/tt.css",
+    "./tailwind-theme.css": "./dist/tailwind/theme.css"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build-tokens.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "budgets": "node scripts/build-tokens.mjs && node scripts/budgets.mjs",
+    "ci": "node scripts/build-tokens.mjs && node --test tests/*.test.mjs && node scripts/budgets.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

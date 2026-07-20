@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tiptree-ui"
+version = "0.1.0"
+description = "Tiptree design system for Python consumers - generated tokens, tt.css as package data, Flask blueprint, component bindings."
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+flask = ["flask>=3"]
+
+[tool.setuptools]
+packages = ["tiptree_ui"]
+
+[tool.setuptools.package-data]
+tiptree_ui = ["assets/*.css"]

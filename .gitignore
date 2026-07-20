@@ -1,0 +1,12 @@
+dist/
+node_modules/
+.DS_Store
+
+python/build/
+python/dist/
+python/*.egg-info/
+python/tiptree_ui/*.egg-info/
+python/tiptree_ui/__pycache__/
+python/tiptree_ui/_tokens.py
+python/tiptree_ui/assets/
+*.py[cod]

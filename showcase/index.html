@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tiptree Design System — Showcase</title>
+<link rel="stylesheet" href="/dist/css/tokens.css" />
+<link rel="stylesheet" href="/dist/css/tt.css" />
+<style>
+  /* Showcase chrome only — real components come from tt.css */
+  body { margin: 0; font-family: var(--tt-font-sans); background: var(--tt-color-bg-primary); color: var(--tt-color-text-primary); }
+  main { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+  h1 { font-family: var(--tt-font-serif); font-weight: 300; font-size: 2.5rem; margin: 0 0 8px; }
+  h2 { font-family: var(--tt-font-serif); font-weight: 400; font-size: 1.375rem; margin: 40px 0 16px; border-bottom: 1px solid var(--tt-color-border-translucent); padding-bottom: 8px; }
+  p.lede { color: var(--tt-color-text-secondary); margin: 0 0 24px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 12px; }
+  .swatch { width: 108px; border-radius: var(--tt-radius-8); overflow: hidden; border: 1px solid var(--tt-color-border-translucent); background: var(--tt-color-surface-card); }
+  .swatch .chip { height: 56px; }
+  .swatch .label { font-size: 0.6875rem; padding: 6px 8px; color: var(--tt-color-text-secondary); word-break: break-all; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
+  .toggle { position: fixed; top: 16px; right: 16px; }
+  .version { color: var(--tt-color-text-tertiary); font-size: 0.75rem; }
+</style>
+</head>
+<body>
+<button class="tt-btn tt-btn--secondary tt-btn--sm toggle" id="themeToggle">toggle theme</button>
+<main>
+  <h1>Tiptree Design System</h1>
+  <p class="lede">Living showcase — rendered directly from the generated tokens and <code>tt.css</code>. What you see here is exactly what every app receives. <span class="version" id="version"></span></p>
+
+  <h2>Brand</h2>
+  <div class="swatches" id="brand"></div>
+
+  <h2>Ramps</h2>
+  <div id="ramps"></div>
+
+  <h2>Semantic (current theme)</h2>
+  <div class="swatches" id="semantic"></div>
+
+  <h2>Button — tt-btn</h2>
+  <div class="row">
+    <button class="tt-btn tt-btn--primary tt-btn--sm">Primary sm</button>
+    <button class="tt-btn tt-btn--primary tt-btn--md">Primary md</button>
+    <button class="tt-btn tt-btn--primary tt-btn--lg">Primary lg</button>
+  </div>
+  <div class="row">
+    <button class="tt-btn tt-btn--secondary tt-btn--md">Secondary</button>
+    <button class="tt-btn tt-btn--ghost tt-btn--md">Ghost</button>
+    <button class="tt-btn tt-btn--primary tt-btn--md" disabled>Disabled</button>
+  </div>
+</main>
+<script type="module">
+  const root = document.documentElement;
+  const stored = localStorage.getItem('tt-theme');
+  if (stored) root.dataset.theme = stored;
+  themeToggle.onclick = () => {
+    root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('tt-theme', root.dataset.theme);
+  };
+
+  const data = await (await fetch('/dist/showcase-data.json')).json();
+  version.textContent = `tokens v${data.version}`;
+  const swatch = (name, value) =>
+    `<div class="swatch"><div class="chip" style="background:${value}"></div><div class="label">--tt-${name}<br>${value}</div></div>`;
+
+  brand.innerHTML = Object.entries(data.base).filter(([k]) => k.startsWith('brand-')).map(([k, v]) => swatch(k, v)).join('');
+  for (const ramp of ['stone', 'teal', 'citron']) {
+    const cells = Object.entries(data.base)
+      .filter(([k]) => k.startsWith(ramp + '-'))
+      .map(([k, v]) => `<div title="--tt-${k}: ${v}" style="flex:1;height:40px;background:${v}"></div>`) .join('');
+    ramps.insertAdjacentHTML('beforeend', `<div style="display:flex;border-radius:var(--tt-radius-8);overflow:hidden;margin-bottom:8px" >${cells}</div>`);
+  }
+  const theme = () => (root.dataset.theme === 'light' ? 'light' : 'dark');
+  const renderSemantic = () => {
+    semantic.innerHTML = Object.entries(data.themes[theme()])
+      .filter(([k]) => k.startsWith('color-'))
+      .map(([k, v]) => swatch(k, v)).join('');
+  };
+  renderSemantic();
+  new MutationObserver(renderSemantic).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+</body>
+</html>
