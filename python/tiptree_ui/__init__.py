@@ -10,5 +10,5 @@ phase decides the contract surface - see DESIGN_SYSTEM_PLAN.md section 5.
 
 from tiptree_ui._tokens import TOKENS, for_brand
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __all__ = ["TOKENS", "for_brand", "__version__"]
