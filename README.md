@@ -2,7 +2,7 @@
 
 This repository is the framework-agnostic source for Tiptree's visual system and component contracts. It contains the portable token source, generated consumer formats, canonical component CSS, component specifications, Python package data, validation, payload budgets, and a small showcase.
 
-The governing architecture is documented in [`docs/PLAN.md`](docs/PLAN.md). Component contracts live in [`specs/`](specs/).
+The governing architecture is documented in [`docs/PLAN.md`](docs/PLAN.md). Component contracts live in [`specs/`](specs/). **Integrating an app? Start with [`docs/USING.md`](docs/USING.md)** — proven per-consumer recipes (Python wheel, npm/bundler, static, iOS). Contributors: [`docs/ADDING_A_COMPONENT.md`](docs/ADDING_A_COMPONENT.md); designers: [`docs/DESIGNER_GUIDE.md`](docs/DESIGNER_GUIDE.md); agents: [`CLAUDE.md`](CLAUDE.md).
 
 ## Architecture
 
