@@ -6,7 +6,7 @@ all seven steps hold — partial components don't ship.
 1. **Spec first** — copy `specs/TEMPLATE.md` → `specs/<name>.md`. Engineering writes
    anatomy/ARIA/states/keyboard; designer supplies the visual decisions section. If the
    component exists in multiple apps today (e.g. Lacuna `.tag` vs Althea `.badge` vs
-   docs-new `Badge`), inventory all versions in the spec and get ONE designer ruling on
+   the docs site `Badge`), inventory all versions in the spec and get ONE designer ruling on
    the merged variant set — never pick a winner silently.
 2. **CSS** — `css/components/<name>.css`: unlayered, `.tt-<name>` classes only,
    `var(--tt-*)` values only, depends on tokens + itself only. Port values from the

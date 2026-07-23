@@ -60,7 +60,7 @@ pending the API experiment). The default component build is **unlayered** on pur
 it must beat legacy bare-element rules (`base.css button {...}`) by normal specificity.
 The `layered/` variants exist only for hosts whose entire cascade is layered.
 
-## Static sites (docs snapshot)
+## Static sites (docs)
 
 Compose one file at build time from the installed package's `manifest.json`
 (primitives + theme + components, in manifest order), write it as

@@ -85,3 +85,11 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - iOS generated output changed only its version marker and `Radius.full` from 9999 to 12; brand parity remained green. The recorded diff is `docs/evidence/platform-ios-radius-v0.2.1.diff`.
 - Rollback returned every consumer branch clean at its committed v0.2.0 state. Althea restored package 0.2.0, its exact prior bundle sizes, and `public.e9d08289.css` / `app.d33cec9d.css`. Docs restored the old link. Lacuna reinstalled the v0.2.0 wheel and served `/tt-assets/82519a08061635f580d0c533c72cb725fe84e6a1cd5ccd582fec472bfdc3c041/tt.css` with HTTP 200 and the immutable header. iOS restored byte-identical v0.2.0 generated tokens and parity passed.
 - Exact rollback commands are in `docs/ROLLBACK.md`. `design-system/main` remains v0.2.0; all consumer and bump branches remain local for overseer review.
+
+## 2026-07-23 — Docs consumer scope update
+
+- `docs-new` is retired and being deleted; the updated `docs` repository supersedes it.
+- The proven static-composition recipe ports unchanged: compose from the installed manifest, write one content-hashed stylesheet, and link one bundle per page class.
+- The updated docs repository's stack and design-system integration owner are pending confirmation from Martin and Ivan.
+- The estate's last Next.js surface is gone.
+- Cleanup of `.slice-worktrees/docs-new` and its local branch is queued until the repository deletion is final; neither is deleted as part of this scope sync.
