@@ -1,0 +1,22 @@
+diff --git a/TASCMobile/Generated/GeneratedTokens.swift b/TASCMobile/Generated/GeneratedTokens.swift
+index 0df0170..47cfacb 100644
+--- a/TASCMobile/Generated/GeneratedTokens.swift
++++ b/TASCMobile/Generated/GeneratedTokens.swift
+@@ -1,5 +1,5 @@
+ // GENERATED from tokens/tokens.json — DO NOT EDIT.
+-// Design-system version 0.2.0.
++// Design-system version 0.2.1.
+ import SwiftUI
+ import UIKit
+ 
+@@ -271,8 +271,8 @@ public enum TiptreeTokens {
+     public static let r16: CGFloat = 16
+     // radius-24: 24px
+     public static let r24: CGFloat = 24
+-    // radius-full: 9999px
+-    public static let full: CGFloat = 9999
++    // radius-full: 12px
++    public static let full: CGFloat = 12
+   }
+ 
+   public enum Duration {
