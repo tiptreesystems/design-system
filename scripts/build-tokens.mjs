@@ -39,6 +39,11 @@ export function validate(data) {
       if (/^#/.test(value) && !/^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(value)) {
         errors.push(`${scope}.${name} has malformed hex: ${value}`);
       }
+      // Missing-# heuristic: 6/8 hex chars, or 3 hex chars containing a letter
+      // (pure 3-digit numbers are z-index values, not colors).
+      if (/^(?:[0-9a-f]{6}|[0-9a-f]{8})$/i.test(value) || (/^[0-9a-f]{3}$/i.test(value) && /[a-f]/i.test(value))) {
+        errors.push(`${scope}.${name} looks like a hex color missing its '#': ${value}`);
+      }
     }
   };
   checkRefs(base, 'tokens');
@@ -54,11 +59,15 @@ const cssVal = (v) => String(v).replace(REF_RE, (_, name) => `var(${PREFIX}${nam
 const cssLines = (map, indent = '  ') =>
   Object.entries(map).map(([k, v]) => `${indent}${PREFIX}${k}: ${cssVal(v)};`).join('\n');
 
-function resolve(map, base) {
+export function resolve(map, base) {
+  const resolveValue = (value, seen) =>
+    String(value).replace(REF_RE, (_, name) => {
+      if (seen.has(name)) throw new Error(`circular token reference: ${[...seen, name].join(' -> ')}`);
+      if (!(name in base)) throw new Error(`unknown token reference {${name}}`);
+      return resolveValue(base[name], new Set(seen).add(name));
+    });
   const out = {};
-  for (const [k, v] of Object.entries(map)) {
-    out[k] = String(v).replace(REF_RE, (_, name) => String(base[name] ?? '').replace(REF_RE, (_, n2) => base[n2]));
-  }
+  for (const [k, v] of Object.entries(map)) out[k] = resolveValue(v, new Set());
   return out;
 }
 
@@ -93,6 +102,9 @@ export function build() {
     base: resolve(data.tokens, data.tokens),
     themes: { dark: resolve(data.themes.dark, data.tokens), light: resolve(data.themes.light, data.tokens) },
   };
+  // Defense in depth: no unresolved reference may ever reach an export.
+  const leaked = JSON.stringify(resolved).match(/\{[a-z0-9-]+\}/g);
+  if (leaked) throw new Error(`unresolved token references in resolved output: ${[...new Set(leaked)].join(', ')}`);
   // Python literal serializer: naive JSON->single-quote swapping corrupts
   // values that contain apostrophes (font stacks: 'Inter', 'SF Pro Display').
   const pyStr = (s) => (s.includes("'") ? `"${s.replace(/"/g, '\\"')}"` : `'${s}'`);

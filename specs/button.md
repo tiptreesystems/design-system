@@ -31,4 +31,4 @@ Ported from the docs-new Button spec (`docs-new/src/components/atoms/Button.tsx`
 
 ## Visual decisions (designer-owned — via tt.css, never here)
 
-Pill radius (`--tt-radius-full`), medium weight, `scale(0.97)` on `:active`, size heights 32/40/48.
+Pill radius (`--tt-radius-full`), medium weight, `scale(0.97)` on `:active`, size heights 32/40/44 (44 = `--min-tap-size`; an earlier port of this spec said 48 — transcription drift, corrected 2026-07-20 against `docs-new/src/components/atoms/Button.module.css`).

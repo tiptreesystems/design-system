@@ -10,7 +10,7 @@ In a terminal opened at this repository, run:
 npm run dev
 ```
 
-Then open `http://localhost:4173`. The page refreshes its generated token data when you save changes. During the scaffold phase it shows the local showcase. Once an application has been onboarded, engineering will also attach screenshots of supported real-app pages to release-candidate reviews.
+Then open `http://localhost:4173`. When you save a change, the terminal running `npm run dev` rebuilds automatically — **reload the browser page to see it**. If the terminal shows `[tt] BUILD ERROR`, the page keeps showing your *previous* state until the error is fixed; paste the error to your AI assistant if it isn't clear. During the scaffold phase the page shows the local showcase. Once an application has been onboarded, engineering will also attach screenshots of supported real-app pages to release-candidate reviews.
 
 ## Change a token
 

@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build, loadSource } from '../scripts/build-tokens.mjs';
+import { build, loadSource, resolve } from '../scripts/build-tokens.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 build();
@@ -50,6 +50,21 @@ test('tt.css contains no raw hex and no bare-element selectors', () => {
     assert.doesNotMatch(body, new RegExp(`(^|[\\s,}])${sel}\\s*[,{]`, 'm'), `bare-element selector: ${sel}`);
   }
   assert.match(body, /@layer tt \{/);
+});
+
+test('resolver handles arbitrary-depth chains and rejects cycles and unknowns', () => {
+  const base = { a: '{b}', b: '{c}', c: '#123456' };
+  assert.deepEqual(resolve({ x: '{a}' }, base), { x: '#123456' });
+  assert.throws(() => resolve({ x: '{loop}' }, { loop: '{loop}' }), /circular token reference/);
+  assert.throws(() => resolve({ x: '{ghost}' }, {}), /unknown token reference/);
+});
+
+test('version parity: package.json, pyproject.toml, tokens meta, __version__', () => {
+  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).version;
+  const pyproject = readFileSync(join(ROOT, 'python/pyproject.toml'), 'utf8').match(/^version = "(.+)"$/m)[1];
+  const init = readFileSync(join(ROOT, 'python/tiptree_ui/__init__.py'), 'utf8').match(/__version__ = "(.+)"/)[1];
+  const versions = { pkg, pyproject, tokens: data.meta.version, init };
+  assert.equal(new Set(Object.values(versions)).size, 1, `version drift: ${JSON.stringify(versions)}`);
 });
 
 test('python export resolves references to concrete hex', () => {
