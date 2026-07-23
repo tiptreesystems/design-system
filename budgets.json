@@ -1,4 +1,12 @@
 {
+  "_meta": {
+    "layeredOutputs": "exempt: unlayered content plus a constant wrapper"
+  },
+  "dist/css/components/button.css": { "raw": 6144, "brotli": 2048 },
+  "dist/css/primitives.css": { "raw": 12288, "brotli": 3072 },
+  "dist/css/themes/light-default.css": { "raw": 8192, "brotli": 2048 },
+  "dist/css/themes/dark-default.css": { "raw": 8192, "brotli": 2048 },
+  "dist/css/themes/explicit.css": { "raw": 8192, "brotli": 2048 },
   "dist/css/tokens.css": { "raw": 12288, "brotli": 3072 },
   "dist/css/tt.css": { "raw": 51200, "brotli": 12288 }
 }

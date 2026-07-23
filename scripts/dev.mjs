@@ -24,7 +24,7 @@ function rebuild() {
 rebuild();
 let timer;
 for (const dir of ['tokens', 'css']) {
-  watch(join(ROOT, dir), () => {
+  watch(join(ROOT, dir), { recursive: true }, () => {
     clearTimeout(timer);
     timer = setTimeout(rebuild, 100);
   });

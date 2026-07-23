@@ -23,7 +23,7 @@ Then open `http://localhost:4173`. When you save a change, the terminal running 
 ## Add a component's visual specification
 
 1. Agree on the component name and required states with engineering. Engineering owns its HTML meaning, accessibility, keyboard behavior, and events in `specs/`.
-2. Add the visual rules to `css/tt.css` using `.tt-*` classes inside `@layer tt`.
+2. Add the visual rules to `css/components/<name>.css` using `.tt-*` classes. Write the source unlayered; the build creates both default unlayered and optional layered outputs.
 3. Use `var(--tt-*)` values. Do not add raw colors, global resets, or selectors such as bare `button` or `input`.
 4. Add a canonical example to `showcase/index.html`, including the visual states that need approval.
 5. Check light and dark modes. Engineering will address any failing automated checks or semantic-contract changes with you.

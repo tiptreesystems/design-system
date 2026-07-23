@@ -7,10 +7,10 @@ The governing architecture is documented in [`docs/PLAN.md`](docs/PLAN.md). Comp
 ## Architecture
 
 - `tokens/tokens.json` is the single token source. All portable custom properties use the `--tt-*` namespace.
-- `css/tt.css` is the canonical visual component layer. It uses opt-in `.tt-*` classes inside `@layer tt`; it contains no global reset or bare-element selectors.
+- `css/components/*.css` is the canonical visual component layer. Source files are unlayered, use opt-in `.tt-*` classes, and contain no global reset or bare-element selectors. The build emits default unlayered files, opt-in layered files, and a full showcase bundle.
 - `specs/` defines component anatomy, semantics, states, keyboard behavior, and events. CSS alone cannot define those requirements.
 - Generated CSS and Python exports are build products. Do not edit `dist/`, `python/tiptree_ui/_tokens.py`, or `python/tiptree_ui/assets/` directly.
-- Bindings are conveniences over the same component contract, not an alternative source of truth. A Python or React helper must conform to the corresponding specification and canonical CSS.
+- Bindings are conveniences over the same component contract, not an alternative source of truth. Python, JavaScript, or native helpers must conform to the corresponding specification and canonical styling contract.
 - Per-consumer aliases and theme adapters support incremental adoption. Consumers never replace an existing `:root` wholesale.
 
 ## Commands
