@@ -278,3 +278,22 @@ identity changes intrinsic width from the recorded 87.328px. Its migration
 fixture therefore preserves that width as ordinary consumer layout CSS, as
 permitted by the contract; font, radius, and color changes remain identity
 deltas for designer review.
+
+## Phase 3 bounded migration result — 2026-07-24
+
+- **Retained:** Lacuna `.account-signout` (maximum measured layout delta
+  `0.016px`); Althea feedback Cancel (`0.000px`); Althea Platform Join Waitlist
+  (`0.000px` at both desktop and the source responsive breakpoint).
+- **Rejected and reverted:** Lacuna Read Paper action. The identity font weight
+  changed intrinsic width by `1.203125px` and moved its adjacent metadata by
+  the same amount.
+- **Rejected and reverted:** Althea Submit Feedback. The original primary has a
+  1px border while the design-system primary has none; border width changed by
+  `1px`, button width by `2px`, and the neighboring Cancel position by `2px`.
+- **Not migrated:** the Lacuna Read Paper anchor, in accordance with the v0.3
+  anchor-policy ruling.
+
+The full computed identity comparison for retained usages is in
+`docs/button-identity-deltas.md`. Both rejected candidates remain valuable
+evidence: the six geometry knobs cannot preserve layout when a library-owned
+identity property itself changes intrinsic geometry.

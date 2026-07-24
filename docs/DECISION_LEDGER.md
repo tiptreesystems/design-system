@@ -111,3 +111,31 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - App-specific `h*` classes are removed before v0.3 ships. The docs-derived `sm`/`md`/`lg` classes remain only as presets over the same knobs; all measured app values remain in `docs/button-parity-inventory.md` and move into consumer CSS during migration.
 - Trade-off: convergence of geometry is opt-in and designer-led later. Immediate adoption preserves layout mechanically while identity deltas, including radius, are made explicit for designer review.
 - Decision owner: Richard. Decision date: 2026-07-24.
+
+## 2026-07-24 — Button v0.3 bounded migration evidence
+
+- Design-system source commit: `5a119a9` on `main`. The earlier app-specific
+  `h*` tranche was never committed; the identity/geometry split was the first
+  v0.3 implementation pushed.
+- npm candidate:
+  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/npm/tiptree-design-system-0.3.0.tgz`;
+  7,798 bytes; SHA-256
+  `d12bed93fc92e764fe7ff4f57779a36bbfa5b4f8c17a55adb73fdc3be3c5a437`.
+- Python candidate:
+  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/py312/tiptree_ui-0.3.0-py3-none-any.whl`;
+  13,050 bytes; SHA-256
+  `fce6978397120f20ccc1b75aba0d6bfafcef2b879c9477c223a895d9688422bb`.
+- Retained real-usage identity swaps: Lacuna account Sign out (maximum layout
+  delta `0.016px`), Althea feedback Cancel (`0.000px`), and Althea Platform
+  Join Waitlist (`0.000px` desktop and mobile). Parent and adjacent-sibling
+  rectangles were unchanged in every retained case.
+- Lacuna Read Paper action was reverted: identity font weight changed intrinsic
+  width and adjacent position by `1.203125px`, above the `0.5px` gate.
+- Althea Submit Feedback was reverted: primary border width changed `1px`,
+  button width changed `2px`, and its sibling position changed `2px`.
+- The Lacuna Read Paper anchor was not migrated, honoring the v0.3
+  navigation-link scope decision.
+- The rejected candidates reveal an unresolved contract edge: a
+  library-owned identity property can affect layout even when all six geometry
+  knobs reproduce their source values. No new knob or identity exception was
+  introduced during this run.
