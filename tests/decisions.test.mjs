@@ -58,6 +58,78 @@ test('component source is unlayered, namespaced, and dual cascade builds differ 
   assert.equal([...source.matchAll(/#[0-9a-f]{3,8}\b/gi)].length, 0);
 });
 
+test('Button exposes geometry knobs while keeping identity library-owned', () => {
+  const source = read('css/components/button.css');
+  const normalized = source.replace(/\s+/g, ' ');
+
+  assert.match(normalized, /box-sizing: border-box;/);
+  assert.match(normalized, /height: var\(--tt-btn-height, 40px\);/);
+  assert.match(normalized, /min-height: var\(--tt-btn-min-height, auto\);/);
+  assert.match(normalized, /padding: var\(--tt-btn-padding, 1px 14px\);/);
+  assert.match(normalized, /gap: var\(--tt-btn-gap, 8px\);/);
+  assert.match(normalized, /font-size: var\(--tt-btn-font-size, 13px\);/);
+  assert.match(normalized, /line-height: var\(--tt-btn-line-height, normal\);/);
+
+  const declarations = (selector) => {
+    const match = source.match(new RegExp(`\\.${selector}\\s*\\{([^}]*)\\}`));
+    assert.ok(match, `${selector} block exists`);
+    return Object.fromEntries(
+      match[1]
+        .split(';')
+        .map((entry) => entry.trim())
+        .filter(Boolean)
+        .map((entry) => {
+          const split = entry.indexOf(':');
+          return [entry.slice(0, split).trim(), entry.slice(split + 1).trim()];
+        }),
+    );
+  };
+  assert.deepEqual(declarations('tt-btn--sm'), {
+    '--tt-btn-height': '32px',
+    '--tt-btn-min-height': 'auto',
+    '--tt-btn-padding': '1px 12px',
+    '--tt-btn-gap': '8px',
+    '--tt-btn-font-size': '13px',
+    '--tt-btn-line-height': 'normal',
+  });
+  assert.deepEqual(declarations('tt-btn--md'), {
+    '--tt-btn-height': '40px',
+    '--tt-btn-min-height': 'auto',
+    '--tt-btn-padding': '1px 14px',
+    '--tt-btn-gap': '8px',
+    '--tt-btn-font-size': '13px',
+    '--tt-btn-line-height': 'normal',
+  });
+  assert.deepEqual(declarations('tt-btn--lg'), {
+    '--tt-btn-height': '44px',
+    '--tt-btn-min-height': 'auto',
+    '--tt-btn-padding': '1px 20px',
+    '--tt-btn-gap': '6px',
+    '--tt-btn-font-size': '16px',
+    '--tt-btn-line-height': 'normal',
+  });
+
+  assert.doesNotMatch(source, /\.tt-btn--h[0-9-]+\b/);
+  for (const property of [
+    'background',
+    'color',
+    'border-color',
+    'border-radius',
+    'border-style',
+    'font-family',
+    'font-weight',
+    'transition',
+    'cursor',
+    'outline',
+  ]) {
+    assert.doesNotMatch(
+      source,
+      new RegExp(`${property}\\s*:[^;{}]*var\\(--tt-btn-`),
+      `${property} must not be controlled by a geometry knob`,
+    );
+  }
+});
+
 test('standalone Button composition resolves every custom-property reference', () => {
   const composed = [
     read('dist/css/primitives.css'),

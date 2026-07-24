@@ -1,6 +1,6 @@
 {
   "name": "@tiptree/design-system",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "Tiptree design system — tokens, per-component CSS, and markup contracts. CSS is the contract; bindings are conveniences.",
   "type": "module",
@@ -25,6 +25,7 @@
     "test:node": "node --test tests/*.test.mjs",
     "test:python": "node scripts/test-python.mjs",
     "test": "npm run test:node && npm run test:python",
+    "parity": "node scripts/build-tokens.mjs && node tests/parity/run.mjs",
     "budgets": "node scripts/build-tokens.mjs && node scripts/budgets.mjs",
     "ci": "node scripts/build-tokens.mjs && npm run test:node && npm run test:python && node scripts/budgets.mjs"
   },

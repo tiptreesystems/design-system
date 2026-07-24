@@ -28,9 +28,16 @@ npm run build
 npm test
 npm run budgets
 npm run ci
+npm run parity
 ```
 
 `npm run ci` is the required local check: build, decision tests, and raw/Brotli payload budgets. CI also creates checksummed npm tarball and Python wheel candidates for integration testing. Candidate artifacts are not published automatically.
+
+`npm run parity` is the local layout-parity check for the Button identity-swap
+fixtures; it reports identity deltas separately. It requires Chrome/Chromium and the read-only Althea fixture checkout;
+set `TT_PARITY_BROWSER` or `TT_ALTHEA_WEB_ROOT` when those are not in their
+default workspace locations. Missing fixtures produce an explicit degraded
+result rather than a fabricated pass.
 
 ## Repository map
 

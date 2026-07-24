@@ -93,3 +93,21 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - The updated docs repository's stack and design-system integration owner are pending confirmation from Martin and Ivan.
 - The estate's last Next.js surface is gone.
 - Cleanup of `.slice-worktrees/docs-new` and its local branch is queued until the repository deletion is final; neither is deleted as part of this scope sync.
+
+## 2026-07-23 — Button parity tranche and anchor policy
+
+- Phase 1 inventoried 36 distinct complete geometry profiles before the bordered Lacuna claim-secondary profile; the estate record stays in `docs/button-parity-inventory.md`.
+- The v0.3 deliverable is deliberately bounded to the updated docs 32/40/44px profiles, Lacuna `.btn-read-paper` at 29px, Lacuna `.account-signout` at 33px, Althea `.app-btn` at 36px, and one responsive Althea marketing CTA profile at 52px desktop / 45px plus full width at the source's effective `width <= 768px` breakpoint.
+- `.account-signout` replaces the originally requested Lacuna 32px representative. The verified 32×32 bookmark is excluded because it is both icon-only and a toggle; it belongs to future IconButton/ToggleButton work.
+- Button-styled anchors remain in `specs/button.md`: `<button>` for actions and `<a>` for navigation is contract anatomy. Navigation-link parity migration is outside v0.3, not removed from the contract.
+- The pre-v0.3 `sm`/`md`/`lg` size names remain as deprecated aliases for the canonical geometry-derived `h32`/`h40`/`h44` names. Removal requires the plan's major-version deprecation policy.
+- Phase 2 corrected the CTA height interpretation without changing its approved single-responsive-profile scope. The Phase 1 `file://` fixture measured 52/45px while Althea's root-relative Inter assets were unavailable; loading the existing self-hosted fonts makes the unchanged source compute to 51/46px. Because `.cta-button` declares no height, `h52-45` preserves the source's responsive padding, type, border, width, and breakpoint while leaving height content-derived. Hard-coding either measured pair would violate parity in the other legitimate font-loading state.
+
+## 2026-07-24 — Button identity/geometry split
+
+- Richard decided that the library owns Button identity: color, all interaction states, focus ring, border radius, font family/weight, transitions, cursor, and anatomy/accessibility. Consumers never override those properties.
+- Consumers own contextual Button geometry through six sanctioned custom properties: height, min-height, padding, gap, font size, and line height. Width and margin remain ordinary consumer layout CSS, not component knobs.
+- The evidence is the inventory itself: 37 app-context profiles show that size is contextual layout rather than stable brand identity. Publishing those profiles as library variants would fossilize estate inconsistency.
+- App-specific `h*` classes are removed before v0.3 ships. The docs-derived `sm`/`md`/`lg` classes remain only as presets over the same knobs; all measured app values remain in `docs/button-parity-inventory.md` and move into consumer CSS during migration.
+- Trade-off: convergence of geometry is opt-in and designer-led later. Immediate adoption preserves layout mechanically while identity deltas, including radius, are made explicit for designer review.
+- Decision owner: Richard. Decision date: 2026-07-24.

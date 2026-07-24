@@ -19,6 +19,18 @@
   .swatch .chip { height: 56px; }
   .swatch .label { font-size: 0.6875rem; padding: 6px 8px; color: var(--tt-color-text-secondary); word-break: break-all; }
   .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
+  .theme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .theme-panel { padding: 20px; border: 1px solid var(--tt-color-border-translucent); border-radius: var(--tt-radius-8); background: var(--tt-color-bg-primary); color: var(--tt-color-text-primary); }
+  .theme-panel h3 { margin: 0 0 16px; font-size: 0.875rem; font-weight: 600; }
+  .theme-panel .row { align-items: flex-start; }
+  .consumer-read-paper {
+    --tt-btn-height: 29px;
+    --tt-btn-min-height: auto;
+    --tt-btn-padding: 6px 14px;
+    --tt-btn-gap: 6px;
+    --tt-btn-font-size: 14.4px;
+    --tt-btn-line-height: normal;
+  }
   .toggle { position: fixed; top: 16px; right: 16px; }
   .version { color: var(--tt-color-text-tertiary); font-size: 0.75rem; }
 </style>
@@ -39,15 +51,40 @@
   <div class="swatches" id="semantic"></div>
 
   <h2>Button — tt-btn</h2>
-  <div class="row">
-    <button class="tt-btn tt-btn--primary tt-btn--sm">Primary sm</button>
-    <button class="tt-btn tt-btn--primary tt-btn--md">Primary md</button>
-    <button class="tt-btn tt-btn--primary tt-btn--lg">Primary lg</button>
-  </div>
-  <div class="row">
-    <button class="tt-btn tt-btn--secondary tt-btn--md">Secondary</button>
-    <button class="tt-btn tt-btn--ghost tt-btn--md">Ghost</button>
-    <button class="tt-btn tt-btn--primary tt-btn--md" disabled>Disabled</button>
+  <p class="lede">The library owns identity while consumers own contextual geometry through six custom properties. Presets and one real consumer-owned profile are shown simultaneously in both themes.</p>
+  <div class="theme-grid">
+    <section class="theme-panel" data-theme="dark">
+      <h3>Dark theme</h3>
+      <div class="row">
+        <button class="tt-btn tt-btn--primary tt-btn--sm">sm preset</button>
+        <button class="tt-btn tt-btn--primary tt-btn--md">md preset</button>
+        <button class="tt-btn tt-btn--primary tt-btn--lg">lg preset</button>
+      </div>
+      <div class="row">
+        <button class="tt-btn tt-btn--primary consumer-read-paper"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3z" fill="none" stroke="currentColor"/></svg>consumer geometry: Lacuna paper</button>
+      </div>
+      <div class="row">
+        <button class="tt-btn tt-btn--secondary tt-btn--md">Secondary</button>
+        <button class="tt-btn tt-btn--ghost tt-btn--md">Ghost</button>
+        <button class="tt-btn tt-btn--primary tt-btn--md" disabled>Disabled</button>
+      </div>
+    </section>
+    <section class="theme-panel" data-theme="light">
+      <h3>Light theme</h3>
+      <div class="row">
+        <button class="tt-btn tt-btn--primary tt-btn--sm">sm preset</button>
+        <button class="tt-btn tt-btn--primary tt-btn--md">md preset</button>
+        <button class="tt-btn tt-btn--primary tt-btn--lg">lg preset</button>
+      </div>
+      <div class="row">
+        <button class="tt-btn tt-btn--primary consumer-read-paper"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3z" fill="none" stroke="currentColor"/></svg>consumer geometry: Lacuna paper</button>
+      </div>
+      <div class="row">
+        <button class="tt-btn tt-btn--secondary tt-btn--md">Secondary</button>
+        <button class="tt-btn tt-btn--ghost tt-btn--md">Ghost</button>
+        <button class="tt-btn tt-btn--primary tt-btn--md" disabled>Disabled</button>
+      </div>
+    </section>
   </div>
 </main>
 <script type="module">

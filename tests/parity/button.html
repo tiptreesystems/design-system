@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Button geometry parity fixture</title>
+  <link rel="stylesheet" href="../../dist/css/primitives.css">
+  <link rel="stylesheet" href="../../dist/css/themes/light-default.css">
+  <link rel="stylesheet" href="../../dist/css/components/button.css">
+  <style>
+    :root {
+      --radius-full: 999px;
+      --font-family-sans:
+        inter, 'Inter Fallback', -apple-system, blinkmacsystemfont,
+        'Segoe UI', roboto, oxygen, ubuntu, cantarell, 'Open Sans',
+        'Helvetica Neue', sans-serif;
+      --border-color: transparent;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: var(--tt-font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .parity-case {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: 16px;
+      margin: 0 0 16px;
+    }
+    .fixture-cell {
+      display: flex;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    /* Updated docs: docs_server/web/src/styles/components/button.css:3-48,66-71. */
+    .original-docs {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      white-space: nowrap;
+      border: none;
+      border-radius: var(--radius-full);
+      font-family: var(--font-family-sans);
+      font-weight: 510;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+    }
+    .original-docs--h32 { height: 32px; padding-inline: 12px; gap: 8px; font-size: 13px; }
+    .original-docs--h40 { height: 40px; padding-inline: 14px; gap: 8px; font-size: 13px; }
+    .original-docs--h44 { height: 44px; padding-inline: 20px; gap: 6px; font-size: 16px; }
+    .original-docs--secondary { border: 1px solid transparent; }
+
+    /* Lacuna: lacuna/interfaces/web.py:747. */
+    .original-lacuna-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14.4px;
+      font-weight: 600;
+      line-height: normal;
+      cursor: pointer;
+    }
+
+    /* Lacuna: lacuna/interfaces/web.py:1289-1291. */
+    .original-lacuna-signout {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-size: 13.44px;
+      font-weight: 500;
+      line-height: normal;
+      cursor: pointer;
+    }
+
+    /* Althea: frontend/web/src/assets/styles/buttons-app.css:2-38. */
+    .original-althea-app {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-full);
+      font-family: var(--font-family-sans);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    /*
+     * Althea: frontend/web/src/assets/styles/platform.css:
+     * 55-94,99-108,285-313.
+     */
+    .original-althea-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-family: var(--font-family-sans);
+      font-size: 17.6px;
+      font-weight: 600;
+      line-height: normal;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /*
+     * Consumer-owned geometry settings. These reproduce the inventory tuples
+     * without redefining any .tt-* rule or controlling Button identity.
+     */
+    .consumer-lacuna-read {
+      --tt-btn-height: 29px;
+      --tt-btn-min-height: auto;
+      --tt-btn-padding: 6px 14px;
+      --tt-btn-gap: 6px;
+      --tt-btn-font-size: 14.4px;
+      --tt-btn-line-height: normal;
+    }
+    .consumer-lacuna-read > svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 16px;
+    }
+    .consumer-lacuna-signout {
+      --tt-btn-height: 33px;
+      --tt-btn-min-height: auto;
+      --tt-btn-padding: 8px 18px;
+      --tt-btn-gap: normal;
+      --tt-btn-font-size: 13.44px;
+      --tt-btn-line-height: normal;
+      width: 87.3281px;
+    }
+    .consumer-althea-app {
+      --tt-btn-height: auto;
+      --tt-btn-min-height: 36px;
+      --tt-btn-padding: 0 16px;
+      --tt-btn-gap: 6px;
+      --tt-btn-font-size: 14px;
+      --tt-btn-line-height: 1;
+    }
+    .consumer-althea-app > svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 16px;
+    }
+    .consumer-althea-cta {
+      --tt-btn-height: auto;
+      --tt-btn-min-height: auto;
+      --tt-btn-padding: 14px 24px;
+      --tt-btn-gap: 8px;
+      --tt-btn-font-size: 17.6px;
+      --tt-btn-line-height: normal;
+    }
+    @media (width <= 768px) {
+      .original-althea-cta {
+        padding: 12px 20px;
+        font-size: 16px;
+        width: 100%;
+        justify-content: center;
+      }
+      .consumer-althea-cta {
+        --tt-btn-padding: 12px 20px;
+        --tt-btn-font-size: 16px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="parity-case" data-parity="docs-h32">
+    <div class="fixture-cell"><button class="original-docs original-docs--secondary original-docs--h32"><svg width="14" height="14" viewBox="0 0 14 14"></svg>Copy .md</button></div>
+    <div class="fixture-cell"><button class="tt-btn tt-btn--secondary tt-btn--sm"><svg width="14" height="14" viewBox="0 0 14 14"></svg>Copy .md</button></div>
+  </div>
+  <div class="parity-case" data-parity="docs-h40">
+    <div class="fixture-cell"><button class="original-docs original-docs--h40">Save</button></div>
+    <div class="fixture-cell"><button class="tt-btn tt-btn--primary tt-btn--md">Save</button></div>
+  </div>
+  <div class="parity-case" data-parity="docs-h44">
+    <div class="fixture-cell"><button class="original-docs original-docs--h44">Save</button></div>
+    <div class="fixture-cell"><button class="tt-btn tt-btn--primary tt-btn--lg">Save</button></div>
+  </div>
+  <div class="parity-case" data-parity="lacuna-h29">
+    <div class="fixture-cell"><button class="original-lacuna-read"><svg width="16" height="16" viewBox="0 0 16 16"></svg>Read paper</button></div>
+    <div class="fixture-cell"><button class="tt-btn tt-btn--primary consumer-lacuna-read"><svg viewBox="0 0 16 16"></svg>Read paper</button></div>
+  </div>
+  <div class="parity-case" data-parity="lacuna-h33">
+    <div class="fixture-cell"><button class="original-lacuna-signout">Sign out</button></div>
+    <div class="fixture-cell"><button class="tt-btn tt-btn--secondary consumer-lacuna-signout">Sign out</button></div>
+  </div>
+  <div class="parity-case" data-parity="althea-h36">
+    <div class="fixture-cell"><button class="original-althea-app"><svg width="16" height="16" viewBox="0 0 16 16"></svg>Save</button></div>
+    <div class="fixture-cell"><button class="tt-btn tt-btn--secondary consumer-althea-app"><svg viewBox="0 0 16 16"></svg>Save</button></div>
+  </div>
+  <div class="parity-case" data-parity="althea-h52-45">
+    <div class="fixture-cell"><button class="original-althea-cta">Join waitlist</button></div>
+    <div class="fixture-cell"><button class="tt-btn tt-btn--secondary consumer-althea-cta">Join waitlist</button></div>
+  </div>
+  <pre id="results"></pre>
+  <script>
+    const fontParams = new URLSearchParams(location.search);
+    const fontStyle = document.createElement('style');
+    fontStyle.textContent = `
+      @font-face {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url('${fontParams.get('interRegular')}') format('woff2');
+      }
+      @font-face {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500 600;
+        font-display: block;
+        src: url('${fontParams.get('interMedium')}') format('woff2');
+      }
+    `;
+    document.head.append(fontStyle);
+
+    const layoutProperties = [
+      'height', 'minHeight', 'width',
+      'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+      'gap', 'fontSize', 'lineHeight',
+      'letterSpacing', 'borderTopWidth', 'borderRightWidth',
+      'borderBottomWidth', 'borderLeftWidth',
+    ];
+    const identityProperties = [
+      'backgroundColor', 'color', 'borderTopColor', 'borderRadius',
+      'fontFamily', 'fontWeight',
+    ];
+    const measureLayout = (element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      const parentRect = element.parentElement.getBoundingClientRect();
+      const icon = element.querySelector('svg, img');
+      const values = Object.fromEntries(layoutProperties.map((name) => [name, style[name]]));
+      values.relativeX = `${rect.x - parentRect.x}px`;
+      values.relativeY = `${rect.y - parentRect.y}px`;
+      values.parentWidth = `${parentRect.width}px`;
+      values.parentHeight = `${parentRect.height}px`;
+      values.iconWidth = icon ? `${icon.getBoundingClientRect().width}px` : 'none';
+      values.iconHeight = icon ? `${icon.getBoundingClientRect().height}px` : 'none';
+      return values;
+    };
+    const measureIdentity = (element) => {
+      const style = getComputedStyle(element);
+      return Object.fromEntries(identityProperties.map((name) => [name, style[name]]));
+    };
+    const renderMeasurements = async () => {
+      await Promise.all([
+        document.fonts.load('400 16px Inter'),
+        document.fonts.load('500 16px Inter'),
+        document.fonts.load('600 16px Inter'),
+        document.fonts.ready,
+      ]);
+      const rows = [...document.querySelectorAll('[data-parity]')].map((row) => {
+        const [original, target] = row.querySelectorAll('button');
+        return {
+          name: row.dataset.parity,
+          originalLayout: measureLayout(original),
+          targetLayout: measureLayout(target),
+          originalIdentity: measureIdentity(original),
+          targetIdentity: measureIdentity(target),
+        };
+      });
+      results.textContent = JSON.stringify({
+        viewport: { width: innerWidth, height: innerHeight, dpr: devicePixelRatio },
+        rows,
+      });
+    };
+    renderMeasurements();
+  </script>
+</body>
+</html>

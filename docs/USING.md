@@ -11,7 +11,7 @@ consumer: `ROLLBACK.md`. Component markup contracts: `../specs/`.
    component files you use. `tokens.css` is a dark-default back-compat composition —
    **wrong for light-default apps (Althea, Lacuna)**; never import it there.
 3. **Write the markup the spec defines** (e.g. `specs/button.md`) — element choice,
-   classes, ARIA. Don't invent variants; ask for them (`ADDING_A_COMPONENT.md`).
+   identity classes, ARIA, and only the component's documented extension points.
 4. **Never override `.tt-*` rules or hard-code brand values** in app CSS. Need a
    different look? That's a token/variant/theme request, not a local patch.
 5. Upgrades arrive as version-bump PRs. One version everywhere — CSS, wheel, npm, and
@@ -21,7 +21,7 @@ consumer: `ROLLBACK.md`. Component markup contracts: `../specs/`.
 
 ```toml
 # pyproject.toml
-dependencies = ["tiptree-ui==0.2.0"]   # wheel: GitHub Release asset or vendored file
+dependencies = ["tiptree-ui==0.3.0"]   # wheel: GitHub Release asset or vendored file
 ```
 
 ```python
@@ -35,7 +35,7 @@ head_html += stylesheet_tags(components=["button"], theme="light-default")
 
 ```python
 # markup, per specs/button.md
-f'<button class="tt-btn tt-btn--primary tt-btn--md" type="button">Save</button>'
+f'<button class="tt-btn tt-btn--primary account-save" type="button">Save</button>'
 ```
 
 Media pipelines (no Flask needed): `from tiptree_ui import for_brand` →
@@ -59,6 +59,32 @@ Components render the spec markup from your JS (hand-written today; bindings are
 pending the API experiment). The default component build is **unlayered** on purpose —
 it must beat legacy bare-element rules (`base.css button {...}`) by normal specificity.
 The `layered/` variants exist only for hosts whose entire cascade is layered.
+
+### Button geometry in a consumer
+
+Button identity stays in `.tt-btn` plus `tt-btn--primary`, `--secondary`, or
+`--ghost`. Contextual size belongs to the app and uses only the six documented
+geometry knobs:
+
+```css
+.account-save {
+  --tt-btn-height: 36px;
+  --tt-btn-min-height: auto;
+  --tt-btn-padding: 0 16px;
+  --tt-btn-gap: 6px;
+  --tt-btn-font-size: 14px;
+  --tt-btn-line-height: 1;
+
+  /* Ordinary app layout, not component knobs. */
+  width: 100%;
+  margin-block-start: 12px;
+}
+```
+
+Never redeclare `.tt-btn` or use these knobs to control color, radius, fonts,
+states, or another identity property. Width and margin are deliberately not
+knobs; set them on your own class as normal layout CSS. Use `tt-btn--sm`,
+`tt-btn--md`, or `tt-btn--lg` when one of the docs-derived presets already fits.
 
 ## Static sites (docs)
 

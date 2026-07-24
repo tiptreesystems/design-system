@@ -4,7 +4,8 @@
  * Rules of this file (see DESIGN_SYSTEM_PLAN.md §3 "CSS coexistence contract"):
  *   - source is unlayered; the generator emits both unlayered and @layer builds
  *   - opt-in classes only: NO bare-element selectors, NO global resets
- *   - values come from var(--tt-*) exclusively; the build fails on raw hex
+ *   - identity values come from var(--tt-*); documented geometry knobs/presets
+ *     carry source-proven layout literals; the build fails on raw hex
  *   - z-index only from the --tt-z-* scale
  *
  * Seed content: Button, ported from the docs-new Button spec (specs/button.md).
@@ -12,16 +13,23 @@
  * finished library.
  */
 .tt-btn {
+    appearance: none;
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    gap: 8px;
+    height: var(--tt-btn-height, 40px);
+    min-height: var(--tt-btn-min-height, auto);
+    padding: var(--tt-btn-padding, 1px 14px);
+    gap: var(--tt-btn-gap, 8px);
     white-space: nowrap;
-    border: none;
+    border: 0 solid transparent;
     border-radius: var(--tt-radius-full);
     font-family: var(--tt-font-sans);
+    font-size: var(--tt-btn-font-size, 13px);
     font-weight: 510;
+    line-height: var(--tt-btn-line-height, normal);
     text-decoration: none;
     cursor: pointer;
     user-select: none;
@@ -40,10 +48,38 @@
     outline-offset: var(--tt-focus-ring-offset);
 }
 
-/* Sizes (heights per the ported spec; component-internal px is sanctioned) */
-.tt-btn--sm { height: 32px; padding-inline: 12px; font-size: 0.8125rem; }
-.tt-btn--md { height: 40px; padding-inline: 16px; font-size: 0.8125rem; }
-.tt-btn--lg { height: 44px; padding-inline: 20px; font-size: 1rem; }
+/*
+ * Geometry presets are convenience assignments over the sanctioned component
+ * knobs. Consumers that need context-specific geometry set the same six knobs
+ * on their own class; identity properties remain library-owned.
+ *
+ * Updated docs Button provenance:
+ *   docs/docs_server/web/src/styles/components/button.css:29-48
+ */
+.tt-btn--sm {
+    --tt-btn-height: 32px;
+    --tt-btn-min-height: auto;
+    --tt-btn-padding: 1px 12px;
+    --tt-btn-gap: 8px;
+    --tt-btn-font-size: 13px;
+    --tt-btn-line-height: normal;
+}
+.tt-btn--md {
+    --tt-btn-height: 40px;
+    --tt-btn-min-height: auto;
+    --tt-btn-padding: 1px 14px;
+    --tt-btn-gap: 8px;
+    --tt-btn-font-size: 13px;
+    --tt-btn-line-height: normal;
+}
+.tt-btn--lg {
+    --tt-btn-height: 44px;
+    --tt-btn-min-height: auto;
+    --tt-btn-padding: 1px 20px;
+    --tt-btn-gap: 6px;
+    --tt-btn-font-size: 16px;
+    --tt-btn-line-height: normal;
+}
 
 /* Variants */
 .tt-btn--primary {
@@ -53,10 +89,18 @@
 .tt-btn--primary:hover { background: var(--tt-color-accent); color: var(--tt-brand-white); }
 .tt-btn--secondary {
     background: var(--tt-color-button-secondary-bg);
+    border-width: 1px;
+    border-color: var(--tt-color-button-secondary-border);
     color: var(--tt-color-text-primary);
-    box-shadow: inset 0 0 0 1px var(--tt-color-button-secondary-border);
 }
 .tt-btn--secondary:hover { background: var(--tt-color-bg-tertiary); }
 .tt-btn--ghost { color: var(--tt-color-text-secondary); }
 .tt-btn--ghost:hover { color: var(--tt-color-text-primary); background: var(--tt-color-border-translucent); }
 .tt-btn[disabled], .tt-btn--disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+
+/* Secondary identity uses a hairline, halved on high-density displays. */
+@media (resolution >= 192dpi) {
+    .tt-btn--secondary {
+        border-width: 0.5px;
+    }
+}

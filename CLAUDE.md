@@ -27,7 +27,10 @@ system python3 is 3.9). Wheel proof: `python3.12 -m pip wheel python/ --no-deps 
 
 ## Invariants (CI-enforced; do not work around them)
 
-- No raw hex / raw values in component CSS — everything resolves through `var(--tt-*)`.
+- No raw hex in component CSS; identity values resolve through `var(--tt-*)`.
+  Documented component-geometry knob defaults/presets are the narrow exception:
+  their source-proven layout values may be literal, and consumers assign those
+  knobs on their own classes without redefining `.tt-*` rules.
 - No bare-element selectors (`button`, `input`, `a`, …) — opt-in `.tt-*` classes only.
 - Every component depends on tokens + its own file — nothing else. No `core.css`.
 - Payload budgets are release gates: a component without a `budgets.json` entry fails.
@@ -42,6 +45,8 @@ system python3 is 3.9). Wheel proof: `python3.12 -m pip wheel python/ --no-deps 
 
 Designer owns: token values, component visual CSS, themes, visual acceptance.
 Engineering owns: specs (DOM/ARIA/behavior), bindings, generators, releases, budgets.
+Consumers own contextual component geometry only through each spec's documented
+custom properties; the library continues to own identity.
 Joint review when a visual change requires new markup. Releases: engineering cuts,
 designer approves. Decisions affecting scope go in `docs/DECISION_LEDGER.md` (append-only).
 
