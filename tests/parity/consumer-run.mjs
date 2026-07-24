@@ -11,8 +11,10 @@ if (!targetUrl) {
 
 const TOLERANCE = 0.5;
 const VIEWPORTS = [
-  { name: 'desktop', width: 1024, height: 900 },
-  { name: 'mobile', width: 600, height: 900 },
+  { name: 'desktop', width: 1024, height: 900, deviceScaleFactor: 1 },
+  { name: 'mobile', width: 600, height: 900, deviceScaleFactor: 1 },
+  { name: 'desktop-hidpi', width: 1024, height: 900, deviceScaleFactor: 2 },
+  { name: 'mobile-hidpi', width: 600, height: 900, deviceScaleFactor: 2 },
 ];
 
 function findNamedFile(root, wanted, depth = 0) {
@@ -231,7 +233,7 @@ try {
     await cdp.send('Emulation.setDeviceMetricsOverride', {
       width: viewport.width,
       height: viewport.height,
-      deviceScaleFactor: 1,
+      deviceScaleFactor: viewport.deviceScaleFactor,
       mobile: false,
     });
     await cdp.send('Page.navigate', { url: targetUrl });
@@ -242,6 +244,13 @@ try {
         else addEventListener('load', ready, { once: true });
       })`,
       awaitPromise: true,
+    });
+    const media = await cdp.send('Runtime.evaluate', {
+      expression: `({
+        devicePixelRatio: window.devicePixelRatio,
+        highDensityRuleMatches: matchMedia('(resolution >= 192dpi)').matches
+      })`,
+      returnByValue: true,
     });
     const measured = await cdp.send('Runtime.evaluate', {
       expression: measurementExpression,
@@ -328,7 +337,7 @@ try {
         );
       }
     }
-    reports.push({ viewport, proofs });
+    reports.push({ viewport, media: media.result.value, proofs });
   }
   console.log(`TT_PARITY_REPORT=${JSON.stringify(reports)}`);
   cdp.close();

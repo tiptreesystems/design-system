@@ -283,7 +283,8 @@ deltas for designer review.
 
 - **Retained:** Lacuna `.account-signout` (maximum measured layout delta
   `0.016px`); Althea feedback Cancel (`0.000px`); Althea Platform Join Waitlist
-  (`0.000px` at both desktop and the source responsive breakpoint).
+  (`0.000px` at both desktop and the source responsive breakpoint). These
+  results hold at device-pixel ratios 1 and 2.
 - **Rejected and reverted:** Lacuna Read Paper action. The identity font weight
   changed intrinsic width by `1.203125px` and moved its adjacent metadata by
   the same amount.

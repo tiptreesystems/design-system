@@ -139,3 +139,17 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   library-owned identity property can affect layout even when all six geometry
   knobs reproduce their source values. No new knob or identity exception was
   introduced during this run.
+
+## 2026-07-24 — Button parity density extension
+
+- The real-consumer harness now runs desktop and mobile at device-pixel ratios
+  1 and 2 because Button's secondary identity contains a high-density
+  border-width rule.
+- Chromium confirmed `devicePixelRatio: 2` and
+  `(resolution >= 192dpi): true` in the high-density cases. All retained
+  migrations kept the same results: Lacuna Sign out maximum `0.016px`;
+  Althea feedback Cancel and Platform Join Waitlist `0.000px`.
+- Chromium reports the secondary border's computed width as `1px` under
+  emulation even while the high-density media query matches. A physical-device
+  browser check remains prudent before a production merge; no result is
+  fabricated from the CSS declaration alone.
