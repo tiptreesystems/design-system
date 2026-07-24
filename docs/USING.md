@@ -64,7 +64,8 @@ The `layered/` variants exist only for hosts whose entire cascade is layered.
 
 Button identity stays in `.tt-btn` plus `tt-btn--primary`, `--secondary`, or
 `--ghost`. Contextual size belongs to the app and uses only the six documented
-geometry knobs:
+size knobs. Border width is a seventh geometry knob because it participates in
+the box model:
 
 ```css
 .account-save {
@@ -74,6 +75,7 @@ geometry knobs:
   --tt-btn-gap: 6px;
   --tt-btn-font-size: 14px;
   --tt-btn-line-height: 1;
+  --tt-btn-border-width: 1px;
 
   /* Ordinary app layout, not component knobs. */
   width: 100%;
@@ -85,6 +87,8 @@ Never redeclare `.tt-btn` or use these knobs to control color, radius, fonts,
 states, or another identity property. Width and margin are deliberately not
 knobs; set them on your own class as normal layout CSS. Use `tt-btn--sm`,
 `tt-btn--md`, or `tt-btn--lg` when one of the docs-derived presets already fits.
+Border style and color remain library identity. Font family and weight remain
+identity with no consumer knob; a font-metric parity failure rejects that usage.
 
 ## Static sites (docs)
 

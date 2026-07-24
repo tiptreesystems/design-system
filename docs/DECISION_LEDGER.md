@@ -153,3 +153,31 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   emulation even while the high-density media query matches. A physical-device
   browser check remains prudent before a production merge; no result is
   fabricated from the CSS declaration alone.
+
+## 2026-07-24 — Border-width geometry knob and Submit re-proof
+
+- Decision owner: Richard. Border width is the seventh sanctioned Button
+  geometry knob because it participates in the box model. Border style and
+  color remain library identity.
+- Font family and weight remain library identity with no consumer override.
+  When they change intrinsic dimensions beyond the `0.5px` gate, the usage is
+  rejected; Lacuna Read Paper therefore remains unmigrated.
+- Althea Submit Feedback sets `--tt-btn-border-width: 1px` on its existing
+  consumer geometry class. Height, min-height, width, padding, gap, font size,
+  line height, all four border widths, parent bounds, and sibling positions
+  match at `0.000px` across desktop/mobile and DPR 1/2.
+- Submit is retained on the local `tt/button-parity` branch. Its teal-to-black
+  background, transparent border color, radius, hover, and font-weight changes
+  are recorded in `docs/button-identity-deltas.md` for designer approval.
+- Replacement unpublished v0.3.0 npm candidate:
+  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/npm/tiptree-design-system-0.3.0.tgz`;
+  8,053 bytes; SHA-256
+  `5e69051730bbee7740c4bb2219d606f999e76862a7410057052699ec6de3c436`.
+- Replacement unpublished v0.3.0 Python candidate:
+  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/py312/tiptree_ui-0.3.0-py3-none-any.whl`;
+  13,078 bytes; SHA-256
+  `fae55278604229d26675296597a9718ce4943d5f7ba0e51cdfe430f97aada264`.
+- These candidates supersede the earlier local v0.3.0 artifacts above. Version
+  remains v0.3.0 because no v0.3.0 artifact has been published or tagged.
+- Final bounded outcome: four retained identity swaps, one rejected for
+  geometry, and one navigation-link usage not migrated by scope.

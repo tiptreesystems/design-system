@@ -295,6 +295,20 @@ deltas for designer review.
   anchor-policy ruling.
 
 The full computed identity comparison for retained usages is in
-`docs/button-identity-deltas.md`. Both rejected candidates remain valuable
-evidence: the six geometry knobs cannot preserve layout when a library-owned
-identity property itself changes intrinsic geometry.
+`docs/button-identity-deltas.md`. Both initially rejected candidates remain
+valuable evidence: the original six geometry knobs could not preserve layout
+when a library-owned identity property itself changes intrinsic geometry.
+
+## Border-width geometry ruling — 2026-07-24
+
+Richard approved `--tt-btn-border-width` as the seventh Button geometry knob.
+Border width participates in the box model; border style and color remain
+library identity. Re-running Althea Submit Feedback with its source 1px width
+produced `0.000px` layout and reflow delta at desktop/mobile and DPR 1/2, so the
+migration is now retained.
+
+Font family and weight remain identity with no consumer knob. This does not
+disturb Althea Submit's bundled Inter metrics, but it still moves Lacuna Read
+Paper by `1.203125px`; that usage remains rejected. The final bounded result is
+four retained migrations, one geometry rejection, and one navigation-link
+usage intentionally outside scope.

@@ -1,4 +1,4 @@
-# Button — component contract v1.2
+# Button — component contract v1.3
 
 Seeded from the former docs-new Button and reconciled against the updated docs
 Button, Lacuna, and Althea. The contract every binding is conformance-tested
@@ -43,6 +43,7 @@ properties:
 | `--tt-btn-gap` | content/icon gap | `8px` |
 | `--tt-btn-font-size` | font size | `13px` |
 | `--tt-btn-line-height` | line height | `normal` |
+| `--tt-btn-border-width` | border width in the box model | `0px` |
 
 Set knobs on a consumer-owned class attached to the same element; never
 redeclare `.tt-btn` or another `.tt-*` rule:
@@ -55,6 +56,7 @@ redeclare `.tt-btn` or another `.tt-*` rule:
   --tt-btn-gap: 6px;
   --tt-btn-font-size: 14.4px;
   --tt-btn-line-height: normal;
+  --tt-btn-border-width: 0px;
 }
 ```
 
@@ -64,8 +66,11 @@ icon/layout CSS.
 
 ### Presets
 
-The three library presets are convenience assignments over the same six knobs,
-seeded from the updated docs Button:
+The three library size presets assign the six size-related knobs, seeded from
+the updated docs Button. Border width is independent of size: identity variants
+provide their default (`secondary` is `1px`, with its existing high-density
+hairline), and a consumer sets `--tt-btn-border-width` only when preserving a
+source control's box geometry.
 
 | Preset | Height / min-height | Padding | Gap | Font size / line height | Provenance |
 |---|---|---|---|---|---|
@@ -80,6 +85,10 @@ rationalization evidence, not public library variants.
 Border radius is identity, not geometry. A migration may therefore change a
 control's radius even when its layout tuple remains exact; every radius delta is
 recorded alongside color and other identity deltas for designer review.
+Border width is geometry because it participates in the box model; border style
+and border color remain identity. Font family and weight also remain identity
+and have no knobs. If either changes intrinsic dimensions beyond the parity
+tolerance, that usage is rejected rather than given a font-weight override.
 
 ## Behavior & accessibility (engineer-owned)
 

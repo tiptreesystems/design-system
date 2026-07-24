@@ -24,7 +24,9 @@
     padding: var(--tt-btn-padding, 1px 14px);
     gap: var(--tt-btn-gap, 8px);
     white-space: nowrap;
-    border: 0 solid transparent;
+    border-width: var(--tt-btn-border-width, 0px);
+    border-style: solid;
+    border-color: transparent;
     border-radius: var(--tt-radius-full);
     font-family: var(--tt-font-sans);
     font-size: var(--tt-btn-font-size, 13px);
@@ -50,8 +52,8 @@
 
 /*
  * Geometry presets are convenience assignments over the sanctioned component
- * knobs. Consumers that need context-specific geometry set the same six knobs
- * on their own class; identity properties remain library-owned.
+ * knobs. Consumers that need context-specific geometry set the same seven
+ * knobs on their own class; identity properties remain library-owned.
  *
  * Updated docs Button provenance:
  *   docs/docs_server/web/src/styles/components/button.css:29-48
@@ -89,7 +91,7 @@
 .tt-btn--primary:hover { background: var(--tt-color-accent); color: var(--tt-brand-white); }
 .tt-btn--secondary {
     background: var(--tt-color-button-secondary-bg);
-    border-width: 1px;
+    --tt-btn-border-width: 1px;
     border-color: var(--tt-color-button-secondary-border);
     color: var(--tt-color-text-primary);
 }
@@ -101,6 +103,6 @@
 /* Secondary identity uses a hairline, halved on high-density displays. */
 @media (resolution >= 192dpi) {
     .tt-btn--secondary {
-        border-width: 0.5px;
+        --tt-btn-border-width: 0.5px;
     }
 }

@@ -69,6 +69,9 @@ test('Button exposes geometry knobs while keeping identity library-owned', () =>
   assert.match(normalized, /gap: var\(--tt-btn-gap, 8px\);/);
   assert.match(normalized, /font-size: var\(--tt-btn-font-size, 13px\);/);
   assert.match(normalized, /line-height: var\(--tt-btn-line-height, normal\);/);
+  assert.match(normalized, /border-width: var\(--tt-btn-border-width, 0px\);/);
+  assert.match(normalized, /font-weight: 510;/);
+  assert.doesNotMatch(source, /--tt-btn-font-weight\s*:/);
 
   const declarations = (selector) => {
     const match = source.match(new RegExp(`\\.${selector}\\s*\\{([^}]*)\\}`));
@@ -110,6 +113,7 @@ test('Button exposes geometry knobs while keeping identity library-owned', () =>
   });
 
   assert.doesNotMatch(source, /\.tt-btn--h[0-9-]+\b/);
+  assert.match(normalized, /\.tt-btn--secondary \{ [^}]*--tt-btn-border-width: 1px;/);
   for (const property of [
     'background',
     'color',
