@@ -12,9 +12,9 @@ if (!targetUrl) {
 const TOLERANCE = 0.5;
 const VIEWPORTS = [
   { name: 'desktop', width: 1024, height: 900, deviceScaleFactor: 1 },
-  { name: 'mobile', width: 600, height: 900, deviceScaleFactor: 1 },
+  { name: 'mobile', width: 390, height: 900, deviceScaleFactor: 1 },
   { name: 'desktop-hidpi', width: 1024, height: 900, deviceScaleFactor: 2 },
-  { name: 'mobile-hidpi', width: 600, height: 900, deviceScaleFactor: 2 },
+  { name: 'mobile-hidpi', width: 390, height: 900, deviceScaleFactor: 2 },
 ];
 
 function findNamedFile(root, wanted, depth = 0) {
@@ -257,6 +257,12 @@ try {
       returnByValue: true,
     });
     const proofs = measured.result.value;
+    if (!proofs.length) {
+      failed = true;
+      console.error(`FAIL ${viewport.name}: target page exposed no [data-proof] cases`);
+      reports.push({ viewport, media: media.result.value, proofs });
+      continue;
+    }
 
     for (const proof of proofs) {
       for (const stateName of ['original', 'target']) {

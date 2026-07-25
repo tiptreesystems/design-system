@@ -181,3 +181,37 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   remains v0.3.0 because no v0.3.0 artifact has been published or tagged.
 - Final bounded outcome: four retained identity swaps, one rejected for
   geometry, and one navigation-link usage not migrated by scope.
+
+## 2026-07-24 — Consumer knob ownership correction
+
+- An independent POC review found that Button's 192dpi rule assigned
+  `--tt-btn-border-width: 0.5px`, overwriting consumer-owned geometry according
+  to cascade order. Chromium happened to compute/render 1px in the recorded
+  run; that did not establish WebKit parity.
+- Component identity selectors and media queries never assign consumer-owned
+  `--tt-btn-*` values. Only the documented `sm`/`md`/`lg` geometry presets may
+  assign them. Decision tests enforce this mechanically.
+- The high-density hairline is dropped. Secondary reads
+  `var(--tt-btn-border-width, 1px)`: the fallback preserves the default, while
+  an app's explicit geometry remains authoritative at every pixel density.
+- Althea's Platform CTA explicitly preserves its original 1px border. Its
+  parity remains `0.000px` at desktop/mobile and DPR 1/2 after the library
+  correction.
+- Corrected unpublished v0.3.0 npm candidate: 8,089 bytes, SHA-256
+  `4f7c54da9f1d01228bcc54d8c89dc8b73df25f2aa5814be27ce7f276a79e5119`.
+- Corrected unpublished v0.3.0 Python candidate: 12,924 bytes, SHA-256
+  `9449b82ebc08484521594cb5664c070dbbfe2d343cd70bdca16a86bdc0ee5897`.
+
+## 2026-07-24 — POC artifact delivery remains decision-gated
+
+- Althea's `file:` npm tarball is workspace-local and cannot run in ordinary
+  remote `npm ci` without first supplying the candidate artifact.
+- Lacuna's workspace-relative wheel requirement cannot run in its default
+  remote/container build without a Python artifact delivery decision.
+- The docs POC points at a wheel outside the Docker build context, and its
+  Dockerfile installs only `poetry.lock`; the local requirement is therefore
+  intentionally not deployable.
+- These are accepted POC constraints, not production dependency mechanisms.
+  They remain unresolved pending Martin's npm-registry and Python-wheel
+  delivery decisions. No consumer branch may be treated as deployable until
+  its local candidate reference is replaced.

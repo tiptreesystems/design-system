@@ -113,7 +113,23 @@ test('Button exposes geometry knobs while keeping identity library-owned', () =>
   });
 
   assert.doesNotMatch(source, /\.tt-btn--h[0-9-]+\b/);
-  assert.match(normalized, /\.tt-btn--secondary \{ [^}]*--tt-btn-border-width: 1px;/);
+  assert.match(
+    normalized,
+    /\.tt-btn--secondary \{ [^}]*border-width: var\(--tt-btn-border-width, 1px\);/,
+  );
+  assert.doesNotMatch(source, /@media\s*\(resolution\s*>=\s*192dpi\)/);
+
+  const sourceWithoutComments = source.replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const block of sourceWithoutComments.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const selector = block[1].trim();
+    const knobAssignments = [...block[2].matchAll(/(--tt-btn-[a-z-]+)\s*:/g)];
+    if (!knobAssignments.length) continue;
+    assert.match(
+      selector,
+      /^(?::root|\.tt-btn--(?:sm|md|lg))$/,
+      `${selector} must not assign consumer-owned Button knobs`,
+    );
+  }
   for (const property of [
     'background',
     'color',
@@ -141,9 +157,16 @@ test('standalone Button composition resolves every custom-property reference', (
     read('dist/css/components/button.css'),
   ].join('\n');
   const definitions = new Set([...composed.matchAll(/(--tt-[a-z0-9-]+)\s*:/g)].map((match) => match[1]));
-  const references = new Set([...composed.matchAll(/var\((--tt-[a-z0-9-]+)/g)].map((match) => match[1]));
+  const referencesWithoutFallback = new Set(
+    [...composed.matchAll(/var\((--tt-[a-z0-9-]+)([^)]*)\)/g)]
+      .filter((match) => !match[2].includes(','))
+      .map((match) => match[1]),
+  );
   assert.match(composed, /\.tt-btn/);
-  assert.deepEqual([...references].filter((name) => !definitions.has(name)), []);
+  assert.deepEqual(
+    [...referencesWithoutFallback].filter((name) => !definitions.has(name)),
+    [],
+  );
 });
 
 test('manifest is deterministic and records ordered component integrity', () => {

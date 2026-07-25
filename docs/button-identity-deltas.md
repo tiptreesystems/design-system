@@ -17,7 +17,7 @@ Rendered evidence is in `docs/evidence/parity-lacuna-button-v0.3.0.png` and
 | Text | `rgb(85, 85, 85)` | `rgb(27, 27, 27)` |
 | Border | `rgb(212, 222, 222)` | `rgb(220, 220, 212)` |
 | Radius | `8px` | `9999px` |
-| Font | `Arial`, weight `500` | Tiptree Inter stack, weight `510` |
+| Font | Lacuna Inter stack, weight `500` | Tiptree Inter stack, weight `510` |
 | Hover background | `rgb(242, 246, 246)` | `rgb(237, 237, 233)` |
 | Hover text | `rgb(85, 85, 85)` | `rgb(27, 27, 27)` |
 | Hover border | `rgb(212, 222, 222)` | `rgb(220, 220, 212)` |
@@ -63,6 +63,34 @@ Its original 1px border geometry is preserved through
 | Hover background | `rgba(27, 27, 27, 0.05)` | `rgb(237, 237, 233)` |
 | Hover text | `rgb(27, 27, 27)` | `rgb(27, 27, 27)` |
 | Hover border | `rgba(27, 27, 27, 0.74)` | `rgb(220, 220, 212)` |
+
+### Althea login Continue
+
+| Identity property | Before | After |
+|---|---|---|
+| Background | `rgb(71, 105, 107)` | `rgb(27, 27, 27)` |
+| Text | `rgb(255, 255, 255)` | `rgb(255, 255, 255)` |
+| Border | `rgb(71, 105, 107)` | `rgba(0, 0, 0, 0)` |
+| Radius | `999px` | `9999px` |
+| Font | Althea Inter stack, weight `500` | Tiptree Inter stack, weight `510` |
+| Hover background | `rgb(53, 88, 90)` | `rgb(71, 105, 107)` |
+| Hover text | `rgb(255, 255, 255)` | `rgb(255, 255, 255)` |
+| Hover border | `rgb(53, 88, 90)` | `rgba(0, 0, 0, 0)` |
+
+Its source `4px` gap, desktop `44px` minimum height, mobile `56px` minimum
+height, 1px border geometry, parent bounds, and adjacent email/legal-copy
+positions match at `0.000px` across desktop/mobile and DPR 1/2.
+
+## Dark-theme target values
+
+The design-system candidate was also resolved under `dark-default`. Althea is a
+light-only consumer, so these values are package-level review evidence rather
+than a claim that Althea renders a dark theme. Lacuna supports dark mode.
+
+| Migrated controls | Variant | Background | Text | Border | Hover background | Hover text | Hover border | Radius |
+|---|---|---|---|---|---|---|---|---|
+| Lacuna Sign out; Althea Cancel; Althea Join Waitlist | secondary | `rgb(38, 38, 36)` | `rgb(248, 248, 246)` | `rgb(70, 70, 65)` | `rgb(44, 44, 42)` | `rgb(248, 248, 246)` | `rgb(70, 70, 65)` | `9999px` |
+| Althea Submit Feedback; Althea login Continue | primary | `rgb(237, 237, 233)` | `rgb(27, 27, 27)` | `rgba(0, 0, 0, 0)` | `rgb(130, 167, 169)` | `rgb(255, 255, 255)` | `rgba(0, 0, 0, 0)` | `9999px` |
 
 The radius changes are intentional identity changes under the v0.3 contract;
 they are not parity failures. The designer must approve these identity deltas

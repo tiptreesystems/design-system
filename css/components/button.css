@@ -91,7 +91,7 @@
 .tt-btn--primary:hover { background: var(--tt-color-accent); color: var(--tt-brand-white); }
 .tt-btn--secondary {
     background: var(--tt-color-button-secondary-bg);
-    --tt-btn-border-width: 1px;
+    border-width: var(--tt-btn-border-width, 1px);
     border-color: var(--tt-color-button-secondary-border);
     color: var(--tt-color-text-primary);
 }
@@ -99,10 +99,3 @@
 .tt-btn--ghost { color: var(--tt-color-text-secondary); }
 .tt-btn--ghost:hover { color: var(--tt-color-text-primary); background: var(--tt-color-border-translucent); }
 .tt-btn[disabled], .tt-btn--disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
-
-/* Secondary identity uses a hairline, halved on high-density displays. */
-@media (resolution >= 192dpi) {
-    .tt-btn--secondary {
-        --tt-btn-border-width: 0.5px;
-    }
-}

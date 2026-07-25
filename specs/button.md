@@ -1,4 +1,4 @@
-# Button — component contract v1.3
+# Button — component contract v1.4
 
 Seeded from the former docs-new Button and reconciled against the updated docs
 Button, Lacuna, and Althea. The contract every binding is conformance-tested
@@ -67,10 +67,16 @@ icon/layout CSS.
 ### Presets
 
 The three library size presets assign the six size-related knobs, seeded from
-the updated docs Button. Border width is independent of size: identity variants
-provide their default (`secondary` is `1px`, with its existing high-density
-hairline), and a consumer sets `--tt-btn-border-width` only when preserving a
-source control's box geometry.
+the updated docs Button. They are the only component selectors that assign
+consumer-owned custom properties. Identity variants and media queries never
+write a `--tt-btn-*` value.
+
+Border width is independent of size. The `secondary` variant reads
+`var(--tt-btn-border-width, 1px)` so an unset Button keeps its documented
+default while an explicit consumer value remains authoritative at every device
+pixel ratio. The former 192dpi hairline override was removed because it rewrote
+consumer-owned geometry and made parity depend on stylesheet order and browser
+rasterization.
 
 | Preset | Height / min-height | Padding | Gap | Font size / line height | Provenance |
 |---|---|---|---|---|---|
