@@ -52,3 +52,9 @@ result rather than a fabricated pass.
 - `dist/` — generated npm/package output; never committed
 
 Registry selection, publishing, consumer migrations, integration experiments, and remote repository creation remain gated by the authoritative plan. Engineering cuts releases; the designer approves visual changes.
+
+## License
+
+The code, tokens, styles, and specifications in this repository are licensed under the [Apache License 2.0](LICENSE).
+
+The Tiptree name, logos, wordmarks, and brand identity are trademarks of Tiptree Systems and are **not** licensed under Apache 2.0 (see Section 6 of the license and the [NOTICE](NOTICE) file). You may use this design system to build and style your own products, but you may not use the Tiptree name or branding to identify your products or to imply affiliation with or endorsement by Tiptree Systems.
