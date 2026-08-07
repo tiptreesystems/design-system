@@ -1,16 +1,17 @@
-name: Release candidate artifacts
+name: Release
 
 on:
   push:
     tags:
       - "v*"
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,6 +30,13 @@ jobs:
       - name: Create SHA-256 checksums
         working-directory: release
         run: sha256sum npm/*.tgz python/*.whl > SHA256SUMS
+      - name: Attest release artifact provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            release/npm/*.tgz
+            release/python/*.whl
+            release/SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
           name: design-system-release-${{ github.ref_name }}
@@ -38,15 +46,14 @@ jobs:
             release/SHA256SUMS
           if-no-files-found: error
           retention-days: 90
-
-      # PUBLISHING IS GATED by DESIGN_SYSTEM_PLAN.md section 7.
-      # npm registry: TBD. Uncomment only after Martin selects the registry,
-      # credentials are provisioned, and the release procedure is reviewed.
-      # - name: Publish npm package
-      #   run: npm publish release/npm/*.tgz
-
-      # Python delivery: TBD between GCP Artifact Registry and a vendored wheel.
-      # Artifact Registry publishing also requires scoped authentication that
-      # has not been selected or provisioned. A vendored wheel is not published.
-      # - name: Publish Python wheel
-      #   run: python -m twine upload release/python/*.whl
+      - name: Create immutable GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            release/npm/*.tgz \
+            release/python/*.whl \
+            release/SHA256SUMS \
+            --verify-tag \
+            --generate-notes \
+            --title "$GITHUB_REF_NAME"
