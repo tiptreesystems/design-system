@@ -20,9 +20,14 @@ jobs:
       - name: Verify release tag matches package version
         run: |
           package_version="$(node -p "require('./package.json').version")"
+          py_version="$(sed -n 's/^version = "\(.*\)"/\1/p' python/pyproject.toml)"
           expected_tag="v${package_version}"
           if [[ "$GITHUB_REF_NAME" != "$expected_tag" ]]; then
             echo "::error::Release tag $GITHUB_REF_NAME does not match package version $package_version"
+            exit 1
+          fi
+          if [[ "$GITHUB_REF_NAME" != "v${py_version}" ]]; then
+            echo "::error::Release tag $GITHUB_REF_NAME does not match pyproject version $py_version"
             exit 1
           fi
       - uses: actions/setup-python@v5
@@ -37,7 +42,16 @@ jobs:
           python -m pip wheel python/ --no-deps --wheel-dir release/python
       - name: Create SHA-256 checksums
         working-directory: release
-        run: sha256sum npm/*.tgz python/*.whl | sed -E 's#  (npm|python)/#  #' > SHA256SUMS
+        run: |
+          shopt -s nullglob
+          tgz=(npm/*.tgz) whl=(python/*.whl)
+          if [[ ${#tgz[@]} -ne 1 || ${#whl[@]} -ne 1 ]]; then
+            echo "::error::expected exactly 1 tarball and 1 wheel; found ${#tgz[@]} .tgz, ${#whl[@]} .whl"
+            exit 1
+          fi
+          (cd npm && sha256sum -- *.tgz) > SHA256SUMS
+          (cd python && sha256sum -- *.whl) >> SHA256SUMS
+          cat SHA256SUMS
       - name: Attest release artifact provenance
         uses: actions/attest-build-provenance@v4
         with:
