@@ -215,3 +215,33 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   They remain unresolved pending Martin's npm-registry and Python-wheel
   delivery decisions. No consumer branch may be treated as deployable until
   its local candidate reference is replaced.
+
+## 2026-08-13 — First production consumer: Althea (dark mode)
+
+- Distribution is decided and executed: immutable GitHub Release assets from
+  this public repo (`RELEASING.md`), first shipped as `v0.3.1`. This
+  supersedes the 2026-07-24 "POC artifact delivery remains decision-gated"
+  entry — consumers now pin release-tarball URLs; no registry publishing.
+- Althea (`tiptreesystems/frontend`, branch `feature/dark-mode`, merging) is
+  the first production consumer: `package.json` pins the `v0.3.1` release
+  `.tgz` (lockfile integrity records the URL + hash), and both CSS bundles
+  import `@tiptree/design-system/primitives.css` and
+  `/themes/light-default.css` via exports subpaths. Twelve Althea tokens are
+  byte-identical aliases onto `--tt-*` names: the seven brand tokens and five
+  `#fff`-valued semantics onto `--tt-stone-000`.
+- Althea's dark values live app-side for v1, in its `tokens.css` under
+  `:root[data-theme='dark']`, derived from the docs dark palette. Graduation
+  candidates for a future `v0.4.x` token release: the danger ramp, the four
+  status recipes (pale foreground on deep tint), a focus-ring color token,
+  the inverse-chrome pair, and an accent-on-surface text token.
+- KNOWN DEFECT to fix at the token level (found in Althea's dark-mode
+  review; applies in BOTH themes): `--tt-color-button-secondary-bg` /
+  `--tt-color-button-secondary-border` fail WCAG 1.4.11's 3:1 non-text
+  contrast — dark bg-vs-surface 1.15:1, border edges 1.60/1.84:1; light's
+  own border edge is 1.29:1. A future release should rule stronger values;
+  consumers inherit the fix automatically through the theme file.
+- RULED FIX for a future release: `color-scheme: light` in light-polarity
+  theme files does NOT opt pages out of Chrome's Auto Dark Theme — only
+  `color-scheme: only light` does. `build-tokens.mjs` should emit
+  `only light` in the light block (dark block stays `dark`) and
+  `tests/decisions.test.mjs` updates accordingly.
