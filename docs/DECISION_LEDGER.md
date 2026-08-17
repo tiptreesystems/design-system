@@ -305,3 +305,40 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   and the complete semantic polarities render side-by-side, including the four
   status recipes. Its page-level toggle changes only the surrounding explorer
   chrome.
+
+## 2026-08-17 — v0.4.1 Tier-1 estate token graduation
+
+- This is the first release batch produced by the divergence-audit cadence in
+  `docs/PLAN.md` §4. The decision layer is
+  `workspace-files/markdown/estate-token-matrix-CONSOLIDATED.md`; evidence was
+  re-read at Althea `3a55ca44`, docs `ae04793`, and Lacuna `ad44b53d` rather
+  than re-derived from visual taste.
+- Five semantic roles graduate with symmetric light/dark decision tests:
+
+  | Published role | Light / dark | Independent consumer evidence |
+  |---|---|---|
+  | `--tt-color-surface-hover` | `#1b1b1b0d` / `#ffffff0f` | Althea `app-theme.css:8`, `tokens.css:415`; docs `brand.css:277`, `brand.css:198` |
+  | `--tt-color-action-disabled-bg` | `#1b1b1b0f` / `#ffffff14` | Althea `tokens.css:71`, `tokens.css:440`; docs `brand.css:318`, `brand.css:235` |
+  | `--tt-color-status-success-bg-emphasis` | `#d1fae5` / `#0f2e1f` | Althea `tokens.css:230`, `tokens.css:539`; Lacuna `web.py:640`, `web.py:668` |
+  | `--tt-color-status-warning-bg-emphasis` | `#fef3c7` / `#2a2510` | Althea `tokens.css:250`, `tokens.css:558`; Lacuna `web.py:638`, `web.py:666` |
+  | `--tt-color-surface-tooltip` | `#000000cc` / `#edede9` | Althea `tokens.css:104`, `tokens.css:455`; docs `brand.css:323`, `brand.css:240` |
+
+- The status-emphasis dark values alias their existing recipe backgrounds, and
+  the tooltip dark value aliases `stone-200`. Decision tests pin the resolved
+  value pair in each theme as well as those aliases, preserving the rule that
+  shared values remain one-line re-rulable rather than duplicated literals.
+- The conditional tooltip check passed exactly: Althea
+  `rgb(0 0 0 / 80%)` equals docs `#000c` because `12/15 = 0.8`, and both dark
+  values resolve to `#edede9`. The conditional button-hover check failed its
+  dark half: Althea `rgb(255 255 255 / 6%)` has alpha `0.06`, while docs
+  `#ffffff0f` has alpha `15/255` (`0.058823…`). Its matching light declarations
+  do not rescue partial equivalence, so `--tt-color-button-hover-bg` remains
+  absent and returns to the Tier-2 sitting.
+- docs' `tokens.css` is a fork of Althea's token sheet, not an independent
+  source. The four-token accent-action ramp therefore remains app-local: it
+  has one production consumer and no independent demand, so v0.4.1 does not
+  publish it as convergence.
+- Each generated theme file grows by 510 raw bytes against v0.4.0. Brotli
+  changes are +74 bytes for `light-default.css`, +70 for `dark-default.css`,
+  +75 for `explicit.css`, and +86 for `tokens.css`; all existing ceilings pass,
+  so `budgets.json` does not move.

@@ -1,33 +1,20 @@
-# v0.4.0
+# v0.4.1
 
-This release makes the package reflect its first production adoption: shared
-tokens and light/dark themes, with components admitted only after demonstrated
-consumer demand.
+This release is the first product of the estate divergence-audit cadence. It
+graduates shared semantic roles only where the consolidated Althea, docs, and
+Lacuna evidence establishes the contract.
 
-## Breaking package-surface cleanup
+## Shared theme additions
 
-Button never reached a production consumer, so v0.4.0 removes these experimental
-v0.3.x npm subpaths:
-
-- `@tiptree/design-system/components/button.css`
-- `@tiptree/design-system/layered/components/button.css`
-- `@tiptree/design-system/tt.css`
-
-The npm tarball and Python wheel contain no Button CSS, component manifest entry,
-or dormant spec. Consumers pin immutable v0.3.1 assets and cannot observe this
-removal until deliberately upgrading. The Button spec, parity evidence, and
-reusable comparison engine remain in Git for future graduation work.
-
-## Shared theme additions and fixes
-
-- Graduates Althea's shipped danger-action roles, four status recipes,
-  focus-ring color, inverse surface/text, and accent-on-surface roles.
-- Prevents status foreground/background collapse with resolved recipe tests.
-- Strengthens secondary-control boundaries to at least 3:1 against every
-  published surface in both themes.
-- Emits `color-scheme: only light` in light-polarity blocks to opt out of
-  browser Auto Dark; dark-polarity blocks remain `color-scheme: dark`.
-- Reframes the local showcase as a side-by-side tokens/themes explorer.
+- Adds surface-hover and disabled-action washes in both themes.
+- Adds independently shared success and warning emphasis fills for chips and
+  tags without changing the existing status recipe anchors.
+- Adds the shared tooltip surface after verifying equivalent Althea and docs
+  values in both themes.
+- Keeps the accent-action ramp app-local until a second production consumer
+  wants it.
+- Defers button-hover fill: Althea's dark 6% alpha and docs' `#0f` alpha are not
+  exactly CSS-equivalent, so the conditional release gate did not pass.
 
 ## Artifacts
 

@@ -56,6 +56,25 @@ test('graduated inverse and surface-accent roles alias existing theme contracts'
   }
 });
 
+test('v0.4.1 estate graduations pin both theme values symmetrically', () => {
+  const expected = {
+    'color-surface-hover': ['#1b1b1b0d', '#ffffff0f'],
+    'color-action-disabled-bg': ['#1b1b1b0f', '#ffffff14'],
+    'color-status-success-bg-emphasis': ['#d1fae5', '#0f2e1f'],
+    'color-status-warning-bg-emphasis': ['#fef3c7', '#2a2510'],
+    'color-surface-tooltip': ['#000000cc', '#edede9'],
+  };
+  for (const [name, [light, dark]] of Object.entries(expected)) {
+    assert.equal(resolvedThemes.light[name], light, `${name} light value drifted`);
+    assert.equal(resolvedThemes.dark[name], dark, `${name} dark value drifted`);
+  }
+  assert.equal(data.themes.dark['color-status-success-bg-emphasis'], '{color-status-success-bg}');
+  assert.equal(data.themes.dark['color-status-warning-bg-emphasis'], '{color-status-warning-bg}');
+  assert.equal(data.themes.dark['color-surface-tooltip'], '{stone-200}');
+  assert.equal('color-button-hover-bg' in data.themes.light, false);
+  assert.equal('color-button-hover-bg' in data.themes.dark, false);
+});
+
 test('theme polarity files encode their named default and explicit policy', () => {
   const light = read('dist/css/themes/light-default.css');
   const dark = read('dist/css/themes/dark-default.css');
