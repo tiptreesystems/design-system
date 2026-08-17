@@ -110,7 +110,7 @@
     return (high + 0.05) / (low + 0.05);
   };
   const foregroundFor = (background) =>
-    contrast(background, '#1b1b1b') >= contrast(background, '#ffffff') ? '#1b1b1b' : '#ffffff';
+    contrast(background, '#000000') >= contrast(background, '#ffffff') ? '#000000' : '#ffffff';
   const swatch = (name, value) => `
     <div class="swatch">
       <div class="swatch__chip" style="background:${value}"></div>
