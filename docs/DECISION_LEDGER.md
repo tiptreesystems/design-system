@@ -272,13 +272,13 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   `#93c5fd/#152040/#1e3a8a` (foreground/background/border). Decision tests pin
   the tuples, require foreground and background to differ, and require at
   least 3:1 role separation in both themes.
-- Secondary-control boundaries now use `stone-500` in light and `stone-550` in
-  dark. Their resolved border contrast is 3.22:1 against the light button,
-  3.13:1 against the light page, 3.62:1 against the dark button, and 4.16:1
-  against the dark page. The build test enforces all four edges at 3:1.
+- Secondary-control boundaries now use `stone-550` in both themes. The build
+  test enforces a 3:1 edge against every published button, page, card, and code
+  surface in both polarities rather than assuming controls only sit on canvas.
 - Every light-polarity block now emits `color-scheme: only light`; dark blocks
   remain `color-scheme: dark`. This is the previously ruled Chrome Auto Dark
   opt-out, not a component styling decision.
-- The local showcase is now a tokens/themes explorer: published primitives and
-  both semantic polarities render side-by-side, including the four status
-  recipes. Its page-level toggle changes only the surrounding explorer chrome.
+- The local showcase is now a tokens/themes explorer: adopted color primitives
+  and the complete semantic polarities render side-by-side, including the four
+  status recipes. Its page-level toggle changes only the surrounding explorer
+  chrome.

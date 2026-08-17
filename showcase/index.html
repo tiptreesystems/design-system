@@ -54,8 +54,8 @@
   .token-row__value { color: var(--tt-color-text-tertiary); text-align: right; }
   .recipes { display: grid; gap: 10px; }
   .recipe { padding: 14px; border: 2px solid; border-radius: var(--tt-radius-8); }
-  .recipe strong { display: block; margin-bottom: 5px; }
-  .recipe code { font-size: 0.625rem; opacity: 0.8; }
+  .recipe strong { display: block; margin-bottom: 5px; font-size: 1.25rem; }
+  .recipe code { color: var(--tt-color-text-primary); font-size: 0.6875rem; }
   .shadow-sample { padding: 18px; border-radius: var(--tt-radius-8); background: var(--tt-color-surface-card); font-size: 0.75rem; }
   @media (max-width: 760px) {
     main { padding-top: 84px; }
@@ -67,7 +67,7 @@
 <button class="theme-toggle" id="themeToggle" type="button">Explorer chrome: dark</button>
 <main>
   <h1>Tiptree shared tokens and themes</h1>
-  <p class="lede">The recorded truth of what Tiptree applications share today. Values are rendered directly from the published primitives and theme policies; prospective components do not appear here.</p>
+  <p class="lede">The recorded truth of what Tiptree applications share today. Adopted color primitives and the complete semantic theme policies render directly from generated package data; prospective components do not appear here.</p>
   <div class="meta">
     <span id="version"></span>
     <code>@tiptree/design-system/primitives.css</code>
@@ -75,8 +75,8 @@
     <code>@tiptree/design-system/themes/dark-default.css</code>
   </div>
 
-  <h2>Primitives</h2>
-  <p>Locked brand anchors and the ramps consumed by semantic themes.</p>
+  <h2>Adopted color primitives</h2>
+  <p>Locked brand anchors and the ramps consumed by the shared semantic themes.</p>
   <h4>Brand</h4>
   <div class="swatches" id="brand"></div>
   <h4>Ramps</h4>
@@ -97,14 +97,20 @@
 
   version.textContent = `Published contract v${data.version}`;
 
-  const foregroundFor = (hex) => {
+  const relativeLuminance = (hex) => {
     const match = /^#([0-9a-f]{6})$/i.exec(hex);
-    if (!match) return '#1b1b1b';
+    if (!match) return 0;
     const channels = match[1].match(/../g).map((part) => Number.parseInt(part, 16) / 255);
     const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
-    const luminance = 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
-    return luminance > 0.42 ? '#1b1b1b' : '#ffffff';
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
   };
+  const contrast = (first, second) => {
+    const high = Math.max(relativeLuminance(first), relativeLuminance(second));
+    const low = Math.min(relativeLuminance(first), relativeLuminance(second));
+    return (high + 0.05) / (low + 0.05);
+  };
+  const foregroundFor = (background) =>
+    contrast(background, '#1b1b1b') >= contrast(background, '#ffffff') ? '#1b1b1b' : '#ffffff';
   const swatch = (name, value) => `
     <div class="swatch">
       <div class="swatch__chip" style="background:${value}"></div>
@@ -127,7 +133,7 @@
   const groups = [
     ['Surfaces', ['color-bg-primary', 'color-bg-secondary', 'color-bg-tertiary', 'color-surface-card', 'color-surface-code', 'color-surface-inverse']],
     ['Text and accent', ['color-text-primary', 'color-text-secondary', 'color-text-tertiary', 'color-text-on-inverse', 'color-accent', 'color-accent-hover', 'color-accent-tint', 'color-accent-on-surface', 'color-accent-on-surface-hover', 'color-link', 'color-highlight', 'color-focus-ring']],
-    ['Borders and controls', ['color-border-primary', 'color-border-translucent', 'color-button-secondary-bg', 'color-button-secondary-border']],
+    ['Borders and controls', ['color-border-primary', 'color-border-translucent', 'color-button-invert-bg', 'color-button-invert-fg', 'color-button-secondary-bg', 'color-button-secondary-border']],
     ['Danger action', ['color-action-danger-bg', 'color-action-danger-bg-hover', 'color-action-danger-bg-pressed', 'color-action-danger-fg']],
   ];
   const recipes = ['success', 'danger', 'warning', 'info'];

@@ -8,7 +8,7 @@ renders the contract. A component enters the showcase when a real repository con
 its contract, never before.
 
 Once demand is demonstrated, the order matters: contract before CSS, CSS before
-consumers. A component is DONE when all eight steps hold — partial components don't
+consumers. A component is DONE when all nine steps hold — partial components don't
 ship.
 
 1. **Adoption evidence** — record the production consumer, source implementation,
@@ -22,16 +22,19 @@ ship.
 3. **CSS** — `css/components/<name>.css`: unlayered, `.tt-<name>` classes only,
    `var(--tt-*)` values only, depends on tokens + itself only. Port values from the
    ruled source implementation; cite file+line in the header comment.
-4. **Budget** — add the file to `budgets.json` (typical seed: raw 6144 / brotli 2048).
+4. **Package surface** — restore the `./components/*.css` and
+   `./layered/components/*.css` export-map entries in `package.json`. The decision
+   test requires those exports whenever the generated manifest is non-empty.
+5. **Budget** — add the file to `budgets.json` (typical seed: raw 6144 / brotli 2048).
    The build fails on unbudgeted components by design.
-5. **Showcase** — add a section to `showcase/index.html` showing every variant × state
+6. **Showcase** — add a section to `showcase/index.html` showing every variant × state
    in both themes. The showcase is the designer's approval surface; missing states
    mean unapproved states.
-6. **Decision tests** — if the component encodes a designer ruling (a locked value, a
+7. **Decision tests** — if the component encodes a designer ruling (a locked value, a
    variant that must exist), add it to `tests/decisions.test.mjs`.
-7. **Fixtures** — add golden markup per the spec's API table to the conformance
+8. **Fixtures** — add golden markup per the spec's API table to the conformance
    fixtures; bindings (when they exist) are tested against these.
-8. **`npm run ci` green**, then PR with before/after screenshots. New tokens needed
+9. **`npm run ci` green**, then PR with before/after screenshots. New tokens needed
    along the way follow the same rule: designer rules the value, `tokens.json` is the
    only place it lives.
 

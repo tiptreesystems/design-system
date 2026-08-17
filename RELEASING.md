@@ -7,7 +7,7 @@ attestations from the same source commit.
 
 ## Cut a release
 
-1. Update all four version surfaces together: `package.json`,
+1. Update `RELEASE_NOTES.md` and all four version surfaces together: `package.json`,
    `python/pyproject.toml`, `tokens/tokens.json`, and
    `python/tiptree_ui/__init__.py`.
 2. Merge the approved release commit to `main` and run `npm run ci` from that
@@ -25,7 +25,7 @@ attestations from the same source commit.
 
 5. The tag starts `.github/workflows/release.yml`. The workflow repeats the
    release gates, builds both packages, writes their SHA-256 checksums, attests
-   their provenance, and creates the GitHub Release with generated notes.
+   their provenance, and creates the GitHub Release with the checked-in notes.
 6. Before announcing the release, download every asset, verify it against
    `SHA256SUMS`, and run `gh attestation verify` on the tarball, wheel, and
    checksum file.

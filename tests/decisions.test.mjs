@@ -1,7 +1,7 @@
 // Decision and packaging tests. These encode designer rulings and the published contract.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build, loadSource, resolve } from '../scripts/build-tokens.mjs';
@@ -89,14 +89,19 @@ test('status recipes preserve the shipped foreground/background roles', () => {
   }
 });
 
-test('secondary-control borders retain a 3:1 edge against button and page surfaces', () => {
+test('secondary-control borders retain a 3:1 edge on every published surface', () => {
   for (const theme of ['light', 'dark']) {
     const tokens = resolvedThemes[theme];
     const border = tokens['color-button-secondary-border'];
-    for (const [surface, value] of [
+    const surfaces = new Map([
       ['button', tokens['color-button-secondary-bg']],
-      ['page', tokens['color-bg-primary']],
-    ]) {
+      ['primary', tokens['color-bg-primary']],
+      ['secondary', tokens['color-bg-secondary']],
+      ['tertiary', tokens['color-bg-tertiary']],
+      ['card', tokens['color-surface-card']],
+      ['code', tokens['color-surface-code']],
+    ]);
+    for (const [surface, value] of surfaces) {
       assert.ok(
         contrast(border, value) >= 3,
         `${theme} secondary border is ${contrast(border, value).toFixed(2)}:1 against ${surface}`,
@@ -111,19 +116,25 @@ test('sage ramp stays hub-only (parked proposal, not public contract)', () => {
 
 test('manifest is deterministic and advertises no unadopted components', () => {
   const first = read('dist/manifest.json');
+  const staleOutput = join(ROOT, 'dist/css/removed-output.css');
+  writeFileSync(staleOutput, 'stale');
   build();
   const second = read('dist/manifest.json');
   assert.equal(second, first);
+  assert.equal(existsSync(staleOutput), false);
   const manifest = JSON.parse(first);
   assert.deepEqual(manifest.order, []);
   assert.deepEqual(manifest.components, {});
   assert.equal(existsSync(join(ROOT, 'dist/css/components/button.css')), false);
   assert.equal(existsSync(join(ROOT, 'dist/css/tt.css')), false);
   const exports = JSON.parse(read('package.json')).exports;
-  assert.equal(Object.keys(exports).some((name) => name.includes('components')), false);
+  const hasComponents = manifest.order.length > 0;
+  assert.equal('./components/*.css' in exports, hasComponents);
+  assert.equal('./layered/components/*.css' in exports, hasComponents);
   assert.equal('./tt.css' in exports, false);
   const files = JSON.parse(read('package.json')).files;
   assert.equal(files.includes('specs/'), false);
+  assert.equal(existsSync(join(ROOT, 'css')), true);
 });
 
 test('applicability covers exactly the union of base and themed token names', () => {

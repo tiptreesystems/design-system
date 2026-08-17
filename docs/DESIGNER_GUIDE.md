@@ -38,4 +38,4 @@ Then open `http://localhost:4173`. When you save a change, the terminal running 
 
 ## Approve a release
 
-Confirm that the showcase, relevant preview screenshots, and documented visual decisions match your intent. Record your approval on the release review. Engineering runs the checks, chooses the version, creates the tag, publishes approved packages when registries are enabled, and handles rollback. You never need to run release commands or manage registry credentials.
+Confirm that the showcase, relevant preview screenshots, and documented visual decisions match your intent. Record your approval on the release review. Engineering runs the checks, chooses the version, creates the tag, publishes immutable GitHub Release assets, and handles rollback. You never need to run release commands or manage release credentials.

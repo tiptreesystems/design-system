@@ -1,7 +1,7 @@
 // The designer's one command: npm run dev
 // Watches tokens/ + css/, rebuilds on change, serves the showcase.
 // Zero dependencies; the designer never touches the generator.
-import { watch } from 'node:fs';
+import { existsSync, watch } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { join, dirname, extname, normalize } from 'node:path';
@@ -24,7 +24,9 @@ function rebuild() {
 rebuild();
 let timer;
 for (const dir of ['tokens', 'css']) {
-  watch(join(ROOT, dir), { recursive: true }, () => {
+  const sourceDirectory = join(ROOT, dir);
+  if (!existsSync(sourceDirectory)) continue;
+  watch(sourceDirectory, { recursive: true }, () => {
     clearTimeout(timer);
     timer = setTimeout(rebuild, 100);
   });
@@ -40,4 +42,4 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404).end('not found');
   }
-}).listen(PORT, () => console.log(`[tt] showcase: http://localhost:${PORT} (watching tokens/ and css/)`));
+}).listen(PORT, () => console.log(`[tt] showcase: http://localhost:${PORT} (watching available token/component sources)`));

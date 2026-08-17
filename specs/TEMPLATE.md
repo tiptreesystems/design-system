@@ -10,7 +10,7 @@ The canonical markup, with every class and attribute. State explicitly which ele
 ## Behavior & accessibility (engineer-owned)
 ARIA roles/attributes, keyboard interactions, focus management, no-JS behavior.
 
-## Visual decisions (designer-owned — live in tt.css, referenced here only)
+## Visual decisions (designer-owned — live in the component stylesheet, referenced here only)
 Radius/spacing/typography choices worth naming, so bindings and reviews have a shared vocabulary.
 
 ## Conformance

@@ -66,8 +66,9 @@ future growth.
 ## Static sites and iOS
 
 Static sites may compose primitives plus one theme into a content-hashed build
-artifact. iOS consumes the release's generated `GeneratedTokens.swift` for
-cross-platform colors, radii, and durations; native components are app-local.
+artifact. The generator also produces `dist/swift/GeneratedTokens.swift`
+locally, but v0.4.0 does not publish it as a release asset and iOS integration
+remains deferred. Native components stay app-local.
 
 ## Components
 

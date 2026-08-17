@@ -262,19 +262,20 @@ export function build() {
     : [];
 
   const generatedRoots = [
-    join(ROOT, 'dist/css/components'),
-    join(ROOT, 'dist/css/layered'),
-    join(ROOT, 'dist/css/themes'),
+    join(ROOT, 'dist/css'),
     join(ROOT, 'dist/swift'),
     join(ROOT, 'python/tiptree_ui/assets'),
   ];
   // Removed from the public package in v0.2.0. Delete any pre-v0.2.0 output so
   // a local build cannot leave a misleading Tailwind artifact behind.
   rmSync(join(ROOT, 'dist/tailwind'), { recursive: true, force: true });
-  rmSync(join(ROOT, 'dist/css/tt.css'), { force: true });
   for (const path of generatedRoots) rmSync(path, { recursive: true, force: true });
   for (const path of generatedRoots) mkdirSync(path, { recursive: true });
-  mkdirSync(join(ROOT, 'dist/css'), { recursive: true });
+  for (const path of [
+    join(ROOT, 'dist/css/components'),
+    join(ROOT, 'dist/css/layered'),
+    join(ROOT, 'dist/css/themes'),
+  ]) mkdirSync(path, { recursive: true });
 
   const generatedHeader = header(data.meta.version);
   const primitivesBody = cssBlock(':root', data.tokens);
