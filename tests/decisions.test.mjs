@@ -47,6 +47,15 @@ test('accent stays within the brand teal hue in both themes', () => {
   assert.equal(data.themes.light['color-accent'], '{teal-600}');
 });
 
+test('graduated inverse and surface-accent roles alias existing theme contracts', () => {
+  for (const theme of ['light', 'dark']) {
+    assert.equal(data.themes[theme]['color-surface-inverse'], '{color-button-invert-bg}');
+    assert.equal(data.themes[theme]['color-text-on-inverse'], '{color-button-invert-fg}');
+    assert.equal(data.themes[theme]['color-accent-on-surface'], '{color-accent}');
+    assert.equal(data.themes[theme]['color-accent-on-surface-hover'], '{color-accent-hover}');
+  }
+});
+
 test('theme polarity files encode their named default and explicit policy', () => {
   const light = read('dist/css/themes/light-default.css');
   const dark = read('dist/css/themes/dark-default.css');
@@ -157,15 +166,18 @@ test('applicability covers exactly the union of base and themed token names', ()
 test('resolver handles arbitrary-depth chains and rejects cycles and unknowns', () => {
   const base = { a: '{b}', b: '{c}', c: '#123456' };
   assert.deepEqual(resolve({ x: '{a}' }, base), { x: '#123456' });
+  assert.deepEqual(resolve({ x: '{y}', y: '{a}' }, base), { x: '#123456', y: '#123456' });
+  assert.throws(() => resolve({ x: '{y}', y: '{x}' }, base), /circular token reference/);
   assert.throws(() => resolve({ x: '{loop}' }, { loop: '{loop}' }), /circular token reference/);
   assert.throws(() => resolve({ x: '{ghost}' }, {}), /unknown token reference/);
 });
 
-test('version parity: package.json, pyproject.toml, tokens meta, __version__', () => {
+test('version parity: packages, tokens, release notes', () => {
   const pkg = JSON.parse(read('package.json')).version;
   const pyproject = read('python/pyproject.toml').match(/^version = "(.+)"$/m)[1];
   const init = read('python/tiptree_ui/__init__.py').match(/__version__ = "(.+)"/)[1];
-  const versions = { pkg, pyproject, tokens: data.meta.version, init };
+  const releaseNotes = read('RELEASE_NOTES.md').match(/^# v(.+)$/m)[1];
+  const versions = { pkg, pyproject, tokens: data.meta.version, init, releaseNotes };
   assert.equal(new Set(Object.values(versions)).size, 1, `version drift: ${JSON.stringify(versions)}`);
 });
 

@@ -272,9 +272,32 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   `#93c5fd/#152040/#1e3a8a` (foreground/background/border). Decision tests pin
   the tuples, require foreground and background to differ, and require at
   least 3:1 role separation in both themes.
-- Secondary-control boundaries now use `stone-550` in both themes. The build
-  test enforces a 3:1 edge against every published button, page, card, and code
-  surface in both polarities rather than assuming controls only sit on canvas.
+- Secondary-control boundaries now use `stone-550` in both themes. Its measured
+  light-theme contrast is 4.19:1 against button/card, 4.07:1 against primary,
+  3.69:1 against secondary/code, and 3.57:1 against tertiary surfaces. Its
+  dark-theme contrast is 3.62:1 against button/secondary/card, 4.16:1 against
+  primary/code, and 3.34:1 against tertiary. The build test enforces every edge
+  at 3:1 rather than assuming controls only sit on canvas. Design authority
+  approved the `stone-550` border and vetoed a fill change: under WCAG 1.4.11
+  the conforming border supplies the control boundary, so changing the
+  secondary fill would add an unneeded identity change.
+- Graduated inverse surface/text roles alias the existing invert-button pair,
+  and accent-on-surface roles alias the existing accent/default and hover pair,
+  as the Althea token registry maps them. They are semantic adapter names, not
+  permission to mint near-duplicate color values. In light polarity this
+  deliberately collapses inverse surface `#1c1c1e` onto the existing
+  `#1b1b1b` invert background and accent hover `#35585a` onto the existing
+  `#3a5759` accent hover; the other resolved values were already identical.
+- Payload growth is recorded rather than silent: the 21 graduated semantic
+  roles initially added 1,877 raw bytes to each generated theme file. Encoding
+  the ruled semantic aliases adds another 101 bytes, making the final v0.4.0
+  delta 1,978 raw bytes per theme file against v0.3.1. The Button retirement
+  removes the `dist/css/tt.css` budget entry (and the component-specific Button
+  budget); retained token/theme ceilings remain unchanged.
+- Known, accepted pre-release audit findings remain open: the light focus ring
+  is 2.66:1 against the primary surface, below 3:1, and the dark danger-action
+  hover and pressed fills are 4.10:1 and 3.45:1 against their foreground,
+  below 4.5:1. These are recorded defects, not claims of text conformance.
 - Every light-polarity block now emits `color-scheme: only light`; dark blocks
   remain `color-scheme: dark`. This is the previously ruled Chrome Auto Dark
   opt-out, not a component styling decision.

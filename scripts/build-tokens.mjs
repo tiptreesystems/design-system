@@ -64,10 +64,10 @@ export function validate(data) {
   const base = data.tokens ?? {};
   const themes = data.themes ?? {};
   const applicability = data.applicability ?? {};
-  const checkRefs = (map, scope) => {
+  const checkRefs = (map, scope, available = base) => {
     for (const [name, value] of Object.entries(map)) {
       for (const match of String(value).matchAll(REF_RE)) {
-        if (!(match[1] in base)) errors.push(`${scope}.${name} references unknown token {${match[1]}}`);
+        if (!(match[1] in available)) errors.push(`${scope}.${name} references unknown token {${match[1]}}`);
       }
       if (/^#/.test(value) && !/^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(value)) {
         errors.push(`${scope}.${name} has malformed hex: ${value}`);
@@ -78,7 +78,9 @@ export function validate(data) {
     }
   };
   checkRefs(base, 'tokens');
-  for (const [theme, map] of Object.entries(themes)) checkRefs(map, `themes.${theme}`);
+  for (const [theme, map] of Object.entries(themes)) {
+    checkRefs(map, `themes.${theme}`, { ...base, ...map });
+  }
 
   const darkNames = Object.keys(themes.dark ?? {}).sort();
   const lightNames = Object.keys(themes.light ?? {}).sort();
@@ -107,11 +109,12 @@ const cssBlock = (selector, map, colorScheme) =>
   `${selector} {\n${colorScheme ? `  color-scheme: ${colorScheme};\n` : ''}${cssLines(map)}\n}\n`;
 
 export function resolve(map, base) {
+  const available = { ...base, ...map };
   const resolveValue = (value, seen) =>
     String(value).replace(REF_RE, (_, name) => {
       if (seen.has(name)) throw new Error(`circular token reference: ${[...seen, name].join(' -> ')}`);
-      if (!(name in base)) throw new Error(`unknown token reference {${name}}`);
-      return resolveValue(base[name], new Set(seen).add(name));
+      if (!(name in available)) throw new Error(`unknown token reference {${name}}`);
+      return resolveValue(available[name], new Set(seen).add(name));
     });
   return Object.fromEntries(
     Object.entries(map).map(([name, value]) => [name, resolveValue(value, new Set())]),
