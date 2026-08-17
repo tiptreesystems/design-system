@@ -1,122 +1,164 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tiptree Design System — Showcase</title>
+<title>Tiptree shared tokens and themes</title>
 <link rel="stylesheet" href="/dist/css/primitives.css" />
-<link rel="stylesheet" href="/dist/css/themes/dark-default.css" />
-<link rel="stylesheet" href="/dist/css/tt.css" />
+<link rel="stylesheet" href="/dist/css/themes/explicit.css" />
 <style>
-  /* Showcase chrome only — real components come from tt.css */
-  body { margin: 0; font-family: var(--tt-font-sans); background: var(--tt-color-bg-primary); color: var(--tt-color-text-primary); }
-  main { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
-  h1 { font-family: var(--tt-font-serif); font-weight: 300; font-size: 2.5rem; margin: 0 0 8px; }
-  h2 { font-family: var(--tt-font-serif); font-weight: 400; font-size: 1.375rem; margin: 40px 0 16px; border-bottom: 1px solid var(--tt-color-border-translucent); padding-bottom: 8px; }
-  p.lede { color: var(--tt-color-text-secondary); margin: 0 0 24px; }
-  .swatches { display: flex; flex-wrap: wrap; gap: 12px; }
-  .swatch { width: 108px; border-radius: var(--tt-radius-8); overflow: hidden; border: 1px solid var(--tt-color-border-translucent); background: var(--tt-color-surface-card); }
-  .swatch .chip { height: 56px; }
-  .swatch .label { font-size: 0.6875rem; padding: 6px 8px; color: var(--tt-color-text-secondary); word-break: break-all; }
-  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
-  .theme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-  .theme-panel { padding: 20px; border: 1px solid var(--tt-color-border-translucent); border-radius: var(--tt-radius-8); background: var(--tt-color-bg-primary); color: var(--tt-color-text-primary); }
-  .theme-panel h3 { margin: 0 0 16px; font-size: 0.875rem; font-weight: 600; }
-  .theme-panel .row { align-items: flex-start; }
-  .consumer-read-paper {
-    --tt-btn-height: 29px;
-    --tt-btn-min-height: auto;
-    --tt-btn-padding: 6px 14px;
-    --tt-btn-gap: 6px;
-    --tt-btn-font-size: 14.4px;
-    --tt-btn-line-height: normal;
-    --tt-btn-border-width: 0px;
+  /* Explorer chrome only. This page contains no component-library contract. */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--tt-font-sans);
+    background: var(--tt-color-bg-primary);
+    color: var(--tt-color-text-primary);
   }
-  .toggle { position: fixed; top: 16px; right: 16px; }
-  .version { color: var(--tt-color-text-tertiary); font-size: 0.75rem; }
+  main { max-width: 1240px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1 { margin: 0; font-family: var(--tt-font-serif); font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 300; }
+  h2 { margin: 48px 0 8px; font-family: var(--tt-font-serif); font-size: 1.5rem; font-weight: 400; }
+  h3 { margin: 0 0 16px; font-size: 0.875rem; }
+  h4 { margin: 24px 0 10px; color: var(--tt-color-text-secondary); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  p { color: var(--tt-color-text-secondary); line-height: 1.55; }
+  code { font-family: var(--tt-font-mono); }
+  .lede { max-width: 760px; margin: 10px 0 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; color: var(--tt-color-text-tertiary); font-size: 0.75rem; }
+  .theme-toggle {
+    position: fixed;
+    z-index: 1;
+    top: 16px;
+    right: 16px;
+    padding: 9px 14px;
+    border: 1px solid var(--tt-color-border-primary);
+    border-radius: var(--tt-radius-full);
+    background: var(--tt-color-bg-secondary);
+    color: var(--tt-color-text-primary);
+    font: 600 0.75rem/1 var(--tt-font-sans);
+    cursor: pointer;
+  }
+  .theme-toggle:focus-visible { outline: var(--tt-focus-ring-width) solid var(--tt-color-focus-ring, var(--tt-color-accent)); outline-offset: var(--tt-focus-ring-offset); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .swatch { overflow: hidden; border: 1px solid var(--tt-color-border-primary); border-radius: var(--tt-radius-8); background: var(--tt-color-surface-card); }
+  .swatch__chip { height: 64px; }
+  .swatch__label { min-height: 58px; padding: 8px 10px; color: var(--tt-color-text-secondary); font: 0.6875rem/1.45 var(--tt-font-mono); overflow-wrap: anywhere; }
+  .ramp { display: grid; grid-template-columns: repeat(auto-fit, minmax(58px, 1fr)); overflow: hidden; margin-bottom: 12px; border-radius: var(--tt-radius-8); }
+  .ramp__step { min-height: 72px; padding: 8px 6px; display: flex; align-items: end; font: 0.625rem/1.2 var(--tt-font-mono); }
+  .theme-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+  .theme-panel { padding: 22px; border: 1px solid var(--tt-color-border-primary); border-radius: var(--tt-radius-12); background: var(--tt-color-bg-primary); color: var(--tt-color-text-primary); }
+  .theme-panel > h3 { display: flex; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--tt-color-border-primary); }
+  .token-list { display: grid; gap: 8px; }
+  .token-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 38px; }
+  .token-row__chip { width: 28px; height: 28px; border: 1px solid var(--tt-color-border-primary); border-radius: var(--tt-radius-4); }
+  .token-row code { overflow-wrap: anywhere; font-size: 0.6875rem; }
+  .token-row__value { color: var(--tt-color-text-tertiary); text-align: right; }
+  .recipes { display: grid; gap: 10px; }
+  .recipe { padding: 14px; border: 2px solid; border-radius: var(--tt-radius-8); }
+  .recipe strong { display: block; margin-bottom: 5px; }
+  .recipe code { font-size: 0.625rem; opacity: 0.8; }
+  .shadow-sample { padding: 18px; border-radius: var(--tt-radius-8); background: var(--tt-color-surface-card); font-size: 0.75rem; }
+  @media (max-width: 760px) {
+    main { padding-top: 84px; }
+    .theme-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
-<button class="tt-btn tt-btn--secondary tt-btn--sm toggle" id="themeToggle">toggle theme</button>
+<button class="theme-toggle" id="themeToggle" type="button">Explorer chrome: dark</button>
 <main>
-  <h1>Tiptree Design System</h1>
-  <p class="lede">Living showcase — rendered directly from the generated tokens and <code>tt.css</code>. What you see here is exactly what every app receives. <span class="version" id="version"></span></p>
+  <h1>Tiptree shared tokens and themes</h1>
+  <p class="lede">The recorded truth of what Tiptree applications share today. Values are rendered directly from the published primitives and theme policies; prospective components do not appear here.</p>
+  <div class="meta">
+    <span id="version"></span>
+    <code>@tiptree/design-system/primitives.css</code>
+    <code>@tiptree/design-system/themes/light-default.css</code>
+    <code>@tiptree/design-system/themes/dark-default.css</code>
+  </div>
 
-  <h2>Brand</h2>
+  <h2>Primitives</h2>
+  <p>Locked brand anchors and the ramps consumed by semantic themes.</p>
+  <h4>Brand</h4>
   <div class="swatches" id="brand"></div>
-
-  <h2>Ramps</h2>
+  <h4>Ramps</h4>
   <div id="ramps"></div>
 
-  <h2>Semantic (current theme)</h2>
-  <div class="swatches" id="semantic"></div>
-
-  <h2>Button — tt-btn</h2>
-  <p class="lede">The library owns identity while consumers own contextual geometry through seven custom properties. Presets and one real consumer-owned profile are shown simultaneously in both themes.</p>
-  <div class="theme-grid">
-    <section class="theme-panel" data-theme="dark">
-      <h3>Dark theme</h3>
-      <div class="row">
-        <button class="tt-btn tt-btn--primary tt-btn--sm">sm preset</button>
-        <button class="tt-btn tt-btn--primary tt-btn--md">md preset</button>
-        <button class="tt-btn tt-btn--primary tt-btn--lg">lg preset</button>
-      </div>
-      <div class="row">
-        <button class="tt-btn tt-btn--primary consumer-read-paper"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3z" fill="none" stroke="currentColor"/></svg>consumer geometry: Lacuna paper</button>
-      </div>
-      <div class="row">
-        <button class="tt-btn tt-btn--secondary tt-btn--md">Secondary</button>
-        <button class="tt-btn tt-btn--ghost tt-btn--md">Ghost</button>
-        <button class="tt-btn tt-btn--primary tt-btn--md" disabled>Disabled</button>
-      </div>
-    </section>
-    <section class="theme-panel" data-theme="light">
-      <h3>Light theme</h3>
-      <div class="row">
-        <button class="tt-btn tt-btn--primary tt-btn--sm">sm preset</button>
-        <button class="tt-btn tt-btn--primary tt-btn--md">md preset</button>
-        <button class="tt-btn tt-btn--primary tt-btn--lg">lg preset</button>
-      </div>
-      <div class="row">
-        <button class="tt-btn tt-btn--primary consumer-read-paper"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3z" fill="none" stroke="currentColor"/></svg>consumer geometry: Lacuna paper</button>
-      </div>
-      <div class="row">
-        <button class="tt-btn tt-btn--secondary tt-btn--md">Secondary</button>
-        <button class="tt-btn tt-btn--ghost tt-btn--md">Ghost</button>
-        <button class="tt-btn tt-btn--primary tt-btn--md" disabled>Disabled</button>
-      </div>
-    </section>
-  </div>
+  <h2>Semantic themes</h2>
+  <p>Both published polarities are always visible together. The control in the corner changes only the surrounding explorer chrome.</p>
+  <div class="theme-grid" id="themeGrid"></div>
 </main>
 <script type="module">
   const root = document.documentElement;
-  const stored = localStorage.getItem('tt-theme');
-  if (stored) root.dataset.theme = stored;
-  themeToggle.onclick = () => {
-    root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
-    localStorage.setItem('tt-theme', root.dataset.theme);
-  };
-
   const data = await (await fetch('/dist/showcase-data.json')).json();
-  version.textContent = `tokens v${data.version}`;
-  const swatch = (name, value) =>
-    `<div class="swatch"><div class="chip" style="background:${value}"></div><div class="label">--tt-${name}<br>${value}</div></div>`;
+  const themeToggle = document.querySelector('#themeToggle');
+  const version = document.querySelector('#version');
+  const brand = document.querySelector('#brand');
+  const ramps = document.querySelector('#ramps');
+  const themeGrid = document.querySelector('#themeGrid');
 
-  brand.innerHTML = Object.entries(data.base).filter(([k]) => k.startsWith('brand-')).map(([k, v]) => swatch(k, v)).join('');
+  version.textContent = `Published contract v${data.version}`;
+
+  const foregroundFor = (hex) => {
+    const match = /^#([0-9a-f]{6})$/i.exec(hex);
+    if (!match) return '#1b1b1b';
+    const channels = match[1].match(/../g).map((part) => Number.parseInt(part, 16) / 255);
+    const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    const luminance = 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    return luminance > 0.42 ? '#1b1b1b' : '#ffffff';
+  };
+  const swatch = (name, value) => `
+    <div class="swatch">
+      <div class="swatch__chip" style="background:${value}"></div>
+      <div class="swatch__label">--tt-${name}<br>${value}</div>
+    </div>`;
+
+  brand.innerHTML = Object.entries(data.base)
+    .filter(([name]) => name.startsWith('brand-'))
+    .map(([name, value]) => swatch(name, value))
+    .join('');
+
   for (const ramp of ['stone', 'teal', 'citron']) {
     const cells = Object.entries(data.base)
-      .filter(([k]) => k.startsWith(ramp + '-'))
-      .map(([k, v]) => `<div title="--tt-${k}: ${v}" style="flex:1;height:40px;background:${v}"></div>`) .join('');
-    ramps.insertAdjacentHTML('beforeend', `<div style="display:flex;border-radius:var(--tt-radius-8);overflow:hidden;margin-bottom:8px" >${cells}</div>`);
+      .filter(([name]) => name.startsWith(`${ramp}-`))
+      .map(([name, value]) => `<div class="ramp__step" title="--tt-${name}: ${value}" style="background:${value};color:${foregroundFor(value)}">${name.replace(`${ramp}-`, '')}</div>`)
+      .join('');
+    ramps.insertAdjacentHTML('beforeend', `<h4>${ramp}</h4><div class="ramp">${cells}</div>`);
   }
-  const theme = () => (root.dataset.theme === 'light' ? 'light' : 'dark');
-  const renderSemantic = () => {
-    semantic.innerHTML = Object.entries(data.themes[theme()])
-      .filter(([k]) => k.startsWith('color-'))
-      .map(([k, v]) => swatch(k, v)).join('');
-  };
-  renderSemantic();
-  new MutationObserver(renderSemantic).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+
+  const groups = [
+    ['Surfaces', ['color-bg-primary', 'color-bg-secondary', 'color-bg-tertiary', 'color-surface-card', 'color-surface-code', 'color-surface-inverse']],
+    ['Text and accent', ['color-text-primary', 'color-text-secondary', 'color-text-tertiary', 'color-text-on-inverse', 'color-accent', 'color-accent-hover', 'color-accent-tint', 'color-accent-on-surface', 'color-accent-on-surface-hover', 'color-link', 'color-highlight', 'color-focus-ring']],
+    ['Borders and controls', ['color-border-primary', 'color-border-translucent', 'color-button-secondary-bg', 'color-button-secondary-border']],
+    ['Danger action', ['color-action-danger-bg', 'color-action-danger-hover', 'color-action-danger-pressed', 'color-action-danger-fg']],
+  ];
+  const recipes = ['success', 'danger', 'warning', 'info'];
+
+  const tokenRows = (theme, names) => names
+    .filter((name) => name in data.themes[theme])
+    .map((name) => {
+      const value = data.themes[theme][name];
+      return `<div class="token-row"><span class="token-row__chip" style="background:${value}"></span><code>--tt-${name}</code><code class="token-row__value">${value}</code></div>`;
+    })
+    .join('');
+
+  for (const theme of ['light', 'dark']) {
+    const sections = groups.map(([title, names]) => `<h4>${title}</h4><div class="token-list">${tokenRows(theme, names)}</div>`).join('');
+    const recipeCards = recipes.map((recipe) => {
+      const prefix = `color-status-${recipe}`;
+      const foreground = data.themes[theme][`${prefix}-fg`];
+      const background = data.themes[theme][`${prefix}-bg`];
+      const border = data.themes[theme][`${prefix}-border`];
+      if (!foreground || !background || !border) return '';
+      return `<div class="recipe" style="color:${foreground};background:${background};border-color:${border}"><strong>${recipe}</strong><code>${foreground} / ${background} / ${border}</code></div>`;
+    }).join('');
+    const shadows = ['low', 'medium', 'high'].map((level) => `<div class="shadow-sample" style="box-shadow:${data.themes[theme][`shadow-${level}`]}">--tt-shadow-${level}</div>`).join('');
+    themeGrid.insertAdjacentHTML('beforeend', `<section class="theme-panel" data-theme="${theme}"><h3>${theme[0].toUpperCase() + theme.slice(1)} theme <code>themes/${theme}-default.css</code></h3>${sections}<h4>Status recipes</h4><div class="recipes">${recipeCards}</div><h4>Elevation</h4><div class="recipes">${shadows}</div></section>`);
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    root.dataset.theme = next;
+    themeToggle.textContent = `Explorer chrome: ${next === 'light' ? 'dark' : 'light'}`;
+  });
 </script>
 </body>
 </html>
