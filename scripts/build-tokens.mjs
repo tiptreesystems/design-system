@@ -1,8 +1,9 @@
-// Zero-dependency token/component generator. Source files are tokens/tokens.json
-// and css/components/**/*.css; every file under dist/ and Python package assets
-// is generated. Run: node scripts/build-tokens.mjs
+// Zero-dependency token/theme generator with optional graduated components.
+// Source files are tokens/tokens.json and any css/components/**/*.css; every
+// file under dist/ and Python package assets is generated.
 import {
   copyFileSync,
+  existsSync,
   mkdirSync,
   readFileSync,
   readdirSync,
@@ -256,8 +257,9 @@ export function build() {
   validate(data);
 
   const componentSourceRoot = join(ROOT, 'css/components');
-  const componentPaths = discoverCssFiles(componentSourceRoot);
-  if (!componentPaths.length) throw new Error('no component CSS found under css/components/');
+  const componentPaths = existsSync(componentSourceRoot)
+    ? discoverCssFiles(componentSourceRoot)
+    : [];
 
   const generatedRoots = [
     join(ROOT, 'dist/css/components'),
@@ -269,6 +271,7 @@ export function build() {
   // Removed from the public package in v0.2.0. Delete any pre-v0.2.0 output so
   // a local build cannot leave a misleading Tailwind artifact behind.
   rmSync(join(ROOT, 'dist/tailwind'), { recursive: true, force: true });
+  rmSync(join(ROOT, 'dist/css/tt.css'), { force: true });
   for (const path of generatedRoots) rmSync(path, { recursive: true, force: true });
   for (const path of generatedRoots) mkdirSync(path, { recursive: true });
   mkdirSync(join(ROOT, 'dist/css'), { recursive: true });
@@ -298,7 +301,6 @@ export function build() {
 
   const order = [];
   const components = {};
-  const fullBundleParts = [];
   for (const sourcePath of componentPaths) {
     const relativePath = slash(relative(componentSourceRoot, sourcePath));
     const name = relativePath.replace(/\.css$/, '');
@@ -319,10 +321,7 @@ export function build() {
       brotli: brotliBytes(unlayered),
       sha256: sha256(unlayered),
     };
-    fullBundleParts.push(source);
   }
-  writeFileSync(join(ROOT, 'dist/css/tt.css'), generatedHeader + fullBundleParts.join('\n'));
-
   const manifest = { version: data.meta.version, order, components };
   writeFileSync(join(ROOT, 'dist/manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
@@ -354,7 +353,7 @@ export function build() {
   );
 
   const pythonAssets = join(ROOT, 'python/tiptree_ui/assets');
-  for (const file of ['primitives.css', 'tokens.css', 'tt.css']) {
+  for (const file of ['primitives.css', 'tokens.css']) {
     copyFileSync(join(ROOT, 'dist/css', file), join(pythonAssets, file));
   }
   for (const theme of THEMES) {

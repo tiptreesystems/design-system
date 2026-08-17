@@ -1,60 +1,68 @@
 # Tiptree Design System
 
-This repository is the framework-agnostic source for Tiptree's visual system and component contracts. It contains the portable token source, generated consumer formats, canonical component CSS, component specifications, Python package data, validation, payload budgets, and a small showcase.
+The recorded truth of what Tiptree applications share: portable primitives,
+light/dark semantic themes, generated consumer formats, and verification. It is
+tokens and themes first; a component becomes public only after a real repository
+adopts its shared contract.
 
-The governing architecture is documented in [`docs/PLAN.md`](docs/PLAN.md). Component contracts live in [`specs/`](specs/). **Integrating an app? Start with [`docs/USING.md`](docs/USING.md)** — proven per-consumer recipes (Python wheel, npm/bundler, static, iOS). Contributors: [`docs/ADDING_A_COMPONENT.md`](docs/ADDING_A_COMPONENT.md); designers: [`docs/DESIGNER_GUIDE.md`](docs/DESIGNER_GUIDE.md); agents: [`CLAUDE.md`](CLAUDE.md).
+The operating architecture is in [`docs/PLAN.md`](docs/PLAN.md). Integrators start
+with [`docs/USING.md`](docs/USING.md); contributors use
+[`docs/ADDING_A_COMPONENT.md`](docs/ADDING_A_COMPONENT.md); design decisions are
+append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
 
-## Architecture
+## Published contract
 
-- `tokens/tokens.json` is the single token source. All portable custom properties use the `--tt-*` namespace.
-- `css/components/*.css` is the canonical visual component layer. Source files are unlayered, use opt-in `.tt-*` classes, and contain no global reset or bare-element selectors. The build emits default unlayered files, opt-in layered files, and a full showcase bundle.
-- `specs/` defines component anatomy, semantics, states, keyboard behavior, and events. CSS alone cannot define those requirements.
-- Generated CSS and Python exports are build products. Do not edit `dist/`, `python/tiptree_ui/_tokens.py`, or `python/tiptree_ui/assets/` directly.
-- Bindings are conveniences over the same component contract, not an alternative source of truth. Python, JavaScript, or native helpers must conform to the corresponding specification and canonical styling contract.
-- Per-consumer aliases and theme adapters support incremental adoption. Consumers never replace an existing `:root` wholesale.
+- `tokens/tokens.json` is the single value source. Portable custom properties use
+  the `--tt-*` namespace.
+- `primitives.css` provides locked brand anchors, color ramps, type, radii,
+  motion, focus geometry, and elevation primitives.
+- `themes/light-default.css`, `themes/dark-default.css`, and
+  `themes/explicit.css` provide the semantic theme surface.
+- Python and Swift exports are generated from the same source for non-CSS
+  consumers.
+- No component CSS is currently published. The dormant Button material under
+  `specs/`, `docs/`, and `tests/parity/` records the delivery and parity research
+  that established the component-graduation method.
 
-## Commands
+Generated CSS and language exports are build products. Do not edit `dist/`,
+`python/tiptree_ui/_tokens.py`, or `python/tiptree_ui/assets/` directly.
 
-Requires Node 20 or newer. Building the Python wheel requires Python 3.11 or newer; check `python3 --version` rather than assuming the system alias is compatible. The scaffold intentionally has no npm dependencies.
+## Local explorer
+
+Requires Node 20 or newer. The repository has no npm dependencies.
 
 ```sh
 npm run dev
 ```
 
-Builds generated files, watches `tokens/` and `css/`, and serves the showcase at `http://localhost:4173`.
+This rebuilds on token changes and serves the tokens/themes explorer at
+`http://localhost:4173`. Light and dark semantic values remain visible
+side-by-side; the page-level toggle changes only the explorer chrome.
+
+## Verification
 
 ```sh
 npm run build
 npm test
 npm run budgets
 npm run ci
-npm run parity
 ```
 
-`npm run ci` is the required local check: build, decision tests, and raw/Brotli payload budgets. CI also creates checksummed npm tarball and Python wheel candidates for integration testing. Candidate artifacts are not published automatically.
-
-`npm run parity` is the local layout-parity check for the Button identity-swap
-fixtures; it reports identity deltas separately. It requires Chrome/Chromium and the read-only Althea fixture checkout;
-set `TT_PARITY_BROWSER` or `TT_ALTHEA_WEB_ROOT` when those are not in their
-default workspace locations. Missing fixtures produce an explicit degraded
-result rather than a fabricated pass.
+`npm run ci` is the required local gate: deterministic generation, decision
+tests, Python composition tests, and raw/Brotli payload budgets. CI also builds
+unpublished npm and wheel candidates. Releases are immutable GitHub Release
+assets; consumers pin exact URLs and lockfile hashes.
 
 ## Repository map
 
-- `tokens/` — schema seed and canonical token values
-- `css/` — hand-authored visual component rules
-- `specs/` — engineer-owned semantic and behavioral contracts
-- `themes/` — sanctioned brand/theme token overrides
-- `registry/` — classification of legacy consumer tokens
-- `showcase/` — local visual authoring surface
-- `scripts/` and `tests/` — generation and release gates
-- `python/` — `tiptree-ui` wheel source and Flask asset integration
-- `dist/` — generated npm/package output; never committed
+- `tokens/` — canonical primitive and semantic values
+- `themes/` — sanctioned sub-brand override policy
+- `showcase/` — local tokens/themes explorer
+- `scripts/` and `tests/` — generation, release gates, and retained parity engine
+- `specs/` and `docs/` — contracts, dormant research, decisions, and integration
+- `python/` — generated token access and optional Flask asset composition
+- `dist/` — generated package output; never committed
 
-Registry selection, publishing, consumer migrations, integration experiments, and remote repository creation remain gated by the authoritative plan. Engineering cuts releases; the designer approves visual changes.
-
-## License
-
-The code, tokens, styles, and specifications in this repository are licensed under the [Apache License 2.0](LICENSE).
-
-The Tiptree name, logos, wordmarks, and brand identity are trademarks of Tiptree Systems and are **not** licensed under Apache 2.0 (see Section 6 of the license and the [NOTICE](NOTICE) file). You may use this design system to build and style your own products, but you may not use the Tiptree name or branding to identify your products or to imply affiliation with or endorsement by Tiptree Systems.
+The code, tokens, styles, and specifications are licensed under the
+[Apache License 2.0](LICENSE). Tiptree names and brand identity remain trademarks
+and are not licensed to imply affiliation; see [NOTICE](NOTICE).

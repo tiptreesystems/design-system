@@ -2,7 +2,7 @@
   "name": "@tiptree/design-system",
   "version": "0.3.1",
   "private": false,
-  "description": "Tiptree design system — tokens, per-component CSS, and markup contracts. CSS is the contract; bindings are conveniences.",
+  "description": "Tiptree shared design tokens and light/dark theme policies.",
   "license": "Apache-2.0",
   "type": "module",
   "files": [
@@ -14,13 +14,10 @@
     "themes/"
   ],
   "exports": {
-    "./components/*.css": "./dist/css/components/*.css",
-    "./layered/components/*.css": "./dist/css/layered/components/*.css",
     "./primitives.css": "./dist/css/primitives.css",
     "./themes/*.css": "./dist/css/themes/*.css",
     "./manifest.json": "./dist/manifest.json",
-    "./tokens.css": "./dist/css/tokens.css",
-    "./tt.css": "./dist/css/tt.css"
+    "./tokens.css": "./dist/css/tokens.css"
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
@@ -28,7 +25,6 @@
     "test:node": "node --test tests/*.test.mjs",
     "test:python": "node scripts/test-python.mjs",
     "test": "npm run test:node && npm run test:python",
-    "parity": "node scripts/build-tokens.mjs && node tests/parity/run.mjs",
     "budgets": "node scripts/build-tokens.mjs && node scripts/budgets.mjs",
     "ci": "node scripts/build-tokens.mjs && npm run test:node && npm run test:python && node scripts/budgets.mjs"
   },

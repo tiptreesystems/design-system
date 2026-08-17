@@ -1,4 +1,9 @@
-# Button — component contract v1.4
+# Button — dormant component research
+
+**Not a published component.** Button proved the delivery pipeline, parity
+method, and identity/geometry split, but never reached a production consumer.
+This contract is retained as resurrection material; it must re-enter through
+the real-consumer graduation policy in `docs/ADDING_A_COMPONENT.md`.
 
 Seeded from the former docs-new Button and reconciled against the updated docs
 Button, Lacuna, and Althea. The contract every binding is conformance-tested

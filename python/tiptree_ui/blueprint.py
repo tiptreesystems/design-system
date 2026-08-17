@@ -1,9 +1,8 @@
-"""Compose and serve selective, content-addressed design-system CSS.
+"""Compose and serve content-addressed design-system CSS.
 
-The package contains generated primitives, theme policies, component files, and
-their manifest. Consumers explicitly choose a theme and component subset. The
-resulting URL is keyed by the composition bytes, so it remains safe to cache as
-immutable even when the selected subset changes without a package-version bump.
+The package contains generated primitives, theme policies, and a manifest of any
+graduated components. Consumers explicitly choose a theme and optional component
+subset. The resulting URL is keyed by the composition bytes.
 """
 
 from __future__ import annotations

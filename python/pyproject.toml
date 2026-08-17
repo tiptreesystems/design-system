@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tiptree-ui"
 version = "0.3.1"
-description = "Tiptree design system for Python consumers - generated tokens, tt.css as package data, Flask blueprint, component bindings."
+description = "Tiptree shared tokens and light/dark theme policies for Python consumers."
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.11"

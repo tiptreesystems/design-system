@@ -1,113 +1,77 @@
-# Using the design system (consumer guide)
+# Using the design system
 
-For developers integrating a Tiptree app. Every recipe below was proven end-to-end in
-the v0.2.0 integration slice (evidence: `DECISION_LEDGER.md`). Rollback commands per
-consumer: `ROLLBACK.md`. Component markup contracts: `../specs/`.
+The current production contract is primitives plus one theme policy. No shared
+component CSS is published. Althea is the first consumer and uses an alias adapter:
+its established token names remain stable while their values flow from `--tt-*`.
 
-## The rules that apply to every consumer
+## Rules for every consumer
 
-1. **Install a versioned artifact** (npm package or Python wheel). Never copy files.
-2. **Compose, don't bulk-import:** `primitives.css` + **exactly one theme file** + the
-   component files you use. `tokens.css` is a dark-default back-compat composition —
-   **wrong for light-default apps (Althea, Lacuna)**; never import it there.
-3. **Write the markup the spec defines** (e.g. `specs/button.md`) — element choice,
-   identity classes, ARIA, and only the component's documented extension points.
-4. **Never override `.tt-*` rules or hard-code brand values** in app CSS. Need a
-   different look? That's a token/variant/theme request, not a local patch.
-5. Upgrades arrive as version-bump PRs. One version everywhere — CSS, wheel, npm, and
-   Swift tokens ship from the same tag.
+1. Pin an immutable GitHub Release artifact URL and commit its lockfile or hash.
+2. Import `primitives.css` plus exactly one theme file.
+3. Alias existing app tokens onto `--tt-*`; never replace an app's entire `:root`.
+4. Keep consumer dark blocks at `:root[data-theme='dark']`. A bare attribute
+   selector can lose to later `:root` declarations by source order.
+5. Request shared values here. Deliberate sub-brand overrides live in `themes/`,
+   never as unexplained app-local forks.
 
-## Python apps (Lacuna today; docs builder later)
+## JS-bundled applications
 
-```toml
-# pyproject.toml
-dependencies = ["tiptree-ui==0.3.0"]   # wheel: GitHub Release asset or vendored file
-```
+Pin the exact release asset rather than a floating registry range:
 
-```python
-# app factory — serves one immutable, content-hashed stylesheet
-from tiptree_ui.blueprint import create_blueprint, stylesheet_tags
-app.register_blueprint(create_blueprint(components=["button"], theme="light-default"))
-
-# page <head> — same explicit args recompute the same hashed URL
-head_html += stylesheet_tags(components=["button"], theme="light-default")
-```
-
-```python
-# markup, per specs/button.md
-f'<button class="tt-btn tt-btn--primary account-save" type="button">Save</button>'
-```
-
-Media pipelines (no Flask needed): `from tiptree_ui import for_brand` →
-`for_brand("tiptree", theme="light")["color-accent"]` gives concrete hex for prompts
-and renderers.
-
-## JS-bundled apps (Althea; docs while it bundles)
-
-```bash
-npm install @tiptree/design-system        # or the tarball path pre-registry
-```
-
-```css
-/* once per CSS entry bundle (public.css AND app.css in Althea) */
-@import url('@tiptree/design-system/primitives.css');
-@import url('@tiptree/design-system/themes/light-default.css');
-@import url('@tiptree/design-system/components/button.css');
-```
-
-Components render the spec markup from your JS (hand-written today; bindings are
-pending the API experiment). The default component build is **unlayered** on purpose —
-it must beat legacy bare-element rules (`base.css button {...}`) by normal specificity.
-The `layered/` variants exist only for hosts whose entire cascade is layered.
-
-### Button geometry in a consumer
-
-Button identity stays in `.tt-btn` plus `tt-btn--primary`, `--secondary`, or
-`--ghost`. Contextual size belongs to the app and uses only the six documented
-size knobs. Border width is a seventh geometry knob because it participates in
-the box model:
-
-```css
-.account-save {
-  --tt-btn-height: 36px;
-  --tt-btn-min-height: auto;
-  --tt-btn-padding: 0 16px;
-  --tt-btn-gap: 6px;
-  --tt-btn-font-size: 14px;
-  --tt-btn-line-height: 1;
-  --tt-btn-border-width: 1px;
-
-  /* Ordinary app layout, not component knobs. */
-  width: 100%;
-  margin-block-start: 12px;
+```json
+{
+  "dependencies": {
+    "@tiptree/design-system": "https://github.com/tiptreesystems/design-system/releases/download/v0.4.0/tiptree-design-system-0.4.0.tgz"
+  }
 }
 ```
 
-Never redeclare `.tt-btn` or use these knobs to control color, radius, fonts,
-states, or another identity property. Width and margin are deliberately not
-knobs; set them on your own class as normal layout CSS. Use `tt-btn--sm`,
-`tt-btn--md`, or `tt-btn--lg` when one of the docs-derived presets already fits.
-Border style and color remain library identity. Font family and weight remain
-identity with no consumer knob; a font-metric parity failure rejects that usage.
+Import the chosen polarity in every CSS entry that needs tokens:
 
-## Static sites (docs)
+```css
+@import url('@tiptree/design-system/primitives.css');
+@import url('@tiptree/design-system/themes/light-default.css');
 
-Compose one file at build time from the installed package's `manifest.json`
-(primitives + theme + components, in manifest order), write it as
-`tt.<contenthash>.css`, link it from the page. One composed bundle per page class —
-never one `<link>` per component.
+:root {
+  --existing-app-canvas: var(--tt-color-bg-primary);
+  --existing-app-text: var(--tt-color-text-primary);
+}
+```
 
-## iOS (platform-ios)
+`light-default.css` paints light at `:root`, opts that light paint out of browser
+Auto Dark with `color-scheme: only light`, and exposes dark values under
+`[data-theme='dark']`. `dark-default.css` reverses the default polarity.
+`explicit.css` emits only attribute-scoped blocks.
 
-Copy the release's generated `GeneratedTokens.swift` (SwiftUI `Color` + UIKit
-`UIColor`, `CGFloat` radii, `TimeInterval` durations — cross-platform tokens only).
-Native components are not shared yet; keep building app-local SwiftUI on these
-constants. WKWebViews should consume a small generated token sheet, never full
-component CSS.
+## Python consumers
 
-## Theming
+The wheel exposes resolved values for media pipelines and optional
+content-addressed Flask composition:
 
-Your app picks exactly one polarity file: `themes/light-default.css` (Althea, Lacuna),
-`themes/dark-default.css` (hub-style), or `themes/explicit.css` (you control the
-`data-theme` attribute yourself). Sub-brand looks are token overrides that live in THIS
-repo (`themes/`), designer-ruled — never app-local CSS.
+```python
+from tiptree_ui import for_brand
+from tiptree_ui.blueprint import create_blueprint, stylesheet_tags
+
+dark = for_brand("tiptree", theme="dark")
+accent = dark["color-accent"]
+
+app.register_blueprint(create_blueprint(components=[], theme="light-default"))
+head_html = stylesheet_tags(components=[], theme="light-default")
+```
+
+The empty component list is intentional until a production consumer graduates a
+shared component. The manifest remains the stable composition mechanism for that
+future growth.
+
+## Static sites and iOS
+
+Static sites may compose primitives plus one theme into a content-hashed build
+artifact. iOS consumes the release's generated `GeneratedTokens.swift` for
+cross-platform colors, radii, and durations; native components are app-local.
+
+## Components
+
+There are currently no published components. A shared component is added only
+after a real repository consumes the proposed contract and the migration evidence
+passes `docs/ADDING_A_COMPONENT.md`. Dormant Button research is historical input,
+not an importable API.

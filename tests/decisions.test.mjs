@@ -1,7 +1,7 @@
-// Decision and packaging tests. These encode designer rulings and the CSS contract.
+// Decision and packaging tests. These encode designer rulings and the published contract.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build, loadSource, resolve } from '../scripts/build-tokens.mjs';
@@ -56,9 +56,8 @@ test('theme polarity files encode their named default and explicit policy', () =
   assert.match(dark, /:root \{\n {2}color-scheme: dark;/);
   assert.match(dark, /\[data-theme='light'\] \{\n {2}color-scheme: only light;/);
   assert.doesNotMatch(explicit, /\n:root \{/);
-  assert.match(explicit, /\[data-theme='light'\]/);
-  assert.match(explicit, /\[data-theme='dark'\]/);
   assert.match(explicit, /\[data-theme='light'\] \{\n {2}color-scheme: only light;/);
+  assert.match(explicit, /\[data-theme='dark'\] \{\n {2}color-scheme: dark;/);
 });
 
 test('status recipes preserve the shipped foreground/background roles', () => {
@@ -80,8 +79,8 @@ test('status recipes preserve the shipped foreground/background roles', () => {
       const background = resolvedThemes[theme][`color-status-${recipe}-bg`];
       assert.notEqual(foreground, background, `${theme} ${recipe} foreground collapsed into background`);
       // Recipe roles also serve icons, borders, and large labels. The token
-      // contract guarantees a visible 3:1 separation; consuming components
-      // remain responsible for the stricter text threshold their anatomy needs.
+      // contract guarantees visible separation; components own stricter text
+      // thresholds required by their anatomy.
       assert.ok(
         contrast(foreground, background) >= 3,
         `${theme} ${recipe} role contrast is ${contrast(foreground, background).toFixed(2)}:1`,
@@ -110,137 +109,19 @@ test('sage ramp stays hub-only (parked proposal, not public contract)', () => {
   assert.equal(Object.keys(data.tokens).filter((key) => key.startsWith('sage-')).length, 0);
 });
 
-test('component source is unlayered, namespaced, and dual cascade builds differ only by layer', () => {
-  const source = read('css/components/button.css');
-  const unlayered = read('dist/css/components/button.css');
-  const layered = read('dist/css/layered/components/button.css');
-  assert.doesNotMatch(source, /@layer\s+tt/);
-  assert.doesNotMatch(unlayered, /@layer\s+tt/);
-  assert.match(layered, /@layer\s+tt\s*\{/);
-  assert.match(unlayered, /\.tt-btn/);
-  assert.equal([...source.matchAll(/#[0-9a-f]{3,8}\b/gi)].length, 0);
-});
-
-test('Button exposes geometry knobs while keeping identity library-owned', () => {
-  const source = read('css/components/button.css');
-  const normalized = source.replace(/\s+/g, ' ');
-
-  assert.match(normalized, /box-sizing: border-box;/);
-  assert.match(normalized, /height: var\(--tt-btn-height, 40px\);/);
-  assert.match(normalized, /min-height: var\(--tt-btn-min-height, auto\);/);
-  assert.match(normalized, /padding: var\(--tt-btn-padding, 1px 14px\);/);
-  assert.match(normalized, /gap: var\(--tt-btn-gap, 8px\);/);
-  assert.match(normalized, /font-size: var\(--tt-btn-font-size, 13px\);/);
-  assert.match(normalized, /line-height: var\(--tt-btn-line-height, normal\);/);
-  assert.match(normalized, /border-width: var\(--tt-btn-border-width, 0px\);/);
-  assert.match(normalized, /font-weight: 510;/);
-  assert.doesNotMatch(source, /--tt-btn-font-weight\s*:/);
-
-  const declarations = (selector) => {
-    const match = source.match(new RegExp(`\\.${selector}\\s*\\{([^}]*)\\}`));
-    assert.ok(match, `${selector} block exists`);
-    return Object.fromEntries(
-      match[1]
-        .split(';')
-        .map((entry) => entry.trim())
-        .filter(Boolean)
-        .map((entry) => {
-          const split = entry.indexOf(':');
-          return [entry.slice(0, split).trim(), entry.slice(split + 1).trim()];
-        }),
-    );
-  };
-  assert.deepEqual(declarations('tt-btn--sm'), {
-    '--tt-btn-height': '32px',
-    '--tt-btn-min-height': 'auto',
-    '--tt-btn-padding': '1px 12px',
-    '--tt-btn-gap': '8px',
-    '--tt-btn-font-size': '13px',
-    '--tt-btn-line-height': 'normal',
-  });
-  assert.deepEqual(declarations('tt-btn--md'), {
-    '--tt-btn-height': '40px',
-    '--tt-btn-min-height': 'auto',
-    '--tt-btn-padding': '1px 14px',
-    '--tt-btn-gap': '8px',
-    '--tt-btn-font-size': '13px',
-    '--tt-btn-line-height': 'normal',
-  });
-  assert.deepEqual(declarations('tt-btn--lg'), {
-    '--tt-btn-height': '44px',
-    '--tt-btn-min-height': 'auto',
-    '--tt-btn-padding': '1px 20px',
-    '--tt-btn-gap': '6px',
-    '--tt-btn-font-size': '16px',
-    '--tt-btn-line-height': 'normal',
-  });
-
-  assert.doesNotMatch(source, /\.tt-btn--h[0-9-]+\b/);
-  assert.match(
-    normalized,
-    /\.tt-btn--secondary \{ [^}]*border-width: var\(--tt-btn-border-width, 1px\);/,
-  );
-  assert.doesNotMatch(source, /@media\s*\(resolution\s*>=\s*192dpi\)/);
-
-  const sourceWithoutComments = source.replace(/\/\*[\s\S]*?\*\//g, '');
-  for (const block of sourceWithoutComments.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    const selector = block[1].trim();
-    const knobAssignments = [...block[2].matchAll(/(--tt-btn-[a-z-]+)\s*:/g)];
-    if (!knobAssignments.length) continue;
-    assert.match(
-      selector,
-      /^(?::root|\.tt-btn--(?:sm|md|lg))$/,
-      `${selector} must not assign consumer-owned Button knobs`,
-    );
-  }
-  for (const property of [
-    'background',
-    'color',
-    'border-color',
-    'border-radius',
-    'border-style',
-    'font-family',
-    'font-weight',
-    'transition',
-    'cursor',
-    'outline',
-  ]) {
-    assert.doesNotMatch(
-      source,
-      new RegExp(`${property}\\s*:[^;{}]*var\\(--tt-btn-`),
-      `${property} must not be controlled by a geometry knob`,
-    );
-  }
-});
-
-test('standalone Button composition resolves every custom-property reference', () => {
-  const composed = [
-    read('dist/css/primitives.css'),
-    read('dist/css/themes/light-default.css'),
-    read('dist/css/components/button.css'),
-  ].join('\n');
-  const definitions = new Set([...composed.matchAll(/(--tt-[a-z0-9-]+)\s*:/g)].map((match) => match[1]));
-  const referencesWithoutFallback = new Set(
-    [...composed.matchAll(/var\((--tt-[a-z0-9-]+)([^)]*)\)/g)]
-      .filter((match) => !match[2].includes(','))
-      .map((match) => match[1]),
-  );
-  assert.match(composed, /\.tt-btn/);
-  assert.deepEqual(
-    [...referencesWithoutFallback].filter((name) => !definitions.has(name)),
-    [],
-  );
-});
-
-test('manifest is deterministic and records ordered component integrity', () => {
+test('manifest is deterministic and advertises no unadopted components', () => {
   const first = read('dist/manifest.json');
   build();
   const second = read('dist/manifest.json');
   assert.equal(second, first);
   const manifest = JSON.parse(first);
-  assert.deepEqual(manifest.order, ['button']);
-  assert.equal(manifest.components.button.file, 'components/button.css');
-  assert.match(manifest.components.button.sha256, /^[0-9a-f]{64}$/);
+  assert.deepEqual(manifest.order, []);
+  assert.deepEqual(manifest.components, {});
+  assert.equal(existsSync(join(ROOT, 'dist/css/components/button.css')), false);
+  assert.equal(existsSync(join(ROOT, 'dist/css/tt.css')), false);
+  const exports = JSON.parse(read('package.json')).exports;
+  assert.equal(Object.keys(exports).some((name) => name.includes('components')), false);
+  assert.equal('./tt.css' in exports, false);
 });
 
 test('applicability covers exactly the union of base and themed token names', () => {
@@ -281,6 +162,7 @@ test('Python and Swift exports contain resolved, classified values', () => {
   assert.match(python, /'teal-600': '#47696b'/);
   assert.doesNotMatch(python, /\{brand-/);
   assert.match(swift, /public static let brandTealDarkUIColor/);
+  assert.match(swift, /public static let colorStatusSuccessFgUIColor/);
   assert.match(swift, /public static let r4: CGFloat = 4/);
   assert.match(swift, /public static let quick: TimeInterval = 0\.1/);
   assert.doesNotMatch(swift, /fontSans|zModal|easeOutQuad/);
