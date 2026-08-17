@@ -245,3 +245,40 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   `color-scheme: only light` does. `build-tokens.mjs` should emit
   `only light` in the light block (dark block stays `dark`) and
   `tests/decisions.test.mjs` updates accordingly.
+
+## 2026-08-17 — v0.4.0 records shipped theme reality; Button becomes dormant
+
+- Design-system scope is the recorded truth of what applications share. A
+  component enters the package and showcase only with a named production
+  consumer; `docs/ADDING_A_COMPONENT.md` makes that an admission gate.
+- Button completed its delivery-mechanics proof — release packaging, consumer
+  parity, the identity/geometry split, seven geometry knobs, and the 37-profile
+  inventory — but never reached a production consumer. Its CSS, npm exports,
+  full-component bundle, Python asset, manifest entry, budget, active tests,
+  and showcase entry are removed in v0.4.0. The generic consumer parity engine,
+  dormant spec, inventory, identity rulings, evidence, and ledger history stay.
+  Resurrection starts from those records and Git history when a real consumer
+  is ready to consolidate.
+- Removal needs no deprecation release: consumers pin immutable release assets
+  and cannot observe v0.4.0 until deliberately changing their URL and lockfile;
+  no production repository imports `.tt-btn` or Button CSS. The old
+  `tt/button-parity` branch remains POC evidence, not a consumer.
+- Althea dark-mode commit
+  `1a3e44d613fe6f726f690f99e2418337293d9a74` is the value provenance for the
+  graduated roles. v0.4.0 adds semantic danger-action states, focus-ring color,
+  inverse surface/text, accent-on-surface states, and four explicit status
+  recipes. Dark recipes are success `#6ee7b7/#0f2e1f/#166534`, danger
+  `#fca5a5/#2e1414/#7f1d1d`, warning `#fcd34d/#2a2510/#78350f`, and info
+  `#93c5fd/#152040/#1e3a8a` (foreground/background/border). Decision tests pin
+  the tuples, require foreground and background to differ, and require at
+  least 3:1 role separation in both themes.
+- Secondary-control boundaries now use `stone-500` in light and `stone-550` in
+  dark. Their resolved border contrast is 3.22:1 against the light button,
+  3.13:1 against the light page, 3.62:1 against the dark button, and 4.16:1
+  against the dark page. The build test enforces all four edges at 3:1.
+- Every light-polarity block now emits `color-scheme: only light`; dark blocks
+  remain `color-scheme: dark`. This is the previously ruled Chrome Auto Dark
+  opt-out, not a component styling decision.
+- The local showcase is now a tokens/themes explorer: published primitives and
+  both semantic polarities render side-by-side, including the four status
+  recipes. Its page-level toggle changes only the surrounding explorer chrome.

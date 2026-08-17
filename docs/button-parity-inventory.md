@@ -1,7 +1,9 @@
 # Button geometry parity inventory
 
-Status: **Phase 1 checkpoint approved 2026-07-23. Phase 2 implements only the
-approved tranche below; no consumer markup has been changed.**
+Status: **dormant research, not a published v0.4.0 component.** The Phase 1
+checkpoint was approved 2026-07-23; no production consumer ultimately adopted
+the contract. Retained as resurrection evidence under the adoption-driven
+graduation policy.
 
 Date: 2026-07-23
 

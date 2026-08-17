@@ -1,5 +1,8 @@
 # Button v0.3 identity deltas
 
+Status: **dormant research, not a published v0.4.0 component.** Retained as
+resurrection evidence under the adoption-driven graduation policy.
+
 This is the designer-review artifact for the bounded `tt/button-parity`
 consumer branches. Layout equality is reported separately by the parity
 harness. Values below are computed styles from the real consumer CSS and the

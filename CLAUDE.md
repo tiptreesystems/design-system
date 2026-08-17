@@ -1,17 +1,17 @@
 # Tiptree Design System — repo guide (humans and agents)
 
-One typed token/component source, consumed by every Tiptree app as versioned artifacts
-(npm package + Python wheel). CSS + markup specs are the canonical web implementation;
-generated native tokens serve iOS. Full architecture: `docs/PLAN.md` (vendored from the
-planning workspace; if absent, ask for DESIGN_SYSTEM_PLAN.md).
+One typed token/theme source, consumed as versioned artifacts (npm package +
+Python wheel). Components join only after production adoption; CSS + markup
+specs are then the canonical web implementation. Generated native tokens serve
+iOS. Full architecture: `docs/PLAN.md`.
 
 ## Source of truth map — what you may edit vs what is generated
 
 | Path | Status |
 |---|---|
 | `tokens/tokens.json` | SOURCE — token values are designer-ruled; do not change values without a ruling |
-| `css/components/*.css` | SOURCE — one file per component, authored unlayered |
-| `specs/*.md` | SOURCE — component contracts (anatomy/ARIA/states) |
+| `css/components/*.css` | SOURCE — optional graduated components, authored unlayered |
+| `specs/*.md` | SOURCE — active or explicitly dormant component contracts |
 | `themes/` | SOURCE — sub-brand token overrides (designer-owned) |
 | `dist/`, `python/tiptree_ui/_tokens.py`, `python/tiptree_ui/assets/` | GENERATED — never edit; rebuilt by `npm run build` |
 
