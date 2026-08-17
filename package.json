@@ -10,7 +10,6 @@
     "NOTICE",
     "dist/css/",
     "dist/manifest.json",
-    "specs/",
     "themes/"
   ],
   "exports": {

@@ -122,6 +122,8 @@ test('manifest is deterministic and advertises no unadopted components', () => {
   const exports = JSON.parse(read('package.json')).exports;
   assert.equal(Object.keys(exports).some((name) => name.includes('components')), false);
   assert.equal('./tt.css' in exports, false);
+  const files = JSON.parse(read('package.json')).files;
+  assert.equal(files.includes('specs/'), false);
 });
 
 test('applicability covers exactly the union of base and themed token names', () => {
