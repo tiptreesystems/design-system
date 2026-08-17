@@ -10,6 +10,23 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 build();
 const read = (path) => readFileSync(join(ROOT, path), 'utf8');
 const { data } = loadSource();
+const resolvedThemes = {
+  dark: resolve(data.themes.dark, data.tokens),
+  light: resolve(data.themes.light, data.tokens),
+};
+
+const relativeLuminance = (hex) => {
+  const channels = hex.slice(1).match(/../g).map((part) => Number.parseInt(part, 16) / 255);
+  const linear = channels.map((value) =>
+    value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4,
+  );
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+};
+const contrast = (a, b) => {
+  const first = relativeLuminance(a);
+  const second = relativeLuminance(b);
+  return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+};
 
 test('brand palette is LOCKED (guidelines p.10)', () => {
   assert.equal(data.tokens['brand-black'], '#1b1b1b');
@@ -34,13 +51,59 @@ test('theme polarity files encode their named default and explicit policy', () =
   const light = read('dist/css/themes/light-default.css');
   const dark = read('dist/css/themes/dark-default.css');
   const explicit = read('dist/css/themes/explicit.css');
-  assert.match(light, /:root \{\n {2}color-scheme: light;/);
+  assert.match(light, /:root \{\n {2}color-scheme: only light;/);
   assert.match(light, /\[data-theme='dark'\] \{\n {2}color-scheme: dark;/);
   assert.match(dark, /:root \{\n {2}color-scheme: dark;/);
-  assert.match(dark, /\[data-theme='light'\] \{\n {2}color-scheme: light;/);
+  assert.match(dark, /\[data-theme='light'\] \{\n {2}color-scheme: only light;/);
   assert.doesNotMatch(explicit, /\n:root \{/);
   assert.match(explicit, /\[data-theme='light'\]/);
   assert.match(explicit, /\[data-theme='dark'\]/);
+  assert.match(explicit, /\[data-theme='light'\] \{\n {2}color-scheme: only light;/);
+});
+
+test('status recipes preserve the shipped foreground/background roles', () => {
+  const expectedDark = {
+    success: ['#6ee7b7', '#0f2e1f', '#166534'],
+    danger: ['#fca5a5', '#2e1414', '#7f1d1d'],
+    warning: ['#fcd34d', '#2a2510', '#78350f'],
+    info: ['#93c5fd', '#152040', '#1e3a8a'],
+  };
+  for (const [recipe, expected] of Object.entries(expectedDark)) {
+    const actual = ['fg', 'bg', 'border'].map(
+      (role) => resolvedThemes.dark[`color-status-${recipe}-${role}`],
+    );
+    assert.deepEqual(actual, expected, `${recipe} recipe drifted from Althea's shipped values`);
+  }
+  for (const theme of ['light', 'dark']) {
+    for (const recipe of Object.keys(expectedDark)) {
+      const foreground = resolvedThemes[theme][`color-status-${recipe}-fg`];
+      const background = resolvedThemes[theme][`color-status-${recipe}-bg`];
+      assert.notEqual(foreground, background, `${theme} ${recipe} foreground collapsed into background`);
+      // Recipe roles also serve icons, borders, and large labels. The token
+      // contract guarantees a visible 3:1 separation; consuming components
+      // remain responsible for the stricter text threshold their anatomy needs.
+      assert.ok(
+        contrast(foreground, background) >= 3,
+        `${theme} ${recipe} role contrast is ${contrast(foreground, background).toFixed(2)}:1`,
+      );
+    }
+  }
+});
+
+test('secondary-control borders retain a 3:1 edge against button and page surfaces', () => {
+  for (const theme of ['light', 'dark']) {
+    const tokens = resolvedThemes[theme];
+    const border = tokens['color-button-secondary-border'];
+    for (const [surface, value] of [
+      ['button', tokens['color-button-secondary-bg']],
+      ['page', tokens['color-bg-primary']],
+    ]) {
+      assert.ok(
+        contrast(border, value) >= 3,
+        `${theme} secondary border is ${contrast(border, value).toFixed(2)}:1 against ${surface}`,
+      );
+    }
+  }
 });
 
 test('sage ramp stays hub-only (parked proposal, not public contract)', () => {

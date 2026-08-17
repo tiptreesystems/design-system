@@ -276,11 +276,11 @@ export function build() {
   const generatedHeader = header(data.meta.version);
   const primitivesBody = cssBlock(':root', data.tokens);
   const lightDefaultBody =
-    `${cssBlock(':root', data.themes.light, 'light')}\n${cssBlock("[data-theme='dark']", data.themes.dark, 'dark')}`;
+    `${cssBlock(':root', data.themes.light, 'only light')}\n${cssBlock("[data-theme='dark']", data.themes.dark, 'dark')}`;
   const darkDefaultBody =
-    `${cssBlock(':root', data.themes.dark, 'dark')}\n${cssBlock("[data-theme='light']", data.themes.light, 'light')}`;
+    `${cssBlock(':root', data.themes.dark, 'dark')}\n${cssBlock("[data-theme='light']", data.themes.light, 'only light')}`;
   const explicitBody =
-    `${cssBlock("[data-theme='light']", data.themes.light, 'light')}\n${cssBlock("[data-theme='dark']", data.themes.dark, 'dark')}`;
+    `${cssBlock("[data-theme='light']", data.themes.light, 'only light')}\n${cssBlock("[data-theme='dark']", data.themes.dark, 'dark')}`;
   const themeBodies = {
     'light-default': lightDefaultBody,
     'dark-default': darkDefaultBody,
