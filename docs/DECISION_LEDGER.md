@@ -342,3 +342,26 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   changes are +74 bytes for `light-default.css`, +70 for `dark-default.css`,
   +75 for `explicit.css`, and +86 for `tokens.css`; all existing ceilings pass,
   so `budgets.json` does not move.
+
+## 2026-08-18 — Designer rulings on the estate divergence register (Ivan)
+
+- Responding to the consolidated divergence sheet
+  (`workspace-files/markdown/divergence-decisions-for-design.md`), Ivan ruled:
+- **Lacuna palette is drift, not a sub-brand: converge to canonical.**
+  "Canonical from the library — we will end up with a range of teals used for
+  different purposes." Lacuna's `#4a7c7c` family re-points onto the canon teal
+  ramp; no `themes/lacuna.css` sub-brand file is created. Exact ramp-step
+  mapping is confirmed against swatches during the Lacuna adapter; SVG
+  re-exports follow over time.
+- **Althea light-mode neutrals converge to the warm stone ramp —
+  directionally ruled, execution gated.** Rationale: the brand off-white
+  cannot pair with cool system greys. Gate: Ivan performs a comprehensive
+  Althea design pass first (beginning 2026-08-19) and may adjust the light
+  canvas; the Tier-2 light picks and the light-grey adoption ship after (or
+  with) that pass, not before.
+- **Status colours stay distinct from brand hues** — endorses the recipe
+  system as shipped; status palettes must not drift toward the brand
+  green/yellow/teal.
+- **Blue hyperlinks acceptable in context** — the Althea-blue vs docs-teal
+  link split is registered as contextual, pending Ivan's deeper Althea pass.
+- Deeper answers on remaining register items arrive with the Althea pass.
