@@ -417,3 +417,37 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   in the v0.3.1→v0.5.0 pin bump, after the pass). docs' 10th residual
   `--surface-canvas` already resolves to canon and moves to the live alias
   block.
+
+## 2026-08-19 — v0.5.0 gated release candidate
+
+- Candidate branch `release/v0.5.0` starts from `main` at `6c58316`. It
+  implements the four roles recorded in “Consolidated leftover-value rulings”
+  without changing any existing token value: `--tt-color-text-quaternary`,
+  `--tt-color-surface-sunken`, `--tt-color-scrollbar-thumb`, and
+  `--tt-color-border-interactive`.
+- The reference structure is part of the ruling. Text-quaternary aliases
+  `stone-500` / `stone-550`; surface-sunken aliases `stone-150` /
+  `stone-1000`; interactive border aliases `stone-350` in light but keeps the
+  ruled dark off-ramp literal `#464641`; scrollbar-thumb keeps literal
+  black/white alpha washes. Scrollbar-thumb is web-only; the other three are
+  cross-platform. Symmetric decision tests pin both resolved values and these
+  source references.
+- Measured payloads against the byte-identical v0.4.1 source are:
+
+  | Generated CSS | v0.4.1 raw / Brotli | v0.5.0 raw / Brotli | Delta raw / Brotli |
+  |---|---:|---:|---:|
+  | `primitives.css` | 2,345 / 746 B | 2,345 / 745 B | 0 / -1 B |
+  | `themes/light-default.css` | 4,848 / 793 B | 5,229 / 853 B | +381 / +60 B |
+  | `themes/dark-default.css` | 4,849 / 784 B | 5,230 / 842 B | +381 / +58 B |
+  | `themes/explicit.css` | 4,863 / 794 B | 5,244 / 853 B | +381 / +59 B |
+  | `tokens.css` | 7,128 / 1,444 B | 7,509 / 1,493 B | +381 / +49 B |
+
+  All existing ceilings pass, so `budgets.json` does not move.
+- `npm run ci` passes 15 Node decision/packaging tests, 5 Python tests, and all
+  five payload budgets. A clean Python 3.12 wheel proof produces a 16,904-byte
+  `tiptree_ui-0.5.0-py3-none-any.whl` containing only the current token/theme
+  assets; no package was published.
+- **Execution gate remains open.** This candidate ships with/after Ivan's
+  Althea pass; light values remain re-rulable one-line before tag. No tag or
+  release is cut from this branch. `--tt-color-button-hover-bg` (A5) remains
+  absent in both themes under the unchanged v0.4.1 deferral assertions.

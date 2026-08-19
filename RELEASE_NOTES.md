@@ -1,20 +1,20 @@
-# v0.4.1
+# v0.5.0
 
-This release is the first product of the estate divergence-audit cadence. It
-graduates shared semantic roles only where the consolidated Althea, docs, and
-Lacuna evidence establishes the contract.
+This release candidate implements the four graduations ruled in the
+2026-08-19 “Consolidated leftover-value rulings” entry in
+`docs/DECISION_LEDGER.md`. It ships with/after Ivan's Althea pass; light values
+remain re-rulable one-line before the tag is cut.
 
 ## Shared theme additions
 
-- Adds surface-hover and disabled-action washes in both themes.
-- Adds independently shared success and warning emphasis fills for chips and
-  tags without changing the existing status recipe anchors.
-- Adds the shared tooltip surface after verifying equivalent Althea and docs
-  values in both themes.
-- Keeps the accent-action ramp app-local until a second production consumer
-  wants it.
-- Defers button-hover fill: Althea's dark 6% alpha and docs' `#0f` alpha are not
-  exactly CSS-equivalent, so the conditional release gate did not pass.
+- Adds text-quaternary as stone-500 in light and stone-550 in dark.
+- Adds surface-sunken as stone-150 in light and stone-1000 in dark.
+- Adds the web-only scrollbar-thumb wash at 10% black/white alpha.
+- Adds border-interactive as stone-350 in light and the ruled off-ramp
+  `#464641` literal in dark; the dark value intentionally sits between the
+  stone-700 and stone-750 ramp steps.
+- Keeps `--tt-color-button-hover-bg` absent. A5 remains deferred to the
+  sitting and the v0.4.1 absence assertions remain authoritative.
 
 ## Artifacts
 

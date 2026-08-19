@@ -75,6 +75,37 @@ test('v0.4.1 estate graduations pin both theme values symmetrically', () => {
   assert.equal('color-button-hover-bg' in data.themes.dark, false);
 });
 
+test('v0.5.0 ruled graduations preserve values, references, and applicability', () => {
+  const expected = {
+    'color-text-quaternary': ['#909088', '#7e7c73'],
+    'color-surface-sunken': ['#f1f1ec', '#141413'],
+    'color-scrollbar-thumb': ['#0000001a', '#ffffff1a'],
+    'color-border-interactive': ['#cfcfc6', '#464641'],
+  };
+  for (const [name, [light, dark]] of Object.entries(expected)) {
+    assert.equal(resolvedThemes.light[name], light, `${name} light value drifted`);
+    assert.equal(resolvedThemes.dark[name], dark, `${name} dark value drifted`);
+  }
+
+  assert.equal(data.themes.light['color-text-quaternary'], '{stone-500}');
+  assert.equal(data.themes.dark['color-text-quaternary'], '{stone-550}');
+  assert.equal(data.themes.light['color-surface-sunken'], '{stone-150}');
+  assert.equal(data.themes.dark['color-surface-sunken'], '{stone-1000}');
+  assert.equal(data.themes.light['color-border-interactive'], '{stone-350}');
+  assert.equal(data.themes.dark['color-border-interactive'], '#464641');
+  assert.equal(data.themes.light['color-scrollbar-thumb'], '#0000001a');
+  assert.equal(data.themes.dark['color-scrollbar-thumb'], '#ffffff1a');
+
+  assert.equal(data.applicability['color-scrollbar-thumb'], 'web-only');
+  for (const name of [
+    'color-text-quaternary',
+    'color-surface-sunken',
+    'color-border-interactive',
+  ]) {
+    assert.equal(data.applicability[name], 'cross-platform');
+  }
+});
+
 test('theme polarity files encode their named default and explicit policy', () => {
   const light = read('dist/css/themes/light-default.css');
   const dark = read('dist/css/themes/dark-default.css');
