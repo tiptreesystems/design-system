@@ -365,3 +365,55 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - **Blue hyperlinks acceptable in context** — the Althea-blue vs docs-teal
   link split is registered as contextual, pending Ivan's deeper Althea pass.
 - Deeper answers on remaining register items arrive with the Althea pass.
+
+## 2026-08-19 — Consolidated leftover-value rulings (Richard + Martin)
+
+- Disposition of every remaining estate value question from the superseded
+  sheet (`workspace-files/markdown/value-rulings.md`), ruled by derivation
+  from recorded rulings rather than fresh taste where possible, with the
+  exceptions labeled. Review provenance: batch v1 → two independent
+  adversarial reviews (Opus, Codex), both APPROVE WITH AMENDMENTS → v2 →
+  second two-agent Codex round, APPROVE WITH AMENDMENTS → v3 → APPROVED.
+  Full evidence tables: `workspace-files/markdown/ruling-batch-2026-08-18.md` (v3).
+- **This entry records the rulings while preserving the recorded execution
+  gate** (2026-08-18 entry above): Ivan's Althea design pass may adjust the
+  light canvas; the Tier-2 light picks ship after (or with) that pass, not
+  before. Gate satisfaction or re-rulings append as new entries after the pass.
+- **New canon at v0.5.0 (effective per the gate):**
+  `--tt-color-text-quaternary` = `{stone-500}` / `{stone-550}`;
+  `--tt-color-surface-sunken` = `{stone-150}` `#f1f1ec` / `{stone-1000}`
+  `#141413` (ruled migration target — docs hub-lineage `brand.css` is the
+  historical evidence; Althea's live `#f0f0f0` is drift, fixed at its pin
+  bump); `--tt-color-scrollbar-thumb` = `#0000001a` / `#ffffff1a`
+  (adapts-to-surface: a new reversible ruling, not a derivation; Althea's
+  four further scrollbar roles are out of scope);
+  `--tt-color-border-interactive` = `{stone-350}` `#cfcfc6` / `#464641`
+  (dark enters as a ruled off-ramp semantic literal — estate consensus,
+  not a canon primitive).
+- **Consumer adoptions in docs (no new canon; may land against v0.4.1):**
+  secondary-button border adopts `{stone-550}` `#7e7c73` in BOTH themes
+  (light `#dcdcd4` changes too — parity screenshots both themes); status
+  darks adopt `{color-status-info-fg}` `#93c5fd` (running≙info mapping
+  recorded; canon has no "running" recipe) and `{color-status-success-fg}`
+  `#6ee7b7`, with light pinned via aliases `var(--tt-color-blue)` /
+  `var(--tt-color-green)` (exact current `#0a84ff`/`#27a644`, no literal
+  duplication); the docs light-status divergence is registered.
+- **Registered app-local:** docs keeps `--action-secondary-bg-hover:
+  #30302e` as interim docs-local (estate divergence: Althea holds the
+  same-named role at 7% white dark / 5% teal light; Lacuna borrows the
+  broad `--bg-subtle` surface, no dedicated token — converge-or-keep goes
+  to the sitting). docs keeps `--shadow-xs` docs-local with BOTH halves
+  recorded: light `0 1px 2px 0 #00000012`, dark `0 0 0 transparent`; no
+  canonical `shadow-xs` step is created.
+- **Held for the v0.5.0 sitting:** `--tt-color-button-hover-bg` stays
+  absent (the v0.4.1 deferral and its decision-test assertions stand) —
+  fold-vs-distinct against `--tt-color-surface-hover` is a real semantic
+  call (deltas: dark 0.12pp, light ≈1.1pp plus a black-vs-`#1b1b1b` base
+  difference; Althea uses the two names on different control classes).
+  Invert-button hover dark (`#edede9`→`#fff`, byte-identical in docs +
+  Althea) is a two-consumer graduation candidate — held, NOT ruled local.
+- **Corrections recorded:** Althea's `#aeaeb2` / `#f0f0f0` / `#eaeaea` /
+  `#ddd` become drift when the four graduations take effect (alias/delete
+  in the v0.3.1→v0.5.0 pin bump, after the pass). docs' 10th residual
+  `--surface-canvas` already resolves to canon and moves to the live alias
+  block.
