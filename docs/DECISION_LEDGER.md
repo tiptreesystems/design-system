@@ -451,3 +451,58 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   Althea pass; light values remain re-rulable one-line before tag. No tag or
   release is cut from this branch. `--tt-color-button-hover-bg` (A5) remains
   absent in both themes under the unchanged v0.4.1 deferral assertions.
+## 2026-08-19 — Lacuna SVG teal adjudication (Richard + Martin)
+
+- Two questions from the SVG convergence (branch `feature/design-system-adapter`
+  @ `c4385b1`) were adjudicated by the design authority instead of routed to the
+  designer, on two independent agent adjudications (Opus + Codex; Q1 unanimous,
+  Q2 arbitrated on measured render evidence). Designer veto-in-pass preserved.
+- **Q1 — KEEP `{teal-600}` `#47696b` for all converged icon declarations**
+  (49 across 6 cube assets plus bare elements; count corrected from 53/7 —
+  `icon-concept.svg` was deleted by the cleanup commit). Evidence: entity icons
+  render `alt=""` with adjacent text labels at every call site, so WCAG 1.4.11's
+  required-graphics threshold does not bind; cubes are three-tone solids
+  (teal-400/500/600) whose legibility is carried by the companion tones (4.65
+  and 6.68:1 on dark) — remapping to teal-500 would collapse two faces to 1.00:1;
+  the drift palette's fill/stroke pair measured 1.05:1, so their convergence lost
+  nothing; downscale tests at the emitted 18/24/32px sizes show no legibility
+  crossing. Precedent: deep brand teal is the accepted dark treatment (2026-08-11
+  button ruling). **Recorded narrow veto path:** if later required, re-point only
+  the four bare-on-canvas declarations (institution outer ring, author arrow,
+  venue divider, proposal dashes) to `{teal-500}` — a blanket remap is unsafe.
+- **Q2 — both dark-logo tones move to uniform nearest-step mapping**, superseding
+  the interim state shipped at `a1b4353`: the teal-300 contrast veto on the mark's
+  first tone is WITHDRAWN (it optimized a contrast number that was never near a
+  floor and compressed the mark's panel separation 1.41→1.19, merging panels at
+  28px header size) → first tone maps to its genuine nearest step `{teal-400}`
+  `#82a7a9`; the off-ramp companion `#b8d4d4` maps to its nearest step
+  `{teal-200}` `#c8dcdc`. Measured result: separations 1.76 / 1.40, three clean
+  panels at 28px — essentially the pre-convergence rhythm, fully on-ramp. This
+  removes the estate's last special case: zero off-ramp values remain across all
+  Lacuna SVGs, matching the recorded drift-not-sub-brand ruling. **Reversal:**
+  4 declarations in `lacuna-dark.svg` + `lacuna-full-logo-rgb-dark.svg`.
+- Registered separately, not part of this ruling: `icon-proposal.svg` is weak on
+  dark before AND after convergence (30%-opacity dashed composites at 1.32–1.73:1)
+  — queued for the designer's SVG re-export pass.
+
+## 2026-08-19 — v0.5.0 gate narrowed to Althea adoption (Richard + Martin)
+
+- Supersedes the blanket "no tag or release is cut" language in the v0.5.0
+  candidate entry, narrowing the execution gate to what it actually protects.
+  The gate's substance — Ivan's Althea pass may adjust the light canvas, and
+  **Althea does not adopt the Tier-2 light values before (or without) that
+  pass** — is unchanged and remains binding on the Althea pin-bump PR.
+- Basis for the narrowing: the four graduated roles produce **zero rendered
+  change** in the other two consumers. docs already renders every one of these
+  values today (they are docs-lineage picks: its light block carries
+  `{stone-350}` borders and the `#0000001a` scrollbar; its dark block `#464641`
+  and `#ffffff1a`). Lacuna consumes none of the four roles. Their re-bumps are
+  therefore version hygiene, not a shipping event for the gated picks.
+- Authorized now: merge `release/v0.5.0` to main, tag `v0.5.0`, publish the
+  immutable release; docs re-bumps and re-points its two pending residuals
+  (`--border-interactive`, `--scrollbar-thumb`) onto the new canon tokens with
+  a resolved-value zero-delta proof required in the adapter tests; Lacuna
+  re-bumps pin/lock only.
+- If Ivan's pass adjusts any of the four light values, the correction ships as
+  v0.5.1 (immutable releases; one-line re-rulings, one-line re-bumps) and
+  Althea targets whatever version is current at its single pin bump.
