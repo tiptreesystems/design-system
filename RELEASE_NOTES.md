@@ -1,9 +1,11 @@
 # v0.5.0
 
-This release candidate implements the four graduations ruled in the
+This release implements the four graduations ruled in the
 2026-08-19 “Consolidated leftover-value rulings” entry in
-`docs/DECISION_LEDGER.md`. It ships with/after Ivan's Althea pass; light values
-remain re-rulable one-line before the tag is cut.
+`docs/DECISION_LEDGER.md`. Publication is authorized by the later “v0.5.0 gate
+narrowed to Althea adoption” entry: docs already renders these values, Lacuna
+does not consume the four roles, and Althea adoption remains gated on Ivan's
+pass. A later light-value re-ruling ships immutably as v0.5.1.
 
 ## Shared theme additions
 
