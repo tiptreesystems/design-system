@@ -417,3 +417,37 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   in the v0.3.1→v0.5.0 pin bump, after the pass). docs' 10th residual
   `--surface-canvas` already resolves to canon and moves to the live alias
   block.
+
+## 2026-08-19 — Lacuna SVG teal adjudication (Richard + Martin)
+
+- Two questions from the SVG convergence (branch `feature/design-system-adapter`
+  @ `c4385b1`) were adjudicated by the design authority instead of routed to the
+  designer, on two independent agent adjudications (Opus + Codex; Q1 unanimous,
+  Q2 arbitrated on measured render evidence). Designer veto-in-pass preserved.
+- **Q1 — KEEP `{teal-600}` `#47696b` for all converged icon declarations**
+  (49 across 6 cube assets plus bare elements; count corrected from 53/7 —
+  `icon-concept.svg` was deleted by the cleanup commit). Evidence: entity icons
+  render `alt=""` with adjacent text labels at every call site, so WCAG 1.4.11's
+  required-graphics threshold does not bind; cubes are three-tone solids
+  (teal-400/500/600) whose legibility is carried by the companion tones (4.65
+  and 6.68:1 on dark) — remapping to teal-500 would collapse two faces to 1.00:1;
+  the drift palette's fill/stroke pair measured 1.05:1, so their convergence lost
+  nothing; downscale tests at the emitted 18/24/32px sizes show no legibility
+  crossing. Precedent: deep brand teal is the accepted dark treatment (2026-08-11
+  button ruling). **Recorded narrow veto path:** if later required, re-point only
+  the four bare-on-canvas declarations (institution outer ring, author arrow,
+  venue divider, proposal dashes) to `{teal-500}` — a blanket remap is unsafe.
+- **Q2 — both dark-logo tones move to uniform nearest-step mapping**, superseding
+  the interim state shipped at `a1b4353`: the teal-300 contrast veto on the mark's
+  first tone is WITHDRAWN (it optimized a contrast number that was never near a
+  floor and compressed the mark's panel separation 1.41→1.19, merging panels at
+  28px header size) → first tone maps to its genuine nearest step `{teal-400}`
+  `#82a7a9`; the off-ramp companion `#b8d4d4` maps to its nearest step
+  `{teal-200}` `#c8dcdc`. Measured result: separations 1.76 / 1.40, three clean
+  panels at 28px — essentially the pre-convergence rhythm, fully on-ramp. This
+  removes the estate's last special case: zero off-ramp values remain across all
+  Lacuna SVGs, matching the recorded drift-not-sub-brand ruling. **Reversal:**
+  4 declarations in `lacuna-dark.svg` + `lacuna-full-logo-rgb-dark.svg`.
+- Registered separately, not part of this ruling: `icon-proposal.svg` is weak on
+  dark before AND after convergence (30%-opacity dashed composites at 1.32–1.73:1)
+  — queued for the designer's SVG re-export pass.
