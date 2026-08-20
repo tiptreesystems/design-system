@@ -451,3 +451,25 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - Registered separately, not part of this ruling: `icon-proposal.svg` is weak on
   dark before AND after convergence (30%-opacity dashed composites at 1.32–1.73:1)
   — queued for the designer's SVG re-export pass.
+
+## 2026-08-19 — v0.5.0 gate narrowed to Althea adoption (Richard + Martin)
+
+- Supersedes the blanket "no tag or release is cut" language in the v0.5.0
+  candidate entry, narrowing the execution gate to what it actually protects.
+  The gate's substance — Ivan's Althea pass may adjust the light canvas, and
+  **Althea does not adopt the Tier-2 light values before (or without) that
+  pass** — is unchanged and remains binding on the Althea pin-bump PR.
+- Basis for the narrowing: the four graduated roles produce **zero rendered
+  change** in the other two consumers. docs already renders every one of these
+  values today (they are docs-lineage picks: its light block carries
+  `{stone-350}` borders and the `#0000001a` scrollbar; its dark block `#464641`
+  and `#ffffff1a`). Lacuna consumes none of the four roles. Their re-bumps are
+  therefore version hygiene, not a shipping event for the gated picks.
+- Authorized now: merge `release/v0.5.0` to main, tag `v0.5.0`, publish the
+  immutable release; docs re-bumps and re-points its two pending residuals
+  (`--border-interactive`, `--scrollbar-thumb`) onto the new canon tokens with
+  a resolved-value zero-delta proof required in the adapter tests; Lacuna
+  re-bumps pin/lock only.
+- If Ivan's pass adjusts any of the four light values, the correction ships as
+  v0.5.1 (immutable releases; one-line re-rulings, one-line re-bumps) and
+  Althea targets whatever version is current at its single pin bump.
