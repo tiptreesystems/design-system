@@ -34,8 +34,8 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 ## 2026-07-22 — Phase A packaging candidate v0.2.0
 
 - Source commit: `1fb3c70483ccecdea1856599835aaf40f2fa90b8` on `design-system/main`.
-- npm candidate: `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/npm/tiptree-design-system-0.2.0.tgz`; 6,210 bytes; SHA-256 `5e29c7bf9e2c7401b19d74a1019f1b526c4f85d8466cf568c5de310e83ac37bd`.
-- Python candidate: `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/py312/tiptree_ui-0.2.0-py3-none-any.whl`; 12,331 bytes; SHA-256 `dcf99742e0695bafa08399e6e03b4cc3ea4095e67439f9a17c843290893cde97`.
+- npm candidate: `design-system/dist/npm/tiptree-design-system-0.2.0.tgz`; 6,210 bytes; SHA-256 `5e29c7bf9e2c7401b19d74a1019f1b526c4f85d8466cf568c5de310e83ac37bd`.
+- Python candidate: `design-system/dist/py312/tiptree_ui-0.2.0-py3-none-any.whl`; 12,331 bytes; SHA-256 `dcf99742e0695bafa08399e6e03b4cc3ea4095e67439f9a17c843290893cde97`.
 - All 18 generated files were rebuilt twice and were byte-identical. The package manifest orders only `button` and records its SHA-256.
 - `npm run ci` passed 12 Node tests, 5 Python tests, and seven payload budgets. The unbudgeted-component probe exited 1 as required.
 - The recursive development watcher rebuilt after `css/components/button.css` changed; `/`, `/dist/css/components/button.css`, and `/dist/manifest.json` each returned HTTP 200.
@@ -78,8 +78,8 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 ## 2026-07-23 — Phase C v0.2.1 bump and rollback drill
 
 - Evidence branch commit: `d2f7ad494b4e5d3a8067b3ce00668e5cd36714fb` on `tt/slice-bump`. It changes only four version surfaces and `radius-full` from 9999px to 12px; it never merges.
-- npm v0.2.1 candidate: `/Users/richardngo/Desktop/Work/Upwork/Tiptree/.slice-worktrees/design-system-bump/dist/npm/tiptree-design-system-0.2.1.tgz`; 6,204 bytes; SHA-256 `f7b0044e26ce42b2b7f4cb89b8a0475e861e566848521f09d3228228cf465e2b`.
-- Python v0.2.1 candidate: `/Users/richardngo/Desktop/Work/Upwork/Tiptree/.slice-worktrees/design-system-bump/dist/py312/tiptree_ui-0.2.1-py3-none-any.whl`; 12,325 bytes; SHA-256 `3daa474247baf3a94b41ce1ea01b7cebd9dac6aefef86ed0f261a4a677cd2f9e`.
+- npm v0.2.1 candidate: `.slice-worktrees/design-system-bump/dist/npm/tiptree-design-system-0.2.1.tgz`; 6,204 bytes; SHA-256 `f7b0044e26ce42b2b7f4cb89b8a0475e861e566848521f09d3228228cf465e2b`.
+- Python v0.2.1 candidate: `.slice-worktrees/design-system-bump/dist/py312/tiptree_ui-0.2.1-py3-none-any.whl`; 12,325 bytes; SHA-256 `3daa474247baf3a94b41ce1ea01b7cebd9dac6aefef86ed0f261a4a677cd2f9e`.
 - The v0.2.1 web composition is 7,249 bytes and hashes to `de1a37a9bbe24533f10057108f1c24e5ed629c5df6b3798f3653f3eca44e6aba`.
 - Althea rebuilt to `public.b479c08a.css` and `app.32a2b149.css`; computed Button radius changed to 12px. Docs loaded the new hash and rendered the 12px Button. Lacuna returned the new hash with the immutable header and rendered the 12px Button in the exact-inline-CSS harness. Screenshots live in this repo's `docs/evidence/`.
 - iOS generated output changed only its version marker and `Radius.full` from 9999 to 12; brand parity remained green. The recorded diff is `docs/evidence/platform-ios-radius-v0.2.1.diff`.
@@ -118,11 +118,11 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   `h*` tranche was never committed; the identity/geometry split was the first
   v0.3 implementation pushed.
 - npm candidate:
-  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/npm/tiptree-design-system-0.3.0.tgz`;
+  `design-system/dist/npm/tiptree-design-system-0.3.0.tgz`;
   7,798 bytes; SHA-256
   `d12bed93fc92e764fe7ff4f57779a36bbfa5b4f8c17a55adb73fdc3be3c5a437`.
 - Python candidate:
-  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/py312/tiptree_ui-0.3.0-py3-none-any.whl`;
+  `design-system/dist/py312/tiptree_ui-0.3.0-py3-none-any.whl`;
   13,050 bytes; SHA-256
   `fce6978397120f20ccc1b75aba0d6bfafcef2b879c9477c223a895d9688422bb`.
 - Retained real-usage identity swaps: Lacuna account Sign out (maximum layout
@@ -170,11 +170,11 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   background, transparent border color, radius, hover, and font-weight changes
   are recorded in `docs/button-identity-deltas.md` for designer approval.
 - Replacement unpublished v0.3.0 npm candidate:
-  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/npm/tiptree-design-system-0.3.0.tgz`;
+  `design-system/dist/npm/tiptree-design-system-0.3.0.tgz`;
   8,053 bytes; SHA-256
   `5e69051730bbee7740c4bb2219d606f999e76862a7410057052699ec6de3c436`.
 - Replacement unpublished v0.3.0 Python candidate:
-  `/Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/py312/tiptree_ui-0.3.0-py3-none-any.whl`;
+  `design-system/dist/py312/tiptree_ui-0.3.0-py3-none-any.whl`;
   13,078 bytes; SHA-256
   `fae55278604229d26675296597a9718ce4943d5f7ba0e51cdfe430f97aada264`.
 - These candidates supersede the earlier local v0.3.0 artifacts above. Version
@@ -506,3 +506,10 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - If Ivan's pass adjusts any of the four light values, the correction ships as
   v0.5.1 (immutable releases; one-line re-rulings, one-line re-bumps) and
   Althea targets whatever version is current at its single pin bump.
+
+## 2026-08-20 — Machine-local path redaction
+
+- All absolute machine-local path prefixes in prior entries and `ROLLBACK.md`
+  were normalized to workspace-relative paths (artifact names, byte sizes, and
+  SHA-256 hashes unchanged). Mechanical hygiene for the public repo; no decision
+  content was altered. Prior text remains in git history.

@@ -40,7 +40,7 @@ The moved v0.2.1 file is retained under `/private/tmp` as recoverable drill evid
 From `.slice-worktrees/lacuna`:
 
 ```sh
-.venv/bin/python -m pip install --force-reinstall --no-deps /Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/py312/tiptree_ui-0.2.0-py3-none-any.whl
+.venv/bin/python -m pip install --force-reinstall --no-deps design-system/dist/py312/tiptree_ui-0.2.0-py3-none-any.whl
 PYTHONPATH=. .venv/bin/python -m unittest tests/test_design_system_slice.py -v
 ```
 
@@ -53,7 +53,7 @@ process creation. The old URL must return HTTP 200 with
 From `.slice-worktrees/platform-ios`:
 
 ```sh
-cp /Users/richardngo/Desktop/Work/Upwork/Tiptree/design-system/dist/swift/GeneratedTokens.swift TASCMobile/Generated/GeneratedTokens.swift
+cp design-system/dist/swift/GeneratedTokens.swift TASCMobile/Generated/GeneratedTokens.swift
 python3.12 scripts/verify_generated_token_parity.py
 git diff --exit-code -- TASCMobile/Generated/GeneratedTokens.swift
 ```
