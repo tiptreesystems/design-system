@@ -513,3 +513,20 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   were normalized to workspace-relative paths (artifact names, byte sizes, and
   SHA-256 hashes unchanged). Mechanical hygiene for the public repo; no decision
   content was altered. Prior text remains in git history.
+
+## 2026-08-20 — Surface hierarchy converges estate-wide (Richard + Martin)
+
+- Lacuna's adapter mapped both `--bg-surface` and `--bg-subtle` onto values that
+  resolve to `#262624` in dark, collapsing its former card-vs-subtle separation
+  (unruled side effect of the palette convergence; pre-adapter Lacuna had subtle
+  LIGHTER than cards, which was itself drift).
+- Ruling: no app-specific hierarchy. All consumers use the canonical pair —
+  cards `{color-surface-card}` (dark `#262624`), sunken/subtle areas
+  `{color-surface-sunken}` (dark `#141413`, light `#f1f1ec`) — matching Althea's
+  shipped dark mode byte-for-byte. Lacuna re-points `--bg-subtle` to
+  `--tt-color-surface-sunken`; any hover-state consumer of the old alias moves to
+  `--tt-color-surface-hover` instead (hover is a wash, not a surface). Light
+  rendering is unchanged (`#f1f1ec` both before and after).
+- Principle restated: the three consumers share one palette that lives in the
+  design system; repos keep their local token names as aliases, never local values
+  for shared roles.
