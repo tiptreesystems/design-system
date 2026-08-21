@@ -530,3 +530,18 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - Principle restated: the three consumers share one palette that lives in the
   design system; repos keep their local token names as aliases, never local values
   for shared roles.
+
+## 2026-08-21 — Surface-hierarchy ruling: hover clause simplified
+
+- Amends the 2026-08-20 surface-hierarchy entry: Lacuna's hover-state consumers
+  of `--bg-subtle` are NOT split out to `--tt-color-surface-hover`. Althea's
+  shipped dark mode already uses `--surface-sunken` for hover states as well as
+  wells, so a single alias re-point (`--bg-subtle` → `{color-surface-sunken}`,
+  all consumers following) is the convergent choice; a split would have created
+  a third estate pattern. Evidence: independent adjudication found 33 `--bg-subtle`
+  consumers (wells, headers, footers, gradients, hovers) with functional
+  separation (hover disappearance, nested previews flattening) in the collapsed
+  state — confirming the re-point.
+- Also noted on the Lacuna branch: generated-art pipeline palettes (article
+  video/viz prompts + renderer) converged to teal-600/400/700; feedback button
+  text moved from literal white to `--brand-contrast`; both guard-tested.
