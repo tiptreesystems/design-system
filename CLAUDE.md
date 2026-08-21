@@ -3,7 +3,7 @@
 One typed token/theme source, consumed as versioned artifacts (npm package +
 Python wheel). Components join only after production adoption; CSS + markup
 specs are then the canonical web implementation. Generated native tokens serve
-iOS. Full architecture: `docs/PLAN.md`.
+iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 
 ## Source of truth map — what you may edit vs what is generated
 

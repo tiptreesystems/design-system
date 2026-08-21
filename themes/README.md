@@ -15,4 +15,4 @@ Sub-brands are **token-value overrides** under a `[data-brand]` attribute — th
 
 ## Status
 
-Empty pending the designer's ruling on Lacuna's teal (`#4a7c7c` — drift or sub-brand?). If sub-brand: `lacuna.css` lands here as the first theme. See DESIGN_SYSTEM_PLAN.md §3/§7.
+Empty by ruling. Lacuna's teal (`#4a7c7c`) was ruled drift, not a sub-brand, and converged to the canonical ramp (ledger, 2026-08-18) — so no `lacuna.css` exists. A sub-brand theme lands here only by a recorded ruling; see `docs/OPERATING_GUIDE.md` §3 (divergence dispositions).

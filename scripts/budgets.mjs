@@ -44,6 +44,6 @@ for (const [file, limit] of Object.entries(budgets)) {
   );
 }
 if (failed) {
-  console.error('payload budget exceeded or missing — this is a release gate (docs/PLAN.md §3)');
+  console.error('payload budget exceeded or missing — this is a release gate (docs/OPERATING_GUIDE.md §2)');
   process.exit(1);
 }

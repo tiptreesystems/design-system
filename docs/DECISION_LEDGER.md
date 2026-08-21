@@ -545,3 +545,24 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - Also noted on the Lacuna branch: generated-art pipeline palettes (article
   video/viz prompts + renderer) converged to teal-600/400/700; feedback button
   text moved from literal white to `--brand-contrast`; both guard-tested.
+
+## 2026-08-21 — Operating Plan v3.0 → Operating Guide v3.1 (rename + refresh)
+
+- `docs/PLAN.md` is renamed `docs/OPERATING_GUIDE.md`. Provenance: an independent
+  staleness audit (verdict NEEDS REFRESH) found the plan's roadmap four-fifths
+  complete and several statements stale or wrong; the document now describes the
+  system and its rules rather than scheduling work. Punch list applied in full.
+- Substantive corrections, not just dates: invariant 2 now names both theme
+  polarities (docs consumes dark-default; the old wording was wrong for it); the
+  "Althea ≠ Lacuna is healthy divergence" example is withdrawn (Lacuna was ruled
+  drift and converged); the per-release audit cadence and the registry generator
+  are described as they are (required-by-trigger; generator not in this repo);
+  people are named by role; pointers to files outside this repo are removed.
+- New invariants recorded from earned failures: independent-evidence graduation
+  (2026-08-17), no near-duplicate minting (2026-08-17), resolved-relationship
+  testing (2026-08-20/21), asset inheritance boundaries (2026-08-19), public
+  evidence hygiene (2026-08-20), agent-entry parity (2026-08-21).
+- Added: release history (22 → 43 → 48 → 52 roles) and a consumers table that
+  distinguishes merged from pending state. `themes/README.md` status updated to the
+  recorded teal ruling; `README.md`, `CLAUDE.md`, and the budget-gate message now
+  point at the guide.

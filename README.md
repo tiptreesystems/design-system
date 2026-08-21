@@ -5,7 +5,7 @@ light/dark semantic themes, generated consumer formats, and verification. It is
 tokens and themes first; a component becomes public only after a real repository
 adopts its shared contract.
 
-The operating architecture is in [`docs/PLAN.md`](docs/PLAN.md). Integrators start
+The operating guide is [`docs/OPERATING_GUIDE.md`](docs/OPERATING_GUIDE.md). Integrators start
 with [`docs/USING.md`](docs/USING.md); contributors use
 [`docs/ADDING_A_COMPONENT.md`](docs/ADDING_A_COMPONENT.md); design decisions are
 append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
