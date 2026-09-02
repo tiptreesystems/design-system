@@ -65,6 +65,10 @@ future growth.
 
 ## Swift Package consumers
 
+For iOS, the immutable Git release version and committed `Package.resolved`
+replace the release-asset URL and lockfile/hash rule above. The CSS import,
+alias, and selector rules do not apply to native consumers.
+
 Add the repository URL in Xcode and select an immutable release version:
 
 ```text
