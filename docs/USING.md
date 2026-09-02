@@ -63,12 +63,31 @@ The empty component list is intentional until a production consumer graduates a
 shared component. The manifest remains the stable composition mechanism for that
 future growth.
 
-## Static sites and iOS
+## Swift Package consumers
+
+Add the repository URL in Xcode and select an immutable release version:
+
+```text
+https://github.com/tiptreesystems/design-system.git
+```
+
+Link the `TiptreeDesignSystem` product to every target that imports it, then use
+the generated namespace through an app-owned semantic adapter:
+
+```swift
+import TiptreeDesignSystem
+
+let accent = TiptreeTokens.Colors.colorAccent
+```
+
+Commit `Package.resolved`. Native components and application-specific semantic
+aliases remain app-local; the package currently publishes tokens only. Package
+consumers do not run Node or the token generator.
+
+## Static sites
 
 Static sites may compose primitives plus one theme into a content-hashed build
-artifact. The generator also produces `dist/swift/GeneratedTokens.swift`
-locally, but v0.4.0 does not publish it as a release asset and iOS integration
-remains deferred. Native components stay app-local.
+artifact.
 
 ## Components
 

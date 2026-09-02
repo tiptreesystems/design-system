@@ -180,7 +180,7 @@ const swiftUIColor = (value, name) => {
   return `UIColor(red: ${color.red}.0 / 255.0, green: ${color.green}.0 / 255.0, blue: ${color.blue}.0 / 255.0, alpha: ${color.alpha}.0 / 255.0)`;
 };
 
-function emitSwift(data, resolved) {
+export function emitSwift(data, resolved) {
   const applicability = data.applicability;
   const isColor = (name) =>
     name.startsWith('brand-') || name.startsWith('color-') || /^(stone|teal|citron)-\d+$/.test(name);
@@ -278,6 +278,7 @@ export function build() {
     join(ROOT, 'dist/css/components'),
     join(ROOT, 'dist/css/layered'),
     join(ROOT, 'dist/css/themes'),
+    join(ROOT, 'Sources/TiptreeDesignSystem'),
   ]) mkdirSync(path, { recursive: true });
 
   const generatedHeader = header(data.meta.version);
@@ -350,7 +351,9 @@ export function build() {
     `        raise KeyError(f'unknown theme: {theme}')\n` +
     `    return {**TOKENS['base'], **TOKENS['themes'][theme]}\n`;
   writeFileSync(join(ROOT, 'python/tiptree_ui/_tokens.py'), python);
-  writeFileSync(join(ROOT, 'dist/swift/GeneratedTokens.swift'), emitSwift(data, resolved));
+  const swift = emitSwift(data, resolved);
+  writeFileSync(join(ROOT, 'dist/swift/GeneratedTokens.swift'), swift);
+  writeFileSync(join(ROOT, 'Sources/TiptreeDesignSystem/GeneratedTokens.swift'), swift);
   writeFileSync(
     join(ROOT, 'dist/showcase-data.json'),
     `${JSON.stringify({ version: data.meta.version, ...resolved }, null, 2)}\n`,

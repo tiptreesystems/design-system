@@ -19,13 +19,16 @@ append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
 - `themes/light-default.css`, `themes/dark-default.css`, and
   `themes/explicit.css` provide the semantic theme surface.
 - Python and Swift exports are generated from the same source for non-CSS
-  consumers.
+  consumers. The Swift export is committed as an importable Swift Package
+  source so Xcode consumers do not need Node or a synchronization script.
 - No component CSS is currently published. The dormant Button material under
   `specs/`, `docs/`, and `tests/parity/` records the delivery and parity research
   that established the component-graduation method.
 
 Generated CSS and language exports are build products. Do not edit `dist/`,
-`python/tiptree_ui/_tokens.py`, or `python/tiptree_ui/assets/` directly.
+`Sources/TiptreeDesignSystem/GeneratedTokens.swift`,
+`python/tiptree_ui/_tokens.py`, or `python/tiptree_ui/assets/` directly. The
+Swift Package source is generated but committed so it is present in Git tags.
 
 ## Local explorer
 
@@ -48,10 +51,11 @@ npm run budgets
 npm run ci
 ```
 
-`npm run ci` is the required local gate: deterministic generation, decision
-tests, Python composition tests, and raw/Brotli payload budgets. CI also builds
-unpublished npm and wheel candidates. Releases are immutable GitHub Release
-assets; consumers pin exact URLs and lockfile hashes.
+`npm run ci` is the required local gate: committed Swift-source parity,
+deterministic generation, decision tests, Python composition tests, and
+raw/Brotli payload budgets. CI also compiles the Swift Package and builds
+unpublished npm and wheel candidates. Releases are immutable Git tags and
+GitHub Release assets; consumers pin exact versions, URLs, and lockfiles.
 
 ## Repository map
 
@@ -61,6 +65,7 @@ assets; consumers pin exact URLs and lockfile hashes.
 - `scripts/` and `tests/` — generation, release gates, and retained parity engine
 - `specs/` and `docs/` — contracts, dormant research, decisions, and integration
 - `python/` — generated token access and optional Flask asset composition
+- `Sources/` and `Package.swift` — committed generated Swift source and its package manifest
 - `dist/` — generated package output; never committed
 
 The code, tokens, styles, and specifications are licensed under the

@@ -566,3 +566,17 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   distinguishes merged from pending state. `themes/README.md` status updated to the
   recorded teal ruling; `README.md`, `CLAUDE.md`, and the budget-gate message now
   point at the guide.
+
+## 2026-09-02 — Native tokens become a Swift Package
+
+- The generated native-token API is now a source-control Swift Package for iOS
+  17 and newer. `tokens/tokens.json` remains the only authored value source;
+  `Sources/TiptreeDesignSystem/GeneratedTokens.swift` is generated, committed,
+  and guarded against staleness so consumers never run Node or copy source.
+- v0.5.1 is a delivery-only patch over v0.5.0: no token name, reference,
+  applicability class, light value, or dark value changes.
+- Xcode consumers pin the immutable release and commit `Package.resolved`.
+  Application semantic adapters and native components remain consumer-owned.
+- Pull-request and release CI compile the package for a generic iOS device.
+  The v0.5.1 tag is created only after the package and a real iOS consumer build
+  successfully from the release commit.
