@@ -1,12 +1,12 @@
 # Tiptree Design System — Operating Guide (v3.2)
 
-**Status:** current as of 2026-09-02. Supersedes the Operating *Plan* v3.0 (2026-08-13): that plan's roadmap is complete except for the items in §4, so this document no longer schedules work — it describes how the system works and the rules it runs by. Decisions live in `docs/DECISION_LEDGER.md`; this guide points at them and never duplicates them. The plan-era text remains in git history (`docs/PLAN.md`, renamed 2026-08-21).
+**Status:** current as of 2026-09-05. Supersedes the Operating *Plan* v3.0 (2026-08-13): that plan's roadmap is complete except for the items in §4, so this document no longer schedules work — it describes how the system works and the rules it runs by. Decisions live in `docs/DECISION_LEDGER.md`; this guide points at them and never duplicates them. The plan-era text remains in git history (`docs/PLAN.md`, renamed 2026-08-21).
 
 ## 1. What is true
 
 - **The design system is the recorded truth of what is shared** — tokens and themes first, components only by graduation. It is adoption-driven, not aspirational: nothing enters without a real consumer, and each application keeps app-local tokens for roles that are genuinely its own.
 - **Distribution is immutable Git tags and GitHub Releases from this public repo** (`RELEASING.md`): per `vX.Y.Z` tag, Swift Package source, an npm tarball, a Python wheel (`tiptree_ui`), `SHA256SUMS`, and build provenance. Consumers pin the exact version or asset URL with lockfile or hash integrity. Never npmjs, PyPI, or any registry. A bad release is fixed by a new version, never a re-upload.
-- **Current release: v0.5.0** — primitive ramps (stone, teal, citron, brand constants) plus **52 semantic roles in each of light and dark**, generated as `primitives.css`, `themes/light-default.css`, `themes/dark-default.css`, `themes/explicit.css`, and a dark-default compatibility `tokens.css`. No component CSS is published; Button remains a dormant spec (`specs/button.md`) with its parity harness retained for the day a consolidation wants it.
+- **Current release: v0.5.1** — a distribution-only release that adds the iOS 17+ `TiptreeDesignSystem` Swift Package without changing token values. Primitive ramps (stone, teal, citron, brand constants) plus **52 semantic roles in each of light and dark** are generated as committed Swift source, `primitives.css`, `themes/light-default.css`, `themes/dark-default.css`, `themes/explicit.css`, and a dark-default compatibility `tokens.css`. No component CSS is published; Button remains a dormant spec (`specs/button.md`) with its parity harness retained for the day a consolidation wants it.
 - **The showcase (`showcase/index.html`) is the shipped tokens/themes explorer**, reflecting published primitives and both themes side by side.
 - **Design authority** is the product owner and the engineering lead, exercised through swatch-sheet rulings. The designer's rulings are inherited canon — recorded append-only, revisable one line at a time. Attribution for individual rulings lives in the ledger, not here.
 - **Agent entry points are one file:** `AGENTS.md` is a symlink to `CLAUDE.md`, so every agent runtime loads the same source-of-truth map and fences.
@@ -19,6 +19,7 @@
 | v0.4.0 | 43 | Althea's shipped dark reality graduated (danger ramp, four status recipes, focus ring, inverse chrome, accent-on-surface); `color-scheme: only light`; stone-550 secondary borders (WCAG 1.4.11); Button export removed; showcase became the explorer |
 | v0.4.1 | 48 | First estate-audit graduations (surface hover, disabled wash, two chip emphases, tooltip); fork-inflated "convergence" disqualified |
 | v0.5.0 | 52 | `text-quaternary`, `surface-sunken`, `scrollbar-thumb`, `border-interactive` — ruled, with Althea's adoption gated on the designer's light-canvas pass |
+| v0.5.1 | 52 | Distribution-only release adding the iOS 17+ `TiptreeDesignSystem` Swift Package; token names, references, applicability, and resolved values unchanged |
 
 ### Consumers
 
@@ -27,7 +28,7 @@
 | Althea (`tasc-stack/frontend`) | v0.3.1 merged; 39 direct `--tt-*` bindings; dark mode shipped on the shared dark palette | One pin bump to the current release, harvesting byte-identical graduated values; gated on the designer's pass | `frontend/web/src/assets/styles/tokens.css` (+ app-only overrides in `app-theme.css`) | 2026-08-13 first consumer; 2026-08-18/19 adoption gate |
 | docs | No dependency on `main` yet | Adapter on an open PR, pinned v0.5.0: 52 live aliases, forked token sheet deleted, 3 registered residuals, theme-key migration | `docs_server/web/src/styles/brand.css`; `build.py` composes `dark-default` | 2026-08-19 adoptions and zero-delta re-bump |
 | Lacuna | No dependency on `main` yet | Adapter on an open PR, pinned v0.5.0: first production use of `tiptree_ui.blueprint.compose()`, 25 root aliases, teal and surface hierarchy converged, 13 SVG assets on the canonical ramp | `lacuna/interfaces/site_theme.py` → content-hashed site CSS | 2026-08-18 teal ruling; 2026-08-19 SVG adjudication; 2026-08-20/21 surface hierarchy |
-| platform-ios | v0.5.0 generated Swift source vendored with an app-owned semantic adapter | Replace consumer-side generation and vendoring with the v0.5.1 Swift Package after local integration proof | `TASCMobile/Design System` | 2026-09-02 native package distribution decision |
+| platform-ios | v0.5.0 generated Swift source vendored with an app-owned semantic adapter | Replace consumer-side generation and vendoring with the released v0.5.1 Swift Package, resolve the exact version, and commit `Package.resolved` | `TASCMobile/Design System` | 2026-09-02 native package distribution decision |
 
 Consumer entries are appended to the ledger only after the corresponding merge.
 
@@ -62,7 +63,7 @@ Consumer entries are appended to the ledger only after the corresponding merge.
 - **Components by graduation:** the theme boot/toggle module first (three hand-rolled copies exist across the estate), then Badge, then Toast; Button only when a consolidation wants it.
 - **Explorer hosting** per release tag (GitHub Pages).
 - **In-repo estate audit script** to replace pinned-SHA matrix evidence.
-- **Swift Package v0.5.1 proof and release:** compile the committed generated source, replace platform-ios vendoring in an isolated consumer branch, then tag only after both repositories pass their release gates.
+- **Swift Package consumer adoption:** replace platform-ios vendoring with the released v0.5.1 package, resolve the exact version, run the consumer build/tests, and commit `Package.resolved`.
 - **Remaining consumer raw-hex sweeps**; chat-widget reconciliation (an ownership decision); consumer harness follow-ups (recorded in that consumer's harness document).
 - **Sitting agenda:** button-hover fold-vs-distinct against `surface-hover`; secondary-hover convergence; invert-hover dark graduation.
 
