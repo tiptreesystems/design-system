@@ -234,6 +234,7 @@ test('version parity: packages, tokens, release notes', () => {
 test('Python and Swift exports contain resolved, classified values', () => {
   const python = read('python/tiptree_ui/_tokens.py');
   const swift = read('dist/swift/GeneratedTokens.swift');
+  const packageSwift = read('Sources/TiptreeDesignSystem/GeneratedTokens.swift');
   assert.match(python, /'teal-600': '#47696b'/);
   assert.doesNotMatch(python, /\{brand-/);
   assert.match(swift, /public static let brandTealDarkUIColor/);
@@ -241,4 +242,5 @@ test('Python and Swift exports contain resolved, classified values', () => {
   assert.match(swift, /public static let r4: CGFloat = 4/);
   assert.match(swift, /public static let quick: TimeInterval = 0\.1/);
   assert.doesNotMatch(swift, /fontSans|zModal|easeOutQuad/);
+  assert.equal(packageSwift, swift);
 });

@@ -1,25 +1,18 @@
-# v0.5.0
+# v0.5.1
 
-This release implements the four graduations ruled in the
-2026-08-19 “Consolidated leftover-value rulings” entry in
-`docs/DECISION_LEDGER.md`. Publication is authorized by the later “v0.5.0 gate
-narrowed to Althea adoption” entry: docs already renders these values, Lacuna
-does not consume the four roles, and Althea adoption remains gated on Ivan's
-pass. A later light-value re-ruling ships immutably as v0.5.1.
+This is a distribution-only release. Token names, references, applicability,
+and resolved light/dark values are unchanged from v0.5.0.
 
-## Shared theme additions
+## Swift Package
 
-- Adds text-quaternary as stone-500 in light and stone-550 in dark.
-- Adds surface-sunken as stone-150 in light and stone-1000 in dark.
-- Adds the web-only scrollbar-thumb wash at 10% black/white alpha.
-- Adds border-interactive as stone-350 in light and the ruled off-ramp
-  `#464641` literal in dark; the dark value intentionally sits between the
-  stone-700 and stone-750 ramp steps.
-- Keeps `--tt-color-button-hover-bg` absent. A5 remains deferred to the
-  sitting and the v0.4.1 absence assertions remain authoritative.
+- Adds the `TiptreeDesignSystem` Swift Package library for iOS 17 and newer.
+- Commits the generated Swift source consumed by Swift Package Manager while
+  preserving `tokens/tokens.json` as the only authored value source.
+- Fails the release gate when the committed Swift package source is stale.
+- Compiles the package for a generic iOS device in pull-request and release CI.
 
-## Artifacts
+## Existing artifacts
 
-The release workflow publishes the npm tarball, Python wheel, `SHA256SUMS`, and
-build-provenance attestations. `GeneratedTokens.swift` remains a local build
-output; iOS release integration is deferred.
+The release workflow continues to publish the npm tarball, Python wheel,
+`SHA256SUMS`, and build-provenance attestations. The immutable `v0.5.1` Git tag
+is the Swift Package source-control release.

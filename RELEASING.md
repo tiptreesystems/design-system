@@ -1,17 +1,18 @@
 # Releasing the Tiptree design system
 
-The design system is distributed from immutable GitHub Releases. It is never
-published to npmjs, PyPI, GitHub Packages, or another package registry. Each tag
-produces an npm tarball, a Python wheel, `SHA256SUMS`, and GitHub build-provenance
-attestations from the same source commit.
+The design system is distributed from immutable Git tags and GitHub Releases.
+It is never published to npmjs, PyPI, GitHub Packages, or another package
+registry. Each tag is the Swift Package release and produces an npm tarball, a
+Python wheel, `SHA256SUMS`, and GitHub build-provenance attestations from the
+same source commit.
 
 ## Cut a release
 
 1. Update `RELEASE_NOTES.md` and all four version surfaces together: `package.json`,
    `python/pyproject.toml`, `tokens/tokens.json`, and
    `python/tiptree_ui/__init__.py`.
-2. Merge the approved release commit to `main` and run `npm run ci` from that
-   exact commit.
+2. Merge the approved release commit to `main`, run `npm run ci`, and compile
+   the Swift Package for a generic iOS device from that exact commit.
 3. Confirm the repository's immutable-releases setting is enabled.
 4. Create and push a matching `vX.Y.Z` tag:
 
@@ -40,8 +41,15 @@ an artifact or its metadata is wrong, fix the source and cut a new version.
 
 ## Pin a consumer
 
-Use the exact release asset URL. Do not use a branch, a moving `latest` URL, a
-workspace path, or a registry alias.
+Pin every consumer to the exact immutable release. Swift Package consumers use
+the Git tag; npm and Python consumers use the matching release-asset URL. Do not
+use a branch, a moving `latest` URL, a workspace path, or a registry alias.
+
+### Swift Package consumers
+
+Add `https://github.com/tiptreesystems/design-system.git` in Xcode, select the
+exact `vX.Y.Z` release, link the `TiptreeDesignSystem` product, and commit
+`Package.resolved`. The resolved file records the immutable source revision.
 
 ### npm consumers
 

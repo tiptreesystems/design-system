@@ -1,6 +1,6 @@
 {
   "name": "@tiptree/design-system",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": false,
   "description": "Tiptree shared design tokens and light/dark theme policies.",
   "license": "Apache-2.0",
@@ -25,7 +25,7 @@
     "test:python": "node scripts/test-python.mjs",
     "test": "npm run test:node && npm run test:python",
     "budgets": "node scripts/build-tokens.mjs && node scripts/budgets.mjs",
-    "ci": "node scripts/build-tokens.mjs && npm run test:node && npm run test:python && node scripts/budgets.mjs"
+    "ci": "node scripts/check-swift-source.mjs && node scripts/build-tokens.mjs && npm run test:node && npm run test:python && node scripts/budgets.mjs"
   },
   "engines": {
     "node": ">=20"

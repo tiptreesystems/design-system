@@ -6,7 +6,19 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
+  swift-package:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Swift Package for iOS
+        run: >-
+          xcodebuild build
+          -scheme TiptreeDesignSystem
+          -destination 'generic/platform=iOS'
+          CODE_SIGNING_ALLOWED=NO
+
   build:
+    needs: swift-package
     runs-on: ubuntu-latest
     permissions:
       contents: write

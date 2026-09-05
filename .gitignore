@@ -1,5 +1,7 @@
 dist/
 node_modules/
+.build/
+.swiftpm/
 .DS_Store
 
 python/build/

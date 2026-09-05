@@ -1,7 +1,7 @@
 # Tiptree Design System — repo guide (humans and agents)
 
-One typed token/theme source, consumed as versioned artifacts (npm package +
-Python wheel). Components join only after production adoption; CSS + markup
+One typed token/theme source, consumed as versioned artifacts (npm package,
+Python wheel, and Swift Package). Components join only after production adoption; CSS + markup
 specs are then the canonical web implementation. Generated native tokens serve
 iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 
@@ -13,6 +13,7 @@ iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 | `css/components/*.css` | SOURCE — optional graduated components, authored unlayered |
 | `specs/*.md` | SOURCE — active or explicitly dormant component contracts |
 | `themes/` | SOURCE — sub-brand token overrides (designer-owned) |
+| `Sources/TiptreeDesignSystem/GeneratedTokens.swift` | GENERATED + COMMITTED — never edit; rebuilt by `npm run build` and checked by `npm run ci` |
 | `dist/`, `python/tiptree_ui/_tokens.py`, `python/tiptree_ui/assets/` | GENERATED — never edit; rebuilt by `npm run build` |
 
 ## Commands
