@@ -791,3 +791,32 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   primitive `--tt-teal-600` (`site_theme.py:27-29`) with its registry row
   still `pending` (`registry/classification.md:10`). Re-bumps to v0.6.0 in
   Phase 2 and adds the hash then (`RELEASING.md`, pip consumers).
+
+## 2026-09-29 — v0.6.0 released by the owner: pre-tag gates disposed (Richard)
+
+- Richard, as the repository's owner, tags `v0.6.0` at this commit on
+  2026-09-29 without a separate designer screenshot review, because for this
+  release the designer's approval is the prototype itself: Ivan handed
+  `althea-prototype` over for implementation on 2026-09-28 with the word
+  that it all must be global, and every value in the entry above is cited
+  to his lines at `2172ffc`. Recorded so that entry's "still owed" bullet
+  reads correctly: designer approval on the release review is satisfied by
+  the hand-over for v0.6.0; both-theme screenshots are owed after the
+  release as ordinary consumer validation, not as a gate.
+- Evidence before the tag. CI run 36595676827 on `15e8cb4` passed all three
+  jobs (`checks`, `swift-package`, `candidate-artifacts`), so the
+  generic-iOS Swift compile of `RELEASING.md` step 2 is satisfied by CI. The
+  candidate tarball (sha256 `857edaa1…`) and wheel (`e31557a9…`) were built
+  locally with the CI commands and installed into worktrees of
+  `tasc-stack/frontend` (zero unknown or missing `--tt-*` names in the built
+  bundles; build passes) and into a venv for docs and Lacuna (all 52 docs
+  aliases resolve; four stale resolved-value pins are the docs Phase 2 list;
+  nine Lacuna alias targets move). Record in the rollout workspace,
+  `workspace-docs/phase1-step1-verification.md`.
+- Deferred to after the release, unchanged in substance: the `platform-ios`
+  `develop` consumer build against v0.6.0 and its screenshot pass on the five
+  re-ruled dark primitives; the audit matrix with consumer SHAs;
+  `registry/classification.md` after D9. The post-tag commit flips the
+  guide's Current-release line and adds the consumer-verification step (local
+  candidate artifacts installed into a consumer before any tag) to
+  `RELEASING.md`.
