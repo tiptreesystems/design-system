@@ -44,7 +44,7 @@ test('ramps anchor to brand tokens, never restate their hex', () => {
 
 test('accent stays within the brand teal hue in both themes', () => {
   assert.equal(data.themes.dark['color-accent'], '{teal-400}');
-  assert.equal(data.themes.light['color-accent'], '{teal-600}');
+  assert.equal(data.themes.light['color-accent'], '{teal-550}');
 });
 
 test('graduated inverse and surface-accent roles alias existing theme contracts', () => {
@@ -76,9 +76,11 @@ test('v0.4.1 estate graduations pin both theme values symmetrically', () => {
 });
 
 test('v0.5.0 ruled graduations preserve values, references, and applicability', () => {
+  // text-quaternary and the dark sunken well re-pinned 2026-09-29 (v0.6.0):
+  // the greys moved one stone step and the dark ladder came down.
   const expected = {
-    'color-text-quaternary': ['#909088', '#7e7c73'],
-    'color-surface-sunken': ['#f1f1ec', '#141413'],
+    'color-text-quaternary': ['#7e7c73', '#909088'],
+    'color-surface-sunken': ['#f1f1ec', '#10100f'],
     'color-scrollbar-thumb': ['#0000001a', '#ffffff1a'],
     'color-border-interactive': ['#cfcfc6', '#464641'],
   };
@@ -87,8 +89,8 @@ test('v0.5.0 ruled graduations preserve values, references, and applicability', 
     assert.equal(resolvedThemes.dark[name], dark, `${name} dark value drifted`);
   }
 
-  assert.equal(data.themes.light['color-text-quaternary'], '{stone-500}');
-  assert.equal(data.themes.dark['color-text-quaternary'], '{stone-550}');
+  assert.equal(data.themes.light['color-text-quaternary'], '{stone-550}');
+  assert.equal(data.themes.dark['color-text-quaternary'], '{stone-500}');
   assert.equal(data.themes.light['color-surface-sunken'], '{stone-150}');
   assert.equal(data.themes.dark['color-surface-sunken'], '{stone-1000}');
   assert.equal(data.themes.light['color-border-interactive'], '{stone-350}');
@@ -104,6 +106,157 @@ test('v0.5.0 ruled graduations preserve values, references, and applicability', 
   ]) {
     assert.equal(data.applicability[name], 'cross-platform');
   }
+});
+
+test('v0.6.0 prototype re-ruling pins the ladder, the light greys, and the accent pair', () => {
+  const primitives = {
+    'stone-050': '#fcfcfb',
+    'stone-850': '#282826',
+    'stone-875': '#222220',
+    'stone-900': '#1b1b1a',
+    'stone-950': '#161615',
+    'stone-1000': '#10100f',
+    'stone-1050': '#0d0d0c',
+    'teal-550': '#3c8286',
+    'teal-650': '#346f72',
+    'radius-20': '20px',
+  };
+  for (const [name, value] of Object.entries(primitives)) {
+    assert.equal(data.tokens[name], value, `${name} drifted from the prototype`);
+    assert.equal(data.applicability[name], 'cross-platform');
+  }
+  assert.equal(data.themes.light['color-text-secondary'], '{stone-750}');
+  assert.equal(data.themes.light['color-text-tertiary'], '{stone-650}');
+  assert.equal(data.themes.dark['color-text-secondary'], '{stone-300}');
+  assert.equal(data.themes.dark['color-text-tertiary'], '{stone-400}');
+  assert.equal(data.themes.light['color-accent-hover'], '{teal-650}');
+  assert.equal(data.themes.dark['color-accent-hover'], '{teal-300}');
+  assert.equal(data.themes.light['color-link'], '{teal-600}');
+  assert.equal(data.themes.dark['color-link'], '{teal-300}');
+  // Accepted for non-text accent use: 4.33:1 on the light canvas (ledger 2026-09-29).
+  assert.equal(
+    contrast(resolvedThemes.light['color-accent'], resolvedThemes.light['color-bg-primary']).toFixed(2),
+    '4.33',
+  );
+  // Light border-primary collapses onto border-interactive by ruling; dark keeps them apart.
+  assert.equal(data.themes.light['color-border-primary'], '{stone-350}');
+  assert.equal(resolvedThemes.light['color-border-primary'], resolvedThemes.light['color-border-interactive']);
+  assert.notEqual(resolvedThemes.dark['color-border-primary'], resolvedThemes.dark['color-border-interactive']);
+});
+
+test('v0.6.0 new roles pin both theme values, references, and applicability', () => {
+  const expected = {
+    'color-bg-ground': ['#fcfcfb', '#0d0d0c'],
+    'color-row-hover': ['#f1f1ec', '#ffffff1c'],
+    'color-surface-open': ['#edede9', '#ffffff26'],
+    'color-border-section': ['#e6e6e0', '#282826'],
+    'color-keycap-bg': ['#a6a69b', '#4d4d47'],
+    'color-keycap-bg-hover': ['#7e7c73', '#6f6f67'],
+    'color-mark-new': ['#a4564a', '#c47b6e'],
+    'color-mark-live': ['#47696b', '#a3c3c4'],
+    'color-mark-idle': ['#bebeb3', '#6f6f67'],
+    'color-mark-community': ['#6a6499', '#9a95bd'],
+    'color-channel-whatsapp': ['#4e7c5c', '#7fae8c'],
+    'color-channel-sms': ['#63864a', '#9db884'],
+    'shadow-lift': [
+      '0 4px 24px #4d4d4706, 0 4px 32px #4d4d4706, 0 16px 32px #4d4d4704',
+      '0 2px 6px #00000033, 0 8px 24px #00000047',
+    ],
+  };
+  for (const [name, [light, dark]] of Object.entries(expected)) {
+    assert.equal(resolvedThemes.light[name], light, `${name} light value drifted`);
+    assert.equal(resolvedThemes.dark[name], dark, `${name} dark value drifted`);
+  }
+
+  const references = {
+    'color-bg-ground': ['{stone-050}', '{stone-1050}'],
+    'color-row-hover': ['{stone-150}', '#ffffff1c'],
+    'color-surface-open': ['{stone-200}', '#ffffff26'],
+    'color-border-section': ['{stone-250}', '{stone-850}'],
+    'color-keycap-bg': ['{stone-450}', '{stone-700}'],
+    'color-keycap-bg-hover': ['{stone-550}', '{stone-600}'],
+    'color-mark-live': ['{teal-600}', '{teal-300}'],
+    'color-mark-idle': ['{stone-400}', '{stone-600}'],
+    'color-mark-new': ['#a4564a', '#c47b6e'],
+    'color-mark-community': ['#6a6499', '#9a95bd'],
+    'color-channel-whatsapp': ['#4e7c5c', '#7fae8c'],
+    'color-channel-sms': ['#63864a', '#9db884'],
+  };
+  for (const [name, [light, dark]] of Object.entries(references)) {
+    assert.equal(data.themes.light[name], light, `${name} light reference drifted`);
+    assert.equal(data.themes.dark[name], dark, `${name} dark reference drifted`);
+  }
+
+  // Surface hover is unchanged; hover, open, and the wash stay three distinct grounds.
+  for (const theme of ['light', 'dark']) {
+    const tokens = resolvedThemes[theme];
+    assert.notEqual(tokens['color-row-hover'], tokens['color-surface-hover']);
+    assert.notEqual(tokens['color-row-hover'], tokens['color-surface-open']);
+    assert.notEqual(tokens['color-surface-open'], tokens['color-surface-hover']);
+  }
+
+  assert.equal(data.applicability['shadow-lift'], 'web-only');
+  for (const name of Object.keys(expected).filter((candidate) => candidate.startsWith('color-'))) {
+    assert.equal(data.applicability[name], 'cross-platform');
+  }
+  const controls = {
+    'control-hero': '56px',
+    'control-large': '44px',
+    'control-default': '36px',
+    'control-small': '28px',
+  };
+  for (const [name, value] of Object.entries(controls)) {
+    assert.equal(data.tokens[name], value);
+    assert.equal(data.applicability[name], 'web-only');
+  }
+  const type = {
+    'font-size-large': '1.0625rem',
+    'font-line-height-large': '1.6',
+    'font-letter-spacing-large': '0',
+    'font-size-regular': '0.9375rem',
+    'font-line-height-regular': '1.5',
+    'font-letter-spacing-regular': '-0.011em',
+    'font-size-small': '0.875rem',
+    'font-line-height-small': '1.5',
+    'font-letter-spacing-small': '-0.013em',
+    'font-size-mini': '0.8125rem',
+    'font-line-height-mini': '1.5',
+    'font-letter-spacing-mini': '-0.01em',
+    'font-size-micro': '0.75rem',
+    'font-line-height-micro': '1.4',
+    'font-letter-spacing-micro': '0',
+    'font-size-tiny': '0.625rem',
+    'font-line-height-tiny': '1.5',
+    'font-letter-spacing-tiny': '-0.015em',
+    'font-heading-display-size': '3.25rem',
+    'font-heading-display-line-height': '1.05',
+    'font-heading-display-letter-spacing': '-0.022em',
+    'font-heading-display-weight': '300',
+    'font-heading-page-family': '{font-serif}',
+    'font-heading-page-size': '2.5rem',
+    'font-heading-page-line-height': '1.2',
+    'font-heading-page-letter-spacing': '-0.02em',
+    'font-heading-page-weight': '300',
+    'font-heading-section-family': '{font-serif}',
+    'font-heading-section-size': '1.375rem',
+    'font-heading-section-line-height': '1.33',
+    'font-heading-section-letter-spacing': '-0.01em',
+    'font-heading-section-weight': '400',
+    'font-heading-sub-family': '{font-sans}',
+    'font-heading-sub-size': '1.0625rem',
+    'font-heading-sub-line-height': '1.4',
+    'font-heading-sub-letter-spacing': '-0.012em',
+    'font-heading-sub-weight': '500',
+  };
+  for (const [name, value] of Object.entries(type)) {
+    assert.equal(data.tokens[name], value, `${name} drifted from the prototype`);
+    assert.equal(data.applicability[name], 'web-only');
+  }
+  assert.match(data.tokens['font-code'], /^'Google Sans Code'/);
+  assert.deepEqual(
+    ['light', 'normal', 'medium', 'semibold', 'bold'].map((weight) => data.tokens[`font-weight-${weight}`]),
+    ['300', '400', '510', '590', '680'],
+  );
 });
 
 test('theme polarity files encode their named default and explicit policy', () => {

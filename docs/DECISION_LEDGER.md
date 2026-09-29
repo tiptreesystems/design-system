@@ -580,3 +580,214 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - Pull-request and release CI compile the package for a generic iOS device.
   The v0.5.1 tag is created only after the package and a real iOS consumer build
   successfully from the release commit.
+
+## 2026-09-29 — Prototype tuning becomes canon: the v0.6.0 re-ruling (Richard; Ivan's word)
+
+- Ruled by Richard on 2026-09-29, with Ivan's 2026-09-28 message as the
+  designer's word: the Althea prototype is the source of truth for every value,
+  and everything it introduced is global. Sources are
+  `althea-prototype/app/explore.css` and the vendored
+  `althea-prototype/design-system/styles/brand.css` at prototype `main`
+  `2172ffc`; every value below is cited to its line there. Rulings D1 to D4 of
+  the rollout plan close here; D5 to D10 stay open for the component phase.
+  Review provenance: release branch v1 → two independent adversarial
+  evidence reviews of the uncommitted branch (Reviewer A: values and tests
+  against the prototype at `2172ffc`; Reviewer B: process, generator, ledger
+  and guide; both read-only, grep-verified), A: CORRECT WITH AMENDMENTS (one
+  ruling requested on the type scale, one reference-pin gap), B: APPROVE WITH
+  AMENDMENTS (five documentation findings) → v2 with every finding folded in
+  → round 2, A: all closed, B: all five closed, one wording change (this
+  sentence, written by the overseer) → committed. Reports:
+  `workspace-docs/phase1-step1-review-A.md` and
+  `workspace-docs/phase1-step1-review-B.md`, workspace-relative as the
+  2026-08-19 entry's `workspace-files/` pointer.
+- **Adoption evidence (guide §3, two independent consumers):** three carry
+  Ivan's 9 September direction independently. The homepage
+  (`marketing-site/web/homepage/layouts/assets/styles/site.css:28`,
+  `--surface-canvas: #0e0e0e`, `main` `b9406db`), docs
+  (`docs/docs_server/web/src/styles/engine-compat.css:80-89`: canvas `#0e0e0e`
+  dark and `#fcfcfb` light, light accent `#3c8286` held "for graduation",
+  `main` `231f339`), and the prototype (the full tuning in `explore.css`).
+  Each row below is also ruled canon under D4, so no row rests on adoption
+  alone.
+- **D1, accent.** Light `color-accent` `{teal-600}` `#47696b` → new ramp step
+  `teal-550` `#3c8286`; `color-accent-hover` `{teal-700}` → new `teal-650`
+  `#346f72` (`explore.css:3794-3795`). Named as ramp steps on the stone-550 /
+  stone-650 precedent. Chroma note: both sit on the ramp's hue but above the
+  ramp's chroma, because the ramp's own steps sit too close to the greys on
+  white (Ivan, 2026-09-09). Dark accent unchanged (`{teal-400}`, hover
+  `{teal-300}`). `color-link` unchanged in both themes (light `{teal-600}`,
+  dark `{teal-300}`): the prototype keeps links at `--brand-dark-blue`
+  (`brand.css:327`) and never overrides them. Contrast: `#3c8286` on the light
+  canvas `#fcfcfb` measures **4.33:1** — accepted for non-text accent use
+  (fills, glyphs, strokes; 3:1 under WCAG 1.4.11). It does not clear 4.5:1, so
+  this ruling does not sanction accent-coloured body text. Consequence for
+  docs: its local `#3c8286` primary-button override (`engine-compat.css:88`)
+  drops at its bump; the prototype's light primary button is `{teal-600}` with
+  `{teal-700}` hover (`explore.css:3490-3491`).
+- **D2, ladder and ground.** stone-850 `#2c2c2a` → `#282826`, stone-875
+  `#262624` → `#222220`, stone-900 `#1f1f1e` → `#1b1b1a`, stone-950 `#1a1a19`
+  → `#161615`, stone-1000 `#141413` → `#10100f` (`explore.css:3771-3775`;
+  Ivan: the ground at 5% lightness and the ladder following it step for step
+  — 6.1, 8.5, 10.5, 13.0, 15.4 — on hue 60 at 2 to 3 percent saturation). New
+  `stone-1050` `#0d0d0c` is the ground, resolved from `explore.css:3776`
+  `color-mix(in srgb, var(--stone-1000) 80%, #000)`: 0x10 × 0.8 = 12.8 →
+  0x0d, 0x10 × 0.8 = 12.8 → 0x0d, 0x0f × 0.8 = 12.0 → 0x0c; color-mix cannot
+  be stored (`scripts/build-tokens.mjs:166-168`). New role `color-bg-ground` =
+  `{stone-050}` / `{stone-1050}`: docs and the homepage move their `#0e0e0e`
+  canvas to it (one unit per channel); Althea's page stays `color-bg-primary`
+  (`{stone-950}`). Both canvases are canon. stone-050 `#fcfcfa` → `#fcfcfb`
+  (vendored `brand.css:40, 301`, the hub's `--stone-50` twin, measured in docs
+  at `engine-compat.css:84`); the twin is never minted here (invariant 6).
+  Dark greys one step up the ramp: `color-text-secondary` `#ccc9c0` (an
+  off-ramp literal) → `{stone-300}`, `color-text-tertiary` `{stone-450}` →
+  `{stone-400}`, `color-text-quaternary` `{stone-550}` → `{stone-500}`
+  (`explore.css:3780-3782`). Light greys one step down: `{stone-700}` →
+  `{stone-750}`, `{stone-600}` → `{stone-650}`, `{stone-500}` → `{stone-550}`
+  (`explore.css:3791-3793`). Primary text stays `{brand-black}` /
+  `{stone-100}`. The five dark primitives are cross-platform, so iOS renders
+  the change; `platform-ios` records that release updates alter rendered UI
+  and must be validated (`TASCMobile/Design System/README.md:101-109` on
+  `develop` `826759a`), and the release carries that screenshot pass.
+- **D3, hover.** `color-surface-hover` does not change (`#1b1b1b0d` /
+  `#ffffff0f`; the prototype keeps the hub's 5% black and `#ffffff0f`,
+  `brand.css:304, 225`). Two roles enter beside it: `color-row-hover` =
+  `{stone-150}` / `#ffffff1c` (`rgb(255 255 255 / 11%)`: 255 × 0.11 = 28.05
+  → 0x1c; `explore.css:3497, 3411`) and `color-surface-open` = `{stone-200}` /
+  `#ffffff26` (15%: 38.25 → 0x26; `explore.css:3498, 3412`; light is the ramp
+  step, not "brand grey", same hex). No collapse: hover, open and the wash
+  resolve to three distinct values in both themes (invariant 9).
+- **D4, everything shared.** `color-border-section` `{stone-250}` /
+  `{stone-850}` (`explore.css:3506, 3430`); `color-keycap-bg` `{stone-450}` /
+  `{stone-700}` and `color-keycap-bg-hover` `{stone-550}` / `{stone-600}`
+  (`explore.css:3501-3502, 3419-3420`); `radius-20` `20px`
+  (`explore.css:3426`); the marks `color-mark-new` `#a4564a` / `#c47b6e`,
+  `color-mark-live` `{teal-600}` / `{teal-300}`, `color-mark-idle`
+  `{stone-400}` / `{stone-600}`, `color-mark-community` `#6a6499` / `#9a95bd`
+  (`explore.css:4177-4180, 4170-4173`); the channel greens
+  `color-channel-whatsapp` `#4e7c5c` / `#7fae8c` and `color-channel-sms`
+  `#63864a` / `#9db884` (`explore.css:4146-4147, 4141-4142`). All
+  cross-platform. Web-only, because the generator maps only `brand-`,
+  `color-`, ramp, `radius-` and `speed-` names to Swift
+  (`scripts/build-tokens.mjs:185-186, 219-244`) and the `font-` and `shadow-`
+  prefixes are web-only by decision test: `control-hero` / `control-large` /
+  `control-default` / `control-small` = 56 / 44 / 36 / 28 px
+  (`explore.css:3432-3435`; roles, type and glyph sizes in the prototype's
+  `docs/superpowers/specs/2026-09-21-control-scale.md:16-21`); `shadow-lift`,
+  themed like `shadow-low/medium/high`, light `0 4px 24px #4d4d4706, 0 4px
+  32px #4d4d4706, 0 16px 32px #4d4d4704` (stone-700 ink `rgb(77 77 71)`;
+  2.2% → 5.61 → 0x06, 1.7% → 4.34 → 0x04; `explore.css:3461-3464`) and dark
+  `0 2px 6px #00000033, 0 8px 24px #00000047` (20% → 51 → 0x33, 28% → 71.4 →
+  0x47; `explore.css:3457`); `font-code` = the hub's `--font-family-code-mono`
+  stack (`brand.css:105-106`), while `font-mono` stays true mono for Althea's
+  terminal output; the weights `font-weight-light/normal/medium/semibold/bold`
+  = 300 / 400 / 510 / 590 / 680 (`brand.css:88-92`, Inter variable axis
+  positions); the body scale as `font-size-<step>`, `font-line-height-<step>`
+  and `font-letter-spacing-<step>` for large / regular / small / mini / micro /
+  tiny (`brand.css:110-127`; small's `calc(21 / 14)` is stored as its exact
+  value 1.5; letter-spacing 0 / -0.011em / -0.013em / -0.01em / 0 / -0.015em
+  from `brand.css:112, 115, 118, 121, 124, 127`); the heading register as
+  `font-heading-<step>-size`, `-line-height`, `-letter-spacing` and `-weight`
+  for display / page / section / sub (`brand.css:183-186, 132-146`), plus
+  `-family` as a reference for the three steps the hub gives one:
+  `font-heading-page-family` and `font-heading-section-family` `{font-serif}`
+  (`brand.css:132, 137`), `font-heading-sub-family` `{font-sans}`
+  (`brand.css:142`); the display step defines no family at
+  `brand.css:183-186`, so none is minted. The sub step's weight is 500 as the
+  hub writes it, not the 510 axis position; recorded, not resolved.
+- **Border collapse, ruled.** Light `color-border-primary` `{stone-300}` →
+  `{stone-350}` (`explore.css:3510`; Ivan 2026-09-16, the content line a step
+  darker so the strokes round the containers bump up with it). This resolves
+  identically to light `color-border-interactive` (`{stone-350}`, ruled
+  2026-08-19). The collapse is deliberate and light-only: both names stay
+  because dark keeps them apart (`{stone-750}` vs `#464641`) and consumers
+  bind them to different anatomy. Invariant 6 is not engaged — no token is
+  minted; two existing roles share a value in one theme.
+- **Type and icon rules recorded with the same ruling.** Serif is Literata on
+  every consumer (canonical `font-serif` already says so; the consumer work is
+  font files and literals). Sans is Inter Variable, which the 510 / 590 / 680
+  weights need. Code is Google Sans Code through `font-code`. Icons are Solar
+  Linear at 16 and 20, one line (2.25 at 16, 1.8 at 20), `currentColor`, one
+  resting ink, CC BY 4.0 attribution wherever shipped. Consumers map their
+  canvas to `color-bg-ground` (docs, homepage: flat) or to `color-bg-primary`
+  (Althea: the page above the ground); both are canon.
+- **Gate satisfied.** The 2026-08-18 execution gate ("Ivan's Althea pass may
+  adjust the light canvas") is satisfied by the 9 September tuning: the light
+  canvas is `#fcfcfb`, the light greys and accent are as above, and they ship
+  here. Althea's single pin bump (v0.3.1 → v0.6.0) is no longer gated; it
+  retires the legacy cool-grey light values for the stone canon.
+- **Supersedes.** The 2026-08-20 surface-hierarchy ruling's literal values:
+  cards dark `#262624` → `#222220`, sunken dark `#141413` → `#10100f`; the
+  role mapping (`{color-surface-card}` = `{stone-875}`,
+  `{color-surface-sunken}` = `{stone-1000}` / `{stone-150}`) is unchanged and
+  the 2026-08-21 hover clause stands. The `tokens.json` meta provenance no
+  longer says the ramps are locked without qualification; it records this
+  re-ruling and its date, and the ramps are locked again at these values.
+- **Sitting agenda (guide §4), each deferred, none folded in:** button-hover
+  fold-vs-distinct against `surface-hover` — deferred; the prototype keeps the
+  hub's separate `--button-hover-bg` (`brand.css:227, 306`) and adds no new
+  evidence. Secondary-hover convergence — deferred; docs'
+  `--action-secondary-bg-hover` stays registered docs-local. Invert-hover
+  dark graduation — deferred; still a two-consumer candidate without a third.
+- **Consumer entries (guide:34).** The docs and Lacuna v0.5.0 merges are
+  recorded as their own entries below, in the form guide:34 requires.
+- **Tests.** `tests/decisions.test.mjs` re-pins the light accent to
+  `{teal-550}`, text-quaternary to `{stone-550}` / `{stone-500}` (`#7e7c73` /
+  `#909088`) and the dark sunken well to `#10100f`; the version-parity test
+  reads the four surfaces and needed no edit; the empty-components assertions
+  stand. Two tests are added: one pins the re-ruled primitives, greys, accent
+  pair, unchanged links, the 4.33:1 figure and the light-only border collapse;
+  one pins every new role's resolved light and dark value, its reference
+  structure (ramp references and literal hexes alike) and applicability, the
+  three-way hover / open / wash distinctness, the control scale, `font-code`,
+  the weights, and every body-scale and heading-register token verbatim.
+- **Measured payloads** against v0.5.1 (byte-identical token source to
+  v0.5.0):
+
+  | Generated CSS | v0.5.1 raw / Brotli | v0.6.0 raw / Brotli | Delta raw / Brotli |
+  |---|---:|---:|---:|
+  | `primitives.css` | 2,345 / 746 B | 4,383 / 1,117 B | +2,038 / +371 B |
+  | `themes/light-default.css` | 5,229 / 853 B | 6,408 / 1,025 B | +1,179 / +172 B |
+  | `themes/dark-default.css` | 5,230 / 842 B | 6,409 / 1,018 B | +1,179 / +176 B |
+  | `themes/explicit.css` | 5,244 / 856 B | 6,423 / 1,026 B | +1,179 / +170 B |
+  | `tokens.css` | 7,509 / 1,493 B | 10,726 / 2,034 B | +3,217 / +541 B |
+
+  All five ceilings pass (themes 8,192 / 2,048 B; primitives and `tokens.css`
+  12,288 / 3,072 B), so `budgets.json` does not move. 74 → 125 base tokens;
+  52 → 65 semantic tokens per theme. `npm run build`, `npm test` (17 Node,
+  5 Python) and `npm run budgets` pass on the release branch.
+- **Still owed before and at the tag (`RELEASING.md`; guide §3):** the Swift
+  Package compiled for a generic iOS device and a `platform-ios` `develop`
+  build against the release commit; the audit matrix with recorded consumer
+  SHAs, because this release proposes roles outside the last audited matrix;
+  designer approval on the release review with both-theme screenshots and
+  the iOS pass (the two evidence reviews are recorded in this entry's first
+  bullet); `registry/classification.md`
+  after D9; the `v0.6.0` tag; the release workflow's npm tarball, Python
+  wheel, `SHA256SUMS` and build-provenance attestations, each downloaded and
+  verified with `gh attestation verify` before the release is announced
+  (`RELEASING.md:30-37`); and a post-tag commit flipping the guide's "Current
+  release" line to v0.6.0 with 65 semantic roles, as `ac49fe5` did for v0.5.1.
+
+## 2026-09-29 — Consumer entry: docs v0.5.0 adapter merged (2026-08-20, e6bb53b)
+
+- Appended per guide:34, after the merge. docs merged its v0.5.0 adapter to
+  `main` at `e6bb53b` (2026-08-20, "Bump design system to v0.5.0"; `main` read
+  today at `231f339`): `docs/pyproject.toml:14` pins the wheel URL under
+  Poetry and `poetry.lock:688` records its `sha256`; 52 live aliases, the
+  forked token sheet deleted, three registered residuals,
+  `docs_server/web/build.py:345` composes `dark-default`. Its local canvas and
+  light-accent override (`docs_server/web/src/styles/engine-compat.css:80-89`)
+  is the adoption evidence cited in the v0.6.0 ruling above and drops at the
+  v0.6.0 re-bump in Phase 2.
+
+## 2026-09-29 — Consumer entry: Lacuna v0.5.0 adapter merged (2026-08-20, e399598a)
+
+- Appended per guide:34, after the merge. Lacuna merged its v0.5.0 adapter to
+  `main` at `e399598a` (2026-08-20, "Bump design system to v0.5.0"; `main`
+  read today at `c95c2c0d`): `lacuna/pyproject.toml:23` pins the wheel URL as
+  a pip direct reference without a `--hash`; `lacuna/interfaces/site_theme.py:6`
+  composes `light-default`, 27 `--tt-*` references, `--brand-primary` on the
+  primitive `--tt-teal-600` (`site_theme.py:27-29`) with its registry row
+  still `pending` (`registry/classification.md:10`). Re-bumps to v0.6.0 in
+  Phase 2 and adds the hash then (`RELEASING.md`, pip consumers).

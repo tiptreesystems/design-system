@@ -1,6 +1,6 @@
 # Tiptree Design System — Operating Guide (v3.2)
 
-**Status:** current as of 2026-09-05. Supersedes the Operating *Plan* v3.0 (2026-08-13): that plan's roadmap is complete except for the items in §4, so this document no longer schedules work — it describes how the system works and the rules it runs by. Decisions live in `docs/DECISION_LEDGER.md`; this guide points at them and never duplicates them. The plan-era text remains in git history (`docs/PLAN.md`, renamed 2026-08-21).
+**Status:** current as of 2026-09-29. Supersedes the Operating *Plan* v3.0 (2026-08-13): that plan's roadmap is complete except for the items in §4, so this document no longer schedules work — it describes how the system works and the rules it runs by. Decisions live in `docs/DECISION_LEDGER.md`; this guide points at them and never duplicates them. The plan-era text remains in git history (`docs/PLAN.md`, renamed 2026-08-21).
 
 ## 1. What is true
 
@@ -20,15 +20,16 @@
 | v0.4.1 | 48 | First estate-audit graduations (surface hover, disabled wash, two chip emphases, tooltip); fork-inflated "convergence" disqualified |
 | v0.5.0 | 52 | `text-quaternary`, `surface-sunken`, `scrollbar-thumb`, `border-interactive` — ruled, with Althea's adoption gated on the designer's light-canvas pass |
 | v0.5.1 | 52 | Distribution-only release adding the iOS 17+ `TiptreeDesignSystem` Swift Package; token names, references, applicability, and resolved values unchanged |
+| v0.6.0 | 65 | The Althea prototype's tuning ruled canon (2026-09-29): dark ladder stone-850 to stone-1000 re-ruled with the `stone-1050` ground, light canvas `#fcfcfb`, light accent on new `teal-550`/`teal-650`, text greys one step in each theme, light border-primary collapsed onto border-interactive; new `bg-ground`, `row-hover`, `surface-open`, `border-section`, two keycap grounds, four marks, two channel greens, `shadow-lift`; web-only control scale, body type scale, heading register, weights and `font-code`; the 2026-08-18 light-canvas gate satisfied |
 
 ### Consumers
 
 | Repository | Merged state | Pending state | Adapter | Ledger record |
 |---|---|---|---|---|
-| Althea (`tasc-stack/frontend`) | v0.3.1 merged; 39 direct `--tt-*` bindings; dark mode shipped on the shared dark palette | One pin bump to the current release, harvesting byte-identical graduated values; gated on the designer's pass | `frontend/web/src/assets/styles/tokens.css` (+ app-only overrides in `app-theme.css`) | 2026-08-13 first consumer; 2026-08-18/19 adoption gate |
-| docs | No dependency on `main` yet | Adapter on an open PR, pinned v0.5.0: 52 live aliases, forked token sheet deleted, 3 registered residuals, theme-key migration | `docs_server/web/src/styles/brand.css`; `build.py` composes `dark-default` | 2026-08-19 adoptions and zero-delta re-bump |
-| Lacuna | No dependency on `main` yet | Adapter on an open PR, pinned v0.5.0: first production use of `tiptree_ui.blueprint.compose()`, 25 root aliases, teal and surface hierarchy converged, 13 SVG assets on the canonical ramp | `lacuna/interfaces/site_theme.py` → content-hashed site CSS | 2026-08-18 teal ruling; 2026-08-19 SVG adjudication; 2026-08-20/21 surface hierarchy |
-| platform-ios | v0.5.0 generated Swift source vendored with an app-owned semantic adapter | Replace consumer-side generation and vendoring with the released v0.5.1 Swift Package, resolve the exact version, and commit `Package.resolved` | `TASCMobile/Design System` | 2026-09-02 native package distribution decision |
+| Althea (`tasc-stack/frontend`) | v0.3.1 merged; 39 direct `--tt-*` bindings; dark mode shipped on the shared dark palette | One pin bump to v0.6.0, no longer gated: the light canvas was ruled from the prototype on 2026-09-29; retire the legacy cool-grey light values for the stone canon; the page stays `color-bg-primary` | `frontend/web/src/assets/styles/tokens.css` (+ app-only overrides in `app-theme.css`) | 2026-08-13 first consumer; 2026-08-18/19 adoption gate; 2026-09-29 gate satisfied |
+| docs | v0.5.0 merged 2026-08-20 (`pyproject.toml:14`, Poetry wheel URL with the hash in `poetry.lock`): 52 live aliases, forked token sheet deleted, 3 registered residuals, theme-key migration | Bump to v0.6.0; retire the local canvas and light-accent override (`engine-compat.css:80-89`) for `color-bg-ground` and `color-accent` | `docs_server/web/src/styles/brand.css`; `build.py` composes `dark-default` | 2026-08-19 adoptions and zero-delta re-bump; 2026-09-29 consumer entry: docs v0.5.0 adapter merged |
+| Lacuna | v0.5.0 merged 2026-08-20 (`pyproject.toml:23`, pip wheel URL without a hash): first production use of `tiptree_ui.blueprint.compose()`, 25 root aliases, teal and surface hierarchy converged, 13 SVG assets on the canonical ramp | Bump to v0.6.0 with a `--hash` pin; the `--brand-primary` registry row is still pending | `lacuna/interfaces/site_theme.py` → content-hashed site CSS | 2026-08-18 teal ruling; 2026-08-19 SVG adjudication; 2026-08-20/21 surface hierarchy; 2026-09-29 consumer entry: Lacuna v0.5.0 adapter merged |
+| platform-ios | v0.5.1 Swift Package on `develop` as `upToNextMajorVersion` from 0.5.1 (`TASCMobile.xcodeproj/project.pbxproj:762-765`); `TiptreeTokens.Colors` bound directly in 84 Swift files; no `Package.resolved` committed | Resolve v0.6.0 exactly and commit `Package.resolved`; screenshot pass on the five re-ruled dark primitives | `TASCMobile/Design System` | 2026-09-02 native package distribution decision |
 
 Consumer entries are appended to the ledger only after the corresponding merge.
 
@@ -58,12 +59,12 @@ Consumer entries are appended to the ledger only after the corresponding merge.
 
 ## 4. Open work (no sequence implied)
 
-- **Althea pin bump** v0.3.1 → current release: delete only byte-identical graduated values; retire the superseded cool-grey light values for the warm stone canon. Gated on the designer's light-canvas pass; any adjustment ships as a patch release.
-- **docs and Lacuna adapter PRs** merge → consumer entries appended.
+- **Althea pin bump** v0.3.1 → v0.6.0, ungated 2026-09-29 (the light canvas was ruled from the prototype): delete only byte-identical graduated values; retire the legacy cool-grey light values for the warm stone canon; any adjustment ships as a patch release.
+- **docs and Lacuna re-bump** to v0.6.0: docs retires its local canvas and light-accent override for `color-bg-ground` and `color-accent`; Lacuna adds the `--hash` to its wheel pin.
 - **Components by graduation:** the theme boot/toggle module first (three hand-rolled copies exist across the estate), then Badge, then Toast; Button only when a consolidation wants it.
 - **Explorer hosting** per release tag (GitHub Pages).
 - **In-repo estate audit script** to replace pinned-SHA matrix evidence.
-- **Swift Package consumer adoption:** replace platform-ios vendoring with the released v0.5.1 package, resolve the exact version, run the consumer build/tests, and commit `Package.resolved`.
+- **Swift Package consumer adoption:** platform-ios resolves v0.6.0 exactly, commits `Package.resolved`, and validates rendered screens per its `Design System/README.md` (five dark primitives change).
 - **Remaining consumer raw-hex sweeps**; chat-widget reconciliation (an ownership decision); consumer harness follow-ups (recorded in that consumer's harness document).
 - **Sitting agenda:** button-hover fold-vs-distinct against `surface-hover`; secondary-hover convergence; invert-hover dark graduation.
 
