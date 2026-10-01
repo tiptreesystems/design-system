@@ -90,8 +90,11 @@ consumers do not run Node or the token generator.
 
 ## Static sites
 
-Static sites may compose primitives plus one theme into a content-hashed build
-artifact.
+A static site with a build step may compose primitives plus one theme into a
+content-hashed build artifact. A site without one vendors verbatim copies of
+`primitives.css` and one theme file from the release, pinned by a test that
+checks their sha256s and that every page links them with a version query; that
+is the sanctioned form, not a fork (`RELEASING.md`, Static sites).
 
 ## Components
 

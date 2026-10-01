@@ -79,7 +79,8 @@ resolved immutable URL and its integrity hash; CI must install it with
 
 ### pip consumers
 
-Pin the wheel URL and the SHA-256 value published in `SHA256SUMS`:
+In a `requirements.txt`, pin the wheel URL and the SHA-256 value published in
+`SHA256SUMS`:
 
 ```text
 tiptree-ui @ https://github.com/tiptreesystems/design-system/releases/download/vX.Y.Z/tiptree_ui-X.Y.Z-py3-none-any.whl \
@@ -88,6 +89,20 @@ tiptree-ui @ https://github.com/tiptreesystems/design-system/releases/download/v
 
 Use pip's hash-checking mode for the complete requirements set. The URL selects
 the immutable release asset; the hash verifies its bytes.
+
+In `pyproject.toml` (`[project] dependencies`, as uv projects declare them), the
+hash travels as the PEP 508 URL fragment instead:
+
+```toml
+dependencies = [
+    "tiptree-ui @ https://github.com/tiptreesystems/design-system/releases/download/vX.Y.Z/tiptree_ui-X.Y.Z-py3-none-any.whl#sha256=<SHA256_FROM_RELEASE>",
+]
+```
+
+`--hash` is a requirements-file option, not part of a dependency specifier, so
+build backends reject it in `pyproject.toml`; Lacuna hit this at its v0.6.0
+bump. Re-lock and commit the lockfile, and verify that its `tiptree-ui` entry
+(`uv.lock` for uv) records the same `sha256` before opening the consumer PR.
 
 ### Poetry consumers
 
@@ -99,3 +114,16 @@ tiptree-ui = { url = "https://github.com/tiptreesystems/design-system/releases/d
 
 Regenerate and commit `poetry.lock`. Verify that its `tiptree-ui` entry records
 the same `sha256:<SHA256_FROM_RELEASE>` value before opening the consumer PR.
+
+### Static sites
+
+A site with no build step vendors the CSS instead of installing the package.
+Copy `dist/css/primitives.css` and exactly one theme file from
+`dist/css/themes/` out of the release tarball byte-for-byte, keeping the
+`GENERATED` header that names the release. Pin them with a test in the site's
+repository that asserts each file's sha256 against the release's copy and that
+every page links both files with a version query
+(`primitives.css?v=X.Y.Z`), so no browser cache serves an older copy after a
+bump; an opt-in check that downloads the tarball and byte-compares the two
+files proves the hashes were not typed by hand. Bump by replacing the files,
+the hashes in the test, and the version queries.

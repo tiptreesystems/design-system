@@ -820,3 +820,82 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   guide's Current-release line and adds the consumer-verification step (local
   candidate artifacts installed into a consumer before any tag) to
   `RELEASING.md`.
+
+## 2026-09-30 — v0.6.0 consumer merges, two new consumers, port and Inter Variable rulings (Richard)
+
+- Appended per guide:36, after the merges. Four consumers merged v0.6.0 on
+  2026-09-30, each on the release's assets as published (tarball
+  `94f3d01b…`, wheel `5c5bb247…`, both matching `SHA256SUMS`).
+- **Althea** (`tiptreesystems/frontend` PR #313, squash `b4219171`). Pin:
+  npm tarball URL v0.3.1 → v0.6.0 (`frontend/web/package.json:70`,
+  integrity in `package-lock.json`). Changed: light and dark aliases in
+  `tokens.css` re-pointed onto package roles, two stale `app-theme.css`
+  overrides dropped, serif Libre Baskerville → Literata, self-hosted with
+  metric-matched fallback faces. Visible: light greys on the stone ramp,
+  dark ladder one step darker, serif Literata; accent, sans and layout
+  unchanged.
+- **docs** (`tiptreesystems/docs` PR #21, merge `c850f31`). Pin: Poetry
+  wheel URL v0.5.0 → v0.6.0 (`pyproject.toml:14`, hash in `poetry.lock`).
+  Changed: the canvas alias moves to `--tt-color-bg-ground` and the held
+  canvas and light-accent overrides in `engine-compat.css` are retired.
+  Visible: dark canvas `#0e0e0e` → `#0d0d0c`, text greys one step, light
+  hairline `#dcdcd4` → `#cfcfc6`, light primary button back on `{teal-600}`.
+- **Lacuna** (`tiptreesystems/lacuna` PR #318, merge `fa2114f0`). Pin: uv
+  wheel URL v0.5.0 → v0.6.0 with the PEP 508 `#sha256=` fragment
+  (`pyproject.toml:23`, the same hash in `uv.lock`; the v0.5.0 pin had no
+  hash). Changed: the page serif literals and the Google Fonts load move
+  to Literata; `--brand-primary` stays on `--tt-teal-600` /
+  `--tt-teal-300` and its registry row is confirmed as `--tt-color-link`
+  (`registry/classification.md:10`): it paints link and button text, and
+  the 2026-09-29 D1 ruling accepts the light accent for non-text use only.
+  Visible: dark surfaces one step darker, text greys one step, light
+  hairline `#dcdcd4` → `#cfcfc6`, serif Literata; links and brand teal
+  unchanged.
+- **marketing-site, new consumer** (`tiptreesystems/marketing-site` PR #15,
+  squash `535dd44`). Pin: npm tarball URL v0.6.0 (`web/package.json:38`,
+  integrity in `package-lock.json`), its first. Changed: `public.css`
+  imports the primitives and `light-default` ahead of `tokens.css`, which
+  re-points 11 names onto package roles; the sans stack leads with the
+  Inter Variable face the site already shipped for its header; serif
+  Literata; the dead homepage and research CSS and components removed.
+  Visible on its own pages: secondary and tertiary text darker, borders
+  `#cfcfc6`, body in Inter Variable; the five `website-v2` subtree pages
+  pixel-identical.
+- **website-v2, new consumer, not merged** (`tiptreesystems/website-v2` PR
+  #7, `feature/design-system-v0.6.0` at `4f93cb8`), recorded here as pending
+  and not as its consumer entry (guide:36). A static site with no build: it
+  vendors `dist/css/primitives.css` and `themes/dark-default.css`
+  byte-for-byte, links both as `?v=0.6.0`, and pins them with
+  `tests/design-system/pin.test.mjs` (each file's sha256, the links, every
+  `--tt-*` name it uses declared, and every hub name in `brand.css` that
+  has a package twin aliased onto it).
+- **Pin forms recorded in `RELEASING.md`.** In `pyproject.toml` the wheel
+  hash travels as the PEP 508 `#sha256=` fragment, because build backends
+  reject the requirements-file `--hash` option in a dependency specifier
+  (Lacuna hit this at its bump). A static site without a build vendors the
+  release's files verbatim under a checksum test, as website-v2 does;
+  `docs/USING.md` names it the sanctioned form beside a content-hashed
+  build artifact.
+- **Port strategy for prototype CSS (rollout plan D11).** CSS ported from
+  the Althea prototype into a consumer is renamed onto `--tt-*` at port
+  time from a prototype-name → canonical-token map; no alias layer maps the
+  prototype's own names (`--stone-*`, `--color-bg-ground`,
+  `--font-family-serif`, …) onto the package. Prototype-local variables
+  stay unprefixed and only their `var()` targets are renamed. Reason:
+  components graduate into this library and must already be in package
+  vocabulary; an alias layer would force a rename at every graduation.
+  Applied in Althea's merge: the 106-name alias block on its v0.6.0 branch,
+  referenced by nothing, was removed before the merge, and two app-local
+  names added beside it were removed for the same reason.
+- **Inter Variable adoption (rollout plan D12 as amended).** A consumer
+  swaps its sans to Inter Variable in the PR that first uses a non-static
+  weight (510 / 590 / 680, the `font-weight-medium` / `-semibold` / `-bold`
+  axis positions ruled 2026-09-29), not at the release that flips
+  `font-sans`, and does the whole swap there: static Inter files and
+  preloads out, the variable face in and preloaded. A consumer that
+  already ships the variable face for another reason completes the swap
+  at once rather than carrying two copies of Inter. Applied: Althea's
+  v0.6.0 branch had added Inter Variable early (740 KB, not preloaded, no
+  use of those weights) and removed it before the merge; marketing-site
+  kept the Inter Variable face it already shipped for its public header
+  and now paints its own pages from it, retiring its static faces.

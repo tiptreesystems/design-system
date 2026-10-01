@@ -1,7 +1,7 @@
 # Tiptree Design System — repo guide (humans and agents)
 
 One typed token/theme source, consumed as versioned artifacts (npm package,
-Python wheel, and Swift Package). Components join only after production adoption; CSS + markup
+Python wheel, Swift Package, or the release's generated CSS vendored byte-for-byte by a static site). Components join only after production adoption; CSS + markup
 specs are then the canonical web implementation. Generated native tokens serve
 iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 
