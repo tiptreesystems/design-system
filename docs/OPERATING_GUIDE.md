@@ -47,7 +47,7 @@ Consumer entries are appended to the ledger only after the corresponding merge.
 8. **Verification is sized to blast radius.** Live light-rendering changes get mechanical proof; value-identical or gated changes get computed-value checks and a punch list. This is a review and release policy, not a single CI rule.
 9. **Test resolved relationships, not alias spelling.** A mapping is correct only if the functional separations it carried (card vs. sunken, hover vs. rest) survive in both themes (2026-08-20/21 Lacuna surface collapse).
 10. **Respect asset inheritance boundaries.** Inline SVG may use `currentColor`; `<img>`-loaded SVG cannot, and uses canonical literals guarded by a retired-palette test (2026-08-19).
-11. **Public evidence is self-contained and machine-neutral.** Repo-relative paths, roles over names, no citations that resolve only on someone's machine (2026-08-20 redaction).
+11. **Public evidence is self-contained and machine-neutral.** Repo-relative paths, roles over names, no citations that resolve only on someone's machine (2026-08-20 redaction). This repository is public: evidence names a private consumer repository and its pull request number only, never a file path or line number inside it (2026-10-01).
 12. **Agent-entry parity.** All agent entry files resolve to the same repo guide — symlink, never duplicate (2026-08-21).
 
 ## 3. Governance
