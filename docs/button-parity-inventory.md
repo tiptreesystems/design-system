@@ -49,14 +49,14 @@ All measurements are CSS pixels.
 
 | ID | Selector and live usage | Source | Computed geometry | Measurement status |
 |---|---|---|---|---|
-| L1 | `.btn-read-paper` PDF-viewer action in `flask_site/paper_page.py:127` | `web.py:747` | `29/0; 6 14 6 14; 6; 14.4/normal/600; 0; 6; 16×16`; example `128.703×29` | Measured |
-| L2 | `.claim-btn.claim-btn-primary` “Send suggestion” in `flask_site/author_page.py:381` | `web.py:1183-1187` | `27/0; 6 16 6 16; 4; 13.6/normal/600; 0; 6; none`; example `141.578×27`. Secondary adds a 1px border and therefore is a distinct geometry. | Primary measured; secondary source-only |
-| L3 | `.article-suggest-submit` in `flask_site/direction_page.py:454` | `web.py:1213-1215,1225` | desktop `36/0; 10 18 10 18; normal; 13.6/normal/600; 0; 6; none`; example `82.844×36`. At `≤640px`, width is `100%`. | Desktop measured; responsive width source-only |
-| L4 | `.feed-query-submit` “Update Feed” in `web.py:7040` | `web.py:1620-1640` | desktop `54/54; 0 20 0 20; normal; 16/25.6/700; 0; 18; none`; example `138.453×54`. At `≤700px`, min-height is 50. | Desktop measured; mobile `UNMEASURED` |
-| L5 | `.adv-apply-btn` “Apply” in `web.py:7215` | `web.py:897-898` | `29/0; 7 18 7 18; normal; 13.6/normal/500; 0; 6; none`; example `70.031×29` | Measured |
-| L6 | anonymous-renderer search submit in `web.py:8475` | `web.py:8435-8465` | `45.594/auto; 0 14 0 14; normal; 16/25.6/400; borders 0 0 0 1; 0; none`; `79.516×45.594`, inside a `420×47.594` search form | Measured |
-| L7 | feedback form submit in `web.py:9933` | `web.py:9733-9741` | `37/0; 10 24 10 24; normal; 15.2/normal/400; 0; 6; none`; example `154.484×37` | Measured |
-| L8 | `.account-signout` in `web.py:10244` | `web.py:1289-1291` | `33/0; 8 18 8 18; normal; 13.44/normal/500; 1; 8; none`; example `87.328×33` | Measured |
+| L1 | `.btn-read-paper` PDF-viewer action in `flask_site/paper_page.py:127` | Lacuna's web layer | `29/0; 6 14 6 14; 6; 14.4/normal/600; 0; 6; 16×16`; example `128.703×29` | Measured |
+| L2 | `.claim-btn.claim-btn-primary` “Send suggestion” in `flask_site/author_page.py:381` | Lacuna's web layer | `27/0; 6 16 6 16; 4; 13.6/normal/600; 0; 6; none`; example `141.578×27`. Secondary adds a 1px border and therefore is a distinct geometry. | Primary measured; secondary source-only |
+| L3 | `.article-suggest-submit` in `flask_site/direction_page.py:454` | Lacuna's web layer,1225` | desktop `36/0; 10 18 10 18; normal; 13.6/normal/600; 0; 6; none`; example `82.844×36`. At `≤640px`, width is `100%`. | Desktop measured; responsive width source-only |
+| L4 | `.feed-query-submit` “Update Feed” in Lacuna's web layer | Lacuna's web layer | desktop `54/54; 0 20 0 20; normal; 16/25.6/700; 0; 18; none`; example `138.453×54`. At `≤700px`, min-height is 50. | Desktop measured; mobile `UNMEASURED` |
+| L5 | `.adv-apply-btn` “Apply” in Lacuna's web layer | Lacuna's web layer | `29/0; 7 18 7 18; normal; 13.6/normal/500; 0; 6; none`; example `70.031×29` | Measured |
+| L6 | anonymous-renderer search submit in Lacuna's web layer | Lacuna's web layer | `45.594/auto; 0 14 0 14; normal; 16/25.6/400; borders 0 0 0 1; 0; none`; `79.516×45.594`, inside a `420×47.594` search form | Measured |
+| L7 | feedback form submit in Lacuna's web layer | Lacuna's web layer | `37/0; 10 24 10 24; normal; 15.2/normal/400; 0; 6; none`; example `154.484×37` | Measured |
+| L8 | `.account-signout` in Lacuna's web layer | Lacuna's web layer | `33/0; 8 18 8 18; normal; 13.44/normal/500; 1; 8; none`; example `87.328×33` | Measured |
 
 Notes:
 
@@ -65,8 +65,8 @@ Notes:
 - `.article-suggest-submit` and the two search actions have layout-dependent
   responsive widths. “Same Button” is not enough to prove no reflow; their
   containing form geometry must also be asserted.
-- `.signup-email-btn` and `.hyp-chat-btn` have CSS at `web.py:1272` and
-  `web.py:1255`, but no rendering usage was found in the current Python/JS
+- `.signup-email-btn` and `.hyp-chat-btn` have CSS at Lacuna's web layer and
+  Lacuna's web layer, but no rendering usage was found in the current Python/JS
   source. They are orphan styles, not current generic usages.
 - The `Keep in Reading` / `Dismiss` actions in `_BOOKMARKS_CSS` compute to
   `24px` high, but `_unused_bookmarks_page()` is unreachable because
@@ -203,7 +203,7 @@ unreachable notes.
 
 1. **The requested Lacuna “one 32px control” conflicts with the scope.** The
    only verified 32×32 Lacuna control is the author-card bookmark at
-   `web.py:713-715`; it is icon-only and a toggle, both explicitly excluded.
+   Lacuna's web layer; it is icon-only and a toggle, both explicitly excluded.
    There is no live generic 32px Lacuna Button in the inventory. Recommended
    replacement for Phase 3: `.account-signout` (33px) or the primary
    `.claim-btn` (27px). Authorizing the 32px control would start an IconButton /
