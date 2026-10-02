@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build, loadSource, resolve } from '../scripts/build-tokens.mjs';
+import { build, loadSource, resolve, validate } from '../scripts/build-tokens.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 build();
@@ -246,7 +246,7 @@ test('v0.6.0 new roles pin both theme values, references, and applicability', ()
     'font-heading-sub-size': '1.0625rem',
     'font-heading-sub-line-height': '1.4',
     'font-heading-sub-letter-spacing': '-0.012em',
-    'font-heading-sub-weight': '500',
+    'font-heading-sub-weight': '{font-weight-medium}',
   };
   for (const [name, value] of Object.entries(type)) {
     assert.equal(data.tokens[name], value, `${name} drifted from the prototype`);
@@ -257,6 +257,165 @@ test('v0.6.0 new roles pin both theme values, references, and applicability', ()
     ['light', 'normal', 'medium', 'semibold', 'bold'].map((weight) => data.tokens[`font-weight-${weight}`]),
     ['300', '400', '510', '590', '680'],
   );
+  // v0.7.0: the sub step takes the 510 axis position by reference (sheet item 15).
+  assert.equal(resolve(data.tokens, data.tokens)['font-heading-sub-weight'], '510');
+});
+
+test('v0.7.0 additions pin values, references and applicability', () => {
+  const base = resolve(data.tokens, data.tokens);
+  assert.equal(data.tokens['radius-28'], '28px');
+  assert.equal(data.applicability['radius-28'], 'cross-platform');
+  assert.match(read('dist/swift/GeneratedTokens.swift'), /public static let r28: CGFloat = 28/);
+  assert.deepEqual(
+    Object.keys(data.tokens).filter((name) => name.startsWith('radius-')),
+    ['radius-4', 'radius-6', 'radius-8', 'radius-12', 'radius-16', 'radius-20', 'radius-24', 'radius-28', 'radius-full'],
+    'the ladder is 4/8/12/16/20/24/28/full with radius-6 kept off it; no radius-10',
+  );
+  assert.equal(data.tokens['border-hairline'], '1px');
+  assert.equal(base['border-hairline'], '1px');
+  assert.equal(data.applicability['border-hairline'], 'web-only');
+
+  // The Button roles (sheet items 3 and 4; decisions A9: the prototype's
+  // Button, its dark glass made opaque).
+  const references = {
+    'color-action-primary-bg': ['{teal-600}', '#2e585a'],
+    'color-action-primary-bg-hover': ['{teal-700}', '#43696b'],
+    'color-action-primary-fg': ['{stone-000}', '{stone-000}'],
+    'color-button-secondary-bg-hover': ['{stone-150}', '#40403f'],
+  };
+  const values = {
+    'color-action-primary-bg': ['#47696b', '#2e585a'],
+    'color-action-primary-bg-hover': ['#3a5759', '#43696b'],
+    'color-action-primary-fg': ['#ffffff', '#ffffff'],
+    'color-button-secondary-bg-hover': ['#f1f1ec', '#40403f'],
+  };
+  for (const [name, [light, dark]] of Object.entries(references)) {
+    assert.equal(data.themes.light[name], light, `${name} light reference drifted`);
+    assert.equal(data.themes.dark[name], dark, `${name} dark reference drifted`);
+    assert.equal(resolvedThemes.light[name], values[name][0], `${name} light value drifted`);
+    assert.equal(resolvedThemes.dark[name], values[name][1], `${name} dark value drifted`);
+    assert.equal(data.applicability[name], 'cross-platform');
+  }
+  for (const theme of ['light', 'dark']) {
+    const tokens = resolvedThemes[theme];
+    for (const ground of ['color-action-primary-bg', 'color-action-primary-bg-hover']) {
+      const ratio = contrast(tokens['color-action-primary-fg'], tokens[ground]);
+      assert.ok(ratio >= 4.5, `${theme} primary label on ${ground} is ${ratio.toFixed(2)}:1`);
+    }
+    assert.notEqual(tokens['color-button-secondary-bg-hover'], tokens['color-button-secondary-bg']);
+  }
+});
+
+test('v0.7.0 surface roles pin values, references, applicability and their order', () => {
+  const references = {
+    'color-surface-block': ['{stone-000}', '#ffffff0f'],
+    'color-surface-box': ['{stone-000}', '#ffffff17'],
+    'color-border-block': ['#ecece9', '#ffffff14'],
+    'color-border-box': ['#d0d0c8', '#ffffff24'],
+    'color-border-box-focus': ['#bdbdb3', '#ffffff33'],
+    'color-border-control': ['#e3e3de', '#ffffff1f'],
+    'color-border-overlay': ['#e8e8e3', '#ffffff1a'],
+    'shadow-block': ['0 2px 8px #4d4d470d', '{shadow-lift}'],
+    'shadow-box': ['0 1px 2px #4d4d470d', '{shadow-lift}'],
+    'shadow-overlay': ['0 1px 2px #4d4d470d, 0 8px 24px #4d4d4714', '0 2px 6px #0000003d, 0 12px 32px #00000066'],
+  };
+  for (const [name, [light, dark]] of Object.entries(references)) {
+    assert.equal(data.themes.light[name], light, `${name} light reference drifted`);
+    assert.equal(data.themes.dark[name], dark, `${name} dark reference drifted`);
+    assert.equal(data.applicability[name], name.startsWith('shadow-') ? 'web-only' : 'cross-platform');
+  }
+  assert.equal(resolvedThemes.light['color-surface-block'], '#ffffff');
+  assert.equal(resolvedThemes.dark['shadow-block'], resolvedThemes.dark['shadow-lift']);
+  // The overlay's fill is the existing card surface, so it is not minted.
+  assert.equal('color-surface-overlay' in data.themes.dark, false);
+
+  // The box is the one outlined surface, firmer than anything else on the
+  // page: rims rise block, overlay, box, box focused, with the control ring
+  // between the block's and the box's, in both themes.
+  const alpha = (hex) => Number.parseInt(hex.slice(7, 9), 16);
+  const order = ['color-border-block', 'color-border-overlay', 'color-border-box', 'color-border-box-focus'];
+  const dark = order.map((name) => alpha(resolvedThemes.dark[name]));
+  const light = order.map((name) => relativeLuminance(resolvedThemes.light[name]));
+  for (let i = 1; i < order.length; i += 1) {
+    assert.ok(dark[i] > dark[i - 1], `dark ${order[i]} must be firmer than ${order[i - 1]}`);
+    assert.ok(light[i] < light[i - 1], `light ${order[i]} must be firmer than ${order[i - 1]}`);
+  }
+  const control = { dark: alpha(resolvedThemes.dark['color-border-control']), light: relativeLuminance(resolvedThemes.light['color-border-control']) };
+  assert.ok(control.dark > dark[0] && control.dark < dark[2], 'dark control ring sits between block and box');
+  assert.ok(control.light < light[0] && control.light > light[2], 'light control ring sits between block and box');
+});
+
+test('v0.7.0 roles fold into no existing role (invariant 6)', () => {
+  const added = [
+    'color-action-primary-bg', 'color-action-primary-bg-hover', 'color-action-primary-fg', 'color-button-secondary-bg-hover',
+    'color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box', 'color-border-box-focus',
+    'color-border-control', 'color-border-overlay', 'shadow-block', 'shadow-box', 'shadow-overlay',
+  ];
+  const pair = (name) => `${resolvedThemes.light[name]} | ${resolvedThemes.dark[name]}`;
+  const existing = new Map(
+    Object.keys(data.themes.dark).filter((name) => !added.includes(name)).map((name) => [pair(name), name]),
+  );
+  const seen = new Map();
+  for (const name of added) {
+    assert.equal(existing.has(pair(name)), false, `${name} resolves like ${existing.get(pair(name))} in both themes`);
+    assert.equal(seen.has(pair(name)), false, `${name} resolves like ${seen.get(pair(name))} in both themes`);
+    seen.set(pair(name), name);
+  }
+});
+
+test('rulings recorded at v0.7.0 mint nothing for label-mono or surface alphas and keep motion and z-index', () => {
+  const names = Object.keys(data.applicability);
+  assert.equal(names.some((name) => name.startsWith('font-label-mono')), false);
+  assert.equal(names.some((name) => name.startsWith('surface-alpha') || name.startsWith('color-surface-alpha')), false);
+  assert.deepEqual(
+    ['speed-quick', 'speed-regular', 'z-header', 'z-overlay', 'z-popover', 'z-dialog', 'z-toast', 'z-tooltip'].map((name) => data.tokens[name]),
+    ['0.1s', '0.25s', '100', '500', '600', '700', '800', '1100'],
+  );
+});
+
+test('font stacks lead with the variable face and keep the metric fallbacks', () => {
+  assert.match(data.tokens['font-sans'], /^'Inter Variable', 'Inter', 'Inter Fallback', /);
+  assert.match(data.tokens['font-serif'], /^'Literata', 'Literata Fallback', /);
+});
+
+test('media blocks are emitted after :root in primitives and compat only', () => {
+  const block = '@media (resolution >= 192dpi) {\n  :root {\n    --tt-border-hairline: 0.5px;\n  }\n}\n';
+  for (const file of ['dist/css/primitives.css', 'dist/css/tokens.css']) {
+    const css = read(file);
+    assert.ok(css.includes(block), `${file} lacks the high-density block`);
+    assert.ok(css.indexOf(block) > css.indexOf('}'), `${file} must declare the block after the base :root`);
+    assert.match(css, /--tt-border-hairline: 1px;/);
+  }
+  for (const theme of ['light-default', 'dark-default', 'explicit']) {
+    assert.doesNotMatch(read(`dist/css/themes/${theme}.css`), /@media|border-hairline/);
+  }
+  assert.deepEqual(JSON.parse(read('dist/showcase-data.json')).media, {
+    'high-density': { query: '(resolution >= 192dpi)', tokens: { 'border-hairline': '0.5px' } },
+  });
+  const query = '(resolution >= 192dpi)';
+  const withMedia = (media) => ({ ...data, media });
+  const rejected = {
+    'an unknown token': { x: { query, tokens: { 'ghost-token': '1px' } } },
+    'a cross-platform token': { x: { query, tokens: { 'radius-4': '2px' } } },
+    'a themed token': { x: { query, tokens: { 'color-accent': '#000000' } } },
+    'an unchanged value': { x: { query, tokens: { 'border-hairline': '1px' } } },
+    'an unlisted query': { x: { query: '(min-width: 800px)', tokens: { 'border-hairline': '0.5px' } } },
+    'a repeated query': {
+      x: { query, tokens: { 'border-hairline': '0.5px' } },
+      y: { query, tokens: { 'focus-ring-width': '1px' } },
+    },
+  };
+  validate(data);
+  for (const [description, media] of Object.entries(rejected)) {
+    assert.throws(() => validate(withMedia(media)), /token validation failed/, `validate() accepted ${description}`);
+  }
+});
+
+test('Swift is free of web-only and media tokens; Python carries the base hairline only', () => {
+  assert.doesNotMatch(read('dist/swift/GeneratedTokens.swift'), /hairline|borderHairline/);
+  const python = read('python/tiptree_ui/_tokens.py');
+  assert.match(python, /'border-hairline': '1px'/);
+  assert.doesNotMatch(python, /0\.5px/);
 });
 
 test('theme polarity files encode their named default and explicit policy', () => {
@@ -301,6 +460,11 @@ test('status recipes preserve the shipped foreground/background roles', () => {
   }
 });
 
+// v0.7.0 adds no hover ground here: the Button's ring is color-border-control
+// (the prototype's --rim-control; decisions A9 re-rules the 3:1 assertion to
+// it), pinned by value in "the Button's ring is the control ring". The
+// secondary border keeps its 3:1 edge on the surfaces below for the consumers
+// that draw it.
 test('secondary-control borders retain a 3:1 edge on every published surface', () => {
   for (const theme of ['light', 'dark']) {
     const tokens = resolvedThemes[theme];
@@ -320,6 +484,15 @@ test('secondary-control borders retain a 3:1 edge on every published surface', (
       );
     }
   }
+});
+
+test("the Button's ring is the control ring, pinned to the prototype's --rim-control", () => {
+  assert.equal(data.themes.light['color-border-control'], '#e3e3de');
+  assert.equal(data.themes.dark['color-border-control'], '#ffffff1f');
+  assert.equal(data.applicability['color-border-control'], 'cross-platform');
+  // Not the secondary border: the ring sits on the hover ground too, where a
+  // 3:1 stone-550 edge would read 2.48:1 in the dark.
+  assert.notEqual(resolvedThemes.dark['color-border-control'], resolvedThemes.dark['color-button-secondary-border']);
 });
 
 test('sage ramp stays hub-only (parked proposal, not public contract)', () => {
@@ -359,7 +532,7 @@ test('applicability covers exactly the union of base and themed token names', ()
   for (const value of Object.values(data.applicability)) {
     assert.ok(value === 'cross-platform' || value === 'web-only');
   }
-  for (const prefix of ['z-', 'focus-', 'font-', 'shadow-', 'ease-']) {
+  for (const prefix of ['z-', 'focus-', 'font-', 'shadow-', 'ease-', 'border-']) {
     for (const name of [...required].filter((candidate) => candidate.startsWith(prefix))) {
       assert.equal(data.applicability[name], 'web-only');
     }

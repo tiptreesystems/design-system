@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+"
 
 jobs:
   swift-package:
@@ -86,10 +87,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          prerelease=()
+          if [[ "$GITHUB_REF_NAME" == *-rc.* ]]; then prerelease=(--prerelease); fi
           gh release create "$GITHUB_REF_NAME" \
             release/npm/*.tgz \
             release/python/*.whl \
             release/SHA256SUMS \
             --verify-tag \
             --notes-file RELEASE_NOTES.md \
-            --title "$GITHUB_REF_NAME"
+            --title "$GITHUB_REF_NAME" \
+            "${prerelease[@]}"

@@ -1,5 +1,5 @@
 // GENERATED from tokens/tokens.json — DO NOT EDIT.
-// Design-system version 0.6.0.
+// Design-system version 0.7.0.
 import SwiftUI
 import UIKit
 
@@ -215,6 +215,16 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 38.0 / 255.0) : UIColor(red: 237.0 / 255.0, green: 237.0 / 255.0, blue: 233.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorSurfaceOpen = Color(uiColor: colorSurfaceOpenUIColor)
+    // color-surface-block: light #ffffff, dark #ffffff0f
+    public static let colorSurfaceBlockUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 15.0 / 255.0) : UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorSurfaceBlock = Color(uiColor: colorSurfaceBlockUIColor)
+    // color-surface-box: light #ffffff, dark #ffffff17
+    public static let colorSurfaceBoxUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 23.0 / 255.0) : UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorSurfaceBox = Color(uiColor: colorSurfaceBoxUIColor)
     // color-text-primary: light #1b1b1b, dark #f8f8f6
     public static let colorTextPrimaryUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 248.0 / 255.0, green: 248.0 / 255.0, blue: 246.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 27.0 / 255.0, green: 27.0 / 255.0, blue: 27.0 / 255.0, alpha: 255.0 / 255.0)
@@ -255,6 +265,31 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 18.0 / 255.0) : UIColor(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 0.0 / 255.0, alpha: 15.0 / 255.0)
     }
     public static let colorBorderTranslucent = Color(uiColor: colorBorderTranslucentUIColor)
+    // color-border-block: light #ecece9, dark #ffffff14
+    public static let colorBorderBlockUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 20.0 / 255.0) : UIColor(red: 236.0 / 255.0, green: 236.0 / 255.0, blue: 233.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorBorderBlock = Color(uiColor: colorBorderBlockUIColor)
+    // color-border-box: light #d0d0c8, dark #ffffff24
+    public static let colorBorderBoxUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 36.0 / 255.0) : UIColor(red: 208.0 / 255.0, green: 208.0 / 255.0, blue: 200.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorBorderBox = Color(uiColor: colorBorderBoxUIColor)
+    // color-border-box-focus: light #bdbdb3, dark #ffffff33
+    public static let colorBorderBoxFocusUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 51.0 / 255.0) : UIColor(red: 189.0 / 255.0, green: 189.0 / 255.0, blue: 179.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorBorderBoxFocus = Color(uiColor: colorBorderBoxFocusUIColor)
+    // color-border-control: light #e3e3de, dark #ffffff1f
+    public static let colorBorderControlUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 31.0 / 255.0) : UIColor(red: 227.0 / 255.0, green: 227.0 / 255.0, blue: 222.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorBorderControl = Color(uiColor: colorBorderControlUIColor)
+    // color-border-overlay: light #e8e8e3, dark #ffffff1a
+    public static let colorBorderOverlayUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 26.0 / 255.0) : UIColor(red: 232.0 / 255.0, green: 232.0 / 255.0, blue: 227.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorBorderOverlay = Color(uiColor: colorBorderOverlayUIColor)
     // color-accent: light #3c8286, dark #82a7a9
     public static let colorAccentUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 130.0 / 255.0, green: 167.0 / 255.0, blue: 169.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 60.0 / 255.0, green: 130.0 / 255.0, blue: 134.0 / 255.0, alpha: 255.0 / 255.0)
@@ -305,6 +340,21 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 20.0 / 255.0) : UIColor(red: 27.0 / 255.0, green: 27.0 / 255.0, blue: 27.0 / 255.0, alpha: 15.0 / 255.0)
     }
     public static let colorActionDisabledBg = Color(uiColor: colorActionDisabledBgUIColor)
+    // color-action-primary-bg: light #47696b, dark #2e585a
+    public static let colorActionPrimaryBgUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 46.0 / 255.0, green: 88.0 / 255.0, blue: 90.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 71.0 / 255.0, green: 105.0 / 255.0, blue: 107.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorActionPrimaryBg = Color(uiColor: colorActionPrimaryBgUIColor)
+    // color-action-primary-bg-hover: light #3a5759, dark #43696b
+    public static let colorActionPrimaryBgHoverUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 67.0 / 255.0, green: 105.0 / 255.0, blue: 107.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 58.0 / 255.0, green: 87.0 / 255.0, blue: 89.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorActionPrimaryBgHover = Color(uiColor: colorActionPrimaryBgHoverUIColor)
+    // color-action-primary-fg: light #ffffff, dark #ffffff
+    public static let colorActionPrimaryFgUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorActionPrimaryFg = Color(uiColor: colorActionPrimaryFgUIColor)
     // color-link: light #47696b, dark #a3c3c4
     public static let colorLinkUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 163.0 / 255.0, green: 195.0 / 255.0, blue: 196.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 71.0 / 255.0, green: 105.0 / 255.0, blue: 107.0 / 255.0, alpha: 255.0 / 255.0)
@@ -330,6 +380,11 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 34.0 / 255.0, green: 34.0 / 255.0, blue: 32.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorButtonSecondaryBg = Color(uiColor: colorButtonSecondaryBgUIColor)
+    // color-button-secondary-bg-hover: light #f1f1ec, dark #40403f
+    public static let colorButtonSecondaryBgHoverUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 64.0 / 255.0, green: 64.0 / 255.0, blue: 63.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 241.0 / 255.0, green: 241.0 / 255.0, blue: 236.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorButtonSecondaryBgHover = Color(uiColor: colorButtonSecondaryBgHoverUIColor)
     // color-button-secondary-border: light #7e7c73, dark #7e7c73
     public static let colorButtonSecondaryBorderUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 126.0 / 255.0, green: 124.0 / 255.0, blue: 115.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 126.0 / 255.0, green: 124.0 / 255.0, blue: 115.0 / 255.0, alpha: 255.0 / 255.0)
@@ -487,6 +542,8 @@ public enum TiptreeTokens {
     public static let r20: CGFloat = 20
     // radius-24: 24px
     public static let r24: CGFloat = 24
+    // radius-28: 28px
+    public static let r28: CGFloat = 28
     // radius-full: 9999px
     public static let full: CGFloat = 9999
   }

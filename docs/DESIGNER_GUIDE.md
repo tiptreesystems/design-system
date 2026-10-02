@@ -20,6 +20,8 @@ Then open `http://localhost:4173`. When you save a change, the terminal running 
 4. Do not edit anything in `dist/` or the generated files under `python/tiptree_ui/`; the watcher creates those automatically.
 5. Ask engineering if you need a new token name or are unsure whether a value is portable, app-specific, or a sub-brand decision.
 
+To propose a value or a name the package does not have yet, write it down where you design, one row per ask: what you want, the decision behind it, and the exact values, with the same values in a JSON file in this repository's `tokens/tokens.json` shape, so that taking a row is a merge rather than a retyping. The Althea prototype's `docs/design-system/package-proposals.md`, with its `package-proposals.tokens.json`, is the worked example. Each row is taken, deferred or declined by a ruling recorded in `docs/DECISION_LEDGER.md`; a taken row ships in a release, and your file moves it to its "Taken, declined, withdrawn" record.
+
 ## Add a component's visual specification
 
 1. Confirm that a real repository is ready to consume the shared contract. A showcase prototype alone remains dormant research.

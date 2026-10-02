@@ -8,21 +8,30 @@ same source commit.
 
 ## Cut a release
 
-1. Update `RELEASE_NOTES.md` and all four version surfaces together: `package.json`,
-   `python/pyproject.toml`, `tokens/tokens.json`, and
-   `python/tiptree_ui/__init__.py`.
+1. Update `RELEASE_NOTES.md` (its `# vX.Y.Z` heading is a version surface)
+   and the other version surfaces together: `package.json`,
+   `python/pyproject.toml`, `tokens/tokens.json`, `icons/icons.json` and
+   `python/tiptree_ui/__init__.py`. Run `npm run build`, then
+   `node scripts/public-surface.mjs --write` to record the release's public
+   surface in `tests/public-surface/vX.Y.Z.json`; anything removed or renamed
+   since the previous release goes under a "Removed" or "Renamed" heading in
+   the notes, and under 0.x keeps an alias for one minor.
 2. Merge the approved release commit to `main`, run `npm run ci`, and compile
    the Swift Package for a generic iOS device from that exact commit.
-3. Verify the candidate in a consumer before tagging. Build the artifacts
-   locally exactly as `.github/workflows/ci.yml` does (`npm run build`, then
-   `npm pack` and `python -m pip wheel python/ --no-deps`), install the
-   tarball into a worktree of at least one npm consumer through a `file:`
-   pin and the wheel into a virtualenv for a Python consumer, and run each
-   consumer's own gates unchanged: the unknown-custom-property lint, the
-   build, the adapter tests, and a diff of the resolved CSS against the
-   previous release. A `file:` pin is for this verification only and is
-   never committed. Record the results in the release's ledger entry; the
-   v0.6.0 verification (ledger 2026-09-29) is the model.
+3. Verify the candidate in every consumer before tagging: Althea
+   (`tasc-stack/frontend`), docs, Lacuna, marketing-site, website-v2, and a
+   platform-ios compile. Build the artifacts locally exactly as
+   `.github/workflows/ci.yml` does (`npm run build`, then `npm pack` and
+   `python -m pip wheel python/ --no-deps`, then
+   `scripts/check_artifacts.py`), install the tarball into a worktree of each
+   npm consumer through a `file:` pin, the wheel into a virtualenv for each
+   Python consumer, and the vendored files into a worktree of each static
+   site, and run each consumer's own gates unchanged: the
+   unknown-custom-property lint, the build, the adapter and pin tests, and a
+   diff of the resolved CSS against the previous release. A `file:` pin is
+   for this verification only and is never committed. Record the results,
+   with each consumer's SHA, in the release's ledger entry; the v0.6.0
+   verification (ledger 2026-09-29) is the model.
 4. Confirm the repository's immutable-releases setting is enabled.
 5. Create and push a matching `vX.Y.Z` tag:
 
@@ -34,7 +43,8 @@ same source commit.
    git push origin vX.Y.Z
    ```
 
-6. The tag starts `.github/workflows/release.yml`. The workflow repeats the
+6. The tag starts `.github/workflows/release.yml` (it triggers on
+   `vX.Y.Z` and on `vX.Y.Z-rc.N`). The workflow repeats the
    release gates, builds both packages, checks their contents (below), writes
    their SHA-256 checksums, attests their provenance, and creates the GitHub
    Release with the checked-in notes.
@@ -79,6 +89,29 @@ and `LICENSE-CC-BY-4.0.txt` with its third-party notices; the module's
 `attribution` property survives a bundler that strips comments. Althea's chat
 widget notices must name Solar: its notices builder must read the package's
 `NOTICE` and every licence file, not only the first `LICENSE`.
+
+## Pre-releases
+
+A release that a consumer's feature branch must build on before its final
+tag ships first as release candidates, `vX.Y.Z-rc.N`.
+
+1. Set every version surface to `X.Y.Z-rc.N` (the notes heading too) and
+   write `tests/public-surface/vX.Y.Z-rc.N.json`; run `npm run ci`; merge.
+2. Tag `vX.Y.Z-rc.N` and push it, as in step 5 above. `release.yml` accepts
+   the pattern `v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+` beside the final one, its tag
+   check compares the literal version strings, and it creates the GitHub
+   Release with `--prerelease` when the tag contains `-rc.`. A pre-release is
+   as immutable and attested as a release.
+3. For the final release, set every surface to `X.Y.Z`, write
+   `vX.Y.Z.json`, and tag `vX.Y.Z` as usual. A candidate's snapshot stays in
+   the repository, frozen.
+
+Pins: the npm asset is `tiptree-design-system-X.Y.Z-rc.N.tgz`; setuptools
+normalises the wheel's version, so its asset is
+`tiptree_ui-X.Y.ZrcN-py3-none-any.whl` (for example `0.7.0rc1`) and its pip
+URL differs from the tag's spelling. SwiftPM does not resolve a pre-release
+under `upToNextMajor`, so iOS never floats onto a candidate. Only a feature
+branch may pin a candidate; a default branch never does.
 
 ## Pin a consumer
 

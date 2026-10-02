@@ -96,6 +96,45 @@ content-hashed build artifact. A site without one vendors verbatim copies of
 checks their sha256s and that every page links them with a version query; that
 is the sanctioned form, not a fork (`RELEASING.md`, Static sites).
 
+## Corners, the hairline and surfaces
+
+The corner ladder is 4 / 8 / 12 / 16 / 20 / 24 / 28 / full, with numeric names
+only; an app maps its own role names onto them (`--radius-sm` → `--tt-radius-8`,
+`--radius-md` → `--tt-radius-12`, `--radius-2xl` → `--tt-radius-24`,
+`--radius-3xl` → `--tt-radius-28`). What each step is for, from the Althea
+prototype:
+
+| Token | What takes it |
+|---|---|
+| `radius-4` | a small mark set in a line: a key, a badge, the checkbox, inline code |
+| `radius-8` | a small control's ground: the title in a bar, a plain menu's item |
+| `radius-12` | a row or an item that is not inside a block; a tip |
+| `radius-16` | a field and anything that is one (search, text area, a form's group, a code block, a figure); a row inside a block; a menu |
+| `radius-20` | a block that holds rows |
+| `radius-24` | your message; the chat box at one line |
+| `radius-28` | the chat box on the home |
+| `radius-full` | pills and round buttons |
+
+A corner inside a corner is the outer corner less the gap: a block at 20 with
+4 of padding holds rows at 16; a menu at 16 with 4 holds items at 12; the box
+at 24 with 6 holds round controls of 36. `radius-6` stays for Lacuna and is
+off the ladder: no new use.
+
+`--tt-border-hairline` is 1px, and 0.5px under
+`@media (resolution >= 192dpi)`, which `primitives.css` (and `tokens.css`)
+already carries; alias it (`--border-hairline: var(--tt-border-hairline)`)
+and delete the app's own media block.
+
+Three surfaces and a control ring: a block in the flow
+(`color-surface-block`, `color-border-block`, `shadow-block`), the box
+(`color-surface-box`, `color-border-box`, firming to `color-border-box-focus`
+on `:focus-within`, `shadow-box`), and anything that floats (the existing
+`color-surface-card`, `color-border-overlay`, `shadow-overlay`); a control's
+ring is `color-border-control`. An overlay draws its edge inside its shadow
+list, `box-shadow: var(--tt-shadow-overlay), 0 0 0 1px var(--tt-color-border-overlay)`,
+so a host that silences elevation sets a layer such as `0 0 #0000`, never
+`none`, which would drop the ring with it.
+
 ## Icons
 
 `@tiptree/design-system/icons.js` is one frozen, data-only ES module (provisional

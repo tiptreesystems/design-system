@@ -16,6 +16,7 @@ iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 | `themes/` | SOURCE — sub-brand token overrides (designer-owned) |
 | `icons/icons.json` | SOURCE — designer-approved glyphs keyed by what they draw; provenance (`source`, `solar`, `licence`, `modified`) required on every glyph; stored canonically |
 | `icons/prototype-names.json` | SOURCE — the prototype port's rename map (port aid, not published) |
+| `tests/public-surface/*.json` | SOURCE — each release's public names; written only by `node scripts/public-surface.mjs --write`, frozen once the version is tagged |
 | `Sources/TiptreeDesignSystem/GeneratedTokens.swift` | GENERATED + COMMITTED — never edit; rebuilt by `npm run build` and checked by `npm run ci` |
 | `dist/` (including `dist/icons/`), `python/tiptree_ui/_tokens.py`, `python/tiptree_ui/assets/` (including `icons.json`, `icons.js`) | GENERATED — never edit; rebuilt by `npm run build` |
 

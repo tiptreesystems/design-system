@@ -57,6 +57,32 @@
   .recipe strong { display: block; margin-bottom: 5px; font-size: 1.25rem; }
   .recipe code { color: var(--tt-color-text-primary); font-size: 0.6875rem; }
   .shadow-sample { padding: 18px; border-radius: var(--tt-radius-8); background: var(--tt-color-surface-card); font-size: 0.75rem; }
+  .ladder { display: flex; flex-wrap: wrap; gap: 14px; align-items: end; }
+  .ladder__step { display: grid; justify-items: center; gap: 6px; color: var(--tt-color-text-tertiary); font: 0.625rem/1.2 var(--tt-font-mono); }
+  .ladder__chip { width: 64px; height: 64px; border: 1px solid var(--tt-color-border-primary); background: var(--tt-color-surface-card); }
+  .nested { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; }
+  .nested__outer { display: grid; gap: 4px; min-width: 200px; border: 1px solid var(--tt-color-border-primary); background: var(--tt-color-surface-card); }
+  .nested__inner { display: flex; align-items: center; min-height: 32px; padding: 0 12px; background: var(--tt-color-row-hover); font-size: 0.75rem; }
+  .nested__control { display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--tt-radius-full); background: var(--tt-color-action-primary-bg); color: var(--tt-color-action-primary-fg); }
+  .nested__box { display: flex; justify-content: space-between; align-items: center; min-width: 260px; padding: 6px 6px 6px 16px; border: 1px solid var(--tt-color-border-primary); background: var(--tt-color-surface-card); color: var(--tt-color-text-tertiary); font-size: 0.75rem; }
+  .hairlines { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .hairline-sample { padding: 14px; border-radius: var(--tt-radius-8); background: var(--tt-color-surface-card); font: 0.6875rem/1.5 var(--tt-font-mono); }
+  .hairline-sample__line { height: 24px; margin-bottom: 8px; border-bottom: var(--tt-border-hairline) solid var(--tt-color-text-primary); }
+  .hairline-sample__line--one { border-bottom-width: 1px; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sample-button { display: inline-flex; align-items: center; height: var(--tt-control-default); padding: 0 16px; border-radius: var(--tt-radius-full); font: var(--tt-font-weight-normal) var(--tt-font-size-small)/1 var(--tt-font-sans); }
+  .sample-button--primary { background: var(--tt-color-action-primary-bg); color: var(--tt-color-action-primary-fg); }
+  .sample-button--primary-hover { background: var(--tt-color-action-primary-bg-hover); color: var(--tt-color-action-primary-fg); }
+  .sample-button--secondary { background: var(--tt-color-button-secondary-bg); color: var(--tt-color-text-secondary); box-shadow: inset 0 0 0 1px var(--tt-color-border-control); }
+  .sample-button--secondary-hover { background: var(--tt-color-button-secondary-bg-hover); color: var(--tt-color-text-primary); box-shadow: inset 0 0 0 1px var(--tt-color-border-control); }
+  .surfaces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 16px; border-radius: var(--tt-radius-12); background: var(--tt-color-bg-primary); }
+  .surface { display: grid; align-content: end; min-height: 76px; padding: 12px; font: 0.625rem/1.4 var(--tt-font-mono); color: var(--tt-color-text-secondary); }
+  .surface--block { border-radius: var(--tt-radius-20); background: var(--tt-color-surface-block); box-shadow: var(--tt-shadow-block), inset 0 0 0 1px var(--tt-color-border-block); }
+  .surface--box { border-radius: var(--tt-radius-24); background: var(--tt-color-surface-box); box-shadow: var(--tt-shadow-box), inset 0 0 0 1px var(--tt-color-border-box); }
+  .surface--box-focus { border-radius: var(--tt-radius-24); background: var(--tt-color-surface-box); box-shadow: var(--tt-shadow-box), inset 0 0 0 1px var(--tt-color-border-box-focus); }
+  .surface--overlay { border-radius: var(--tt-radius-16); background: var(--tt-color-surface-card); box-shadow: var(--tt-shadow-overlay), 0 0 0 1px var(--tt-color-border-overlay); }
+  .surface--control { grid-template-columns: 36px 1fr; gap: 10px; align-items: center; align-content: center; }
+  .surface--control span { width: 36px; height: 36px; border-radius: var(--tt-radius-full); background: var(--tt-color-button-secondary-bg); box-shadow: inset 0 0 0 1px var(--tt-color-border-control); }
   .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; }
   .icon-cell { display: grid; grid-template-columns: 16px 20px minmax(0, 1fr); gap: 8px; align-items: center; min-height: 34px; padding: 4px 6px; border-radius: var(--tt-radius-4); color: var(--tt-color-text-primary); }
   .icon-cell svg { display: block; }
@@ -86,6 +112,19 @@
   <div class="swatches" id="brand"></div>
   <h4>Ramps</h4>
   <div id="ramps"></div>
+
+  <h2>Corners</h2>
+  <p>The ladder 4 / 8 / 12 / 16 / 20 / 24 / 28 / full, with <code>radius-6</code> kept off it. A corner inside a corner is the outer corner less the gap: the three nested pairs show it.</p>
+  <div class="ladder" id="ladder"></div>
+  <div class="nested">
+    <div class="nested__outer" style="padding:4px;border-radius:var(--tt-radius-20)"><div class="nested__inner" style="border-radius:var(--tt-radius-16)">block 20 / gap 4 / row 16</div><div class="nested__inner" style="border-radius:var(--tt-radius-16);background:transparent">row 16</div></div>
+    <div class="nested__outer" style="padding:4px;border-radius:var(--tt-radius-16)"><div class="nested__inner" style="border-radius:var(--tt-radius-12)">menu 16 / gap 4 / item 12</div><div class="nested__inner" style="border-radius:var(--tt-radius-12);background:transparent">item 12</div></div>
+    <div class="nested__box" style="border-radius:var(--tt-radius-24)">box 24 / gap 6 / control 36<span class="nested__control">&uarr;</span></div>
+  </div>
+
+  <h2>Hairline</h2>
+  <p><code>--tt-border-hairline</code> is 1px, and 0.5px under <code>@media (resolution &gt;= 192dpi)</code> in <code>primitives.css</code> and <code>tokens.css</code>. The value is the token's; how an engine rasterises half a pixel is its own.</p>
+  <div class="hairlines" id="hairlines"></div>
 
   <h2>Semantic themes</h2>
   <p>Both published polarities are always visible together. The control in the corner changes only the surrounding explorer chrome.</p>
@@ -144,6 +183,8 @@
     ['Text and accent', ['color-text-primary', 'color-text-secondary', 'color-text-tertiary', 'color-text-on-inverse', 'color-accent', 'color-accent-hover', 'color-accent-tint', 'color-accent-on-surface', 'color-accent-on-surface-hover', 'color-link', 'color-highlight', 'color-focus-ring']],
     ['Borders and controls', ['color-border-primary', 'color-border-translucent', 'color-button-invert-bg', 'color-button-invert-fg', 'color-button-secondary-bg', 'color-button-secondary-border']],
     ['Danger action', ['color-action-danger-bg', 'color-action-danger-bg-hover', 'color-action-danger-bg-pressed', 'color-action-danger-fg']],
+    ['Button roles', ['color-action-primary-bg', 'color-action-primary-bg-hover', 'color-action-primary-fg', 'color-button-secondary-bg-hover', 'color-border-control']],
+    ['Surface roles', ['color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box', 'color-border-box-focus', 'color-border-overlay']],
   ];
   const recipes = ['success', 'danger', 'warning', 'info'];
 
@@ -165,9 +206,25 @@
       if (!foreground || !background || !border) return '';
       return `<div class="recipe" style="color:${foreground};background:${background};border-color:${border}"><strong>${recipe}</strong><code>${foreground} / ${background} / ${border}</code></div>`;
     }).join('');
-    const shadows = ['low', 'medium', 'high'].map((level) => `<div class="shadow-sample" style="box-shadow:${data.themes[theme][`shadow-${level}`]}">--tt-shadow-${level}</div>`).join('');
-    themeGrid.insertAdjacentHTML('beforeend', `<section class="theme-panel" data-theme="${theme}"><h3>${theme[0].toUpperCase() + theme.slice(1)} theme <code>themes/${theme}-default.css</code></h3>${sections}<h4>Status recipes</h4><div class="recipes">${recipeCards}</div><h4>Elevation</h4><div class="recipes">${shadows}</div></section>`);
+    const shadows = ['low', 'medium', 'high', 'lift'].map((level) => `<div class="shadow-sample" style="box-shadow:${data.themes[theme][`shadow-${level}`]}">--tt-shadow-${level}</div>`).join('');
+    const buttons = `<div class="buttons"><span class="sample-button sample-button--primary">Primary</span><span class="sample-button sample-button--primary-hover">Primary, hover</span><span class="sample-button sample-button--secondary">Secondary</span><span class="sample-button sample-button--secondary-hover">Secondary, hover</span></div>`;
+    const surfaces = `<div class="surfaces"><div class="surface surface--block">block: surface-block, border-block, shadow-block</div><div class="surface surface--overlay">overlay: surface-card, border-overlay, shadow-overlay</div><div class="surface surface--box">box, resting: surface-box, border-box, shadow-box</div><div class="surface surface--box-focus">box, focused: border-box-focus</div><div class="surface surface--control"><span></span>control ring: border-control</div></div>`;
+    themeGrid.insertAdjacentHTML('beforeend', `<section class="theme-panel" data-theme="${theme}"><h3>${theme[0].toUpperCase() + theme.slice(1)} theme <code>themes/${theme}-default.css</code></h3>${sections}<h4>Button roles, opaque values (the dark Button's glass is the component's)</h4>${buttons}<h4>Surfaces and the control ring</h4>${surfaces}<h4>Status recipes</h4><div class="recipes">${recipeCards}</div><h4>Elevation</h4><div class="recipes">${shadows}</div></section>`);
   }
+
+  document.querySelector('#ladder').innerHTML = Object.entries(data.base)
+    .filter(([name]) => name.startsWith('radius-'))
+    .map(([name, value]) => `<div class="ladder__step"><div class="ladder__chip" style="border-radius:${value}"></div>${name.replace('radius-', '')}${name === 'radius-6' ? ' (off)' : ''}</div>`)
+    .join('');
+  const probe = document.createElement('div');
+  probe.style.borderTop = 'var(--tt-border-hairline) solid';
+  document.body.append(probe);
+  const rendered = getComputedStyle(probe).borderTopWidth;
+  probe.remove();
+  const mediaRows = Object.values(data.media ?? {}).map((spec) => `${spec.query}: ${Object.entries(spec.tokens).map(([name, value]) => `${name} ${value}`).join(', ')}`).join('<br>');
+  document.querySelector('#hairlines').innerHTML =
+    `<div class="hairline-sample"><div class="hairline-sample__line"></div>--tt-border-hairline<br>base ${data.base['border-hairline']}; ${mediaRows}<br>here: devicePixelRatio ${devicePixelRatio}, computed ${rendered}</div>` +
+    `<div class="hairline-sample"><div class="hairline-sample__line hairline-sample__line--one"></div>1px, for comparison</div>`;
 
   const icons = await (await fetch('/dist/icons/icons.json')).json();
   const glyph = (body, size) => `<svg viewBox="${icons.meta.viewBox}" width="${size}" height="${size}" aria-hidden="true" focusable="false">${body}</svg>`;

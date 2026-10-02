@@ -21,6 +21,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PREFIX = '--tt-';
 const REF_RE = /\{([a-z0-9-]+)\}/g;
 const THEMES = ['light-default', 'dark-default', 'explicit'];
+// Media-conditional base values. Each query is allow-listed; a token may appear
+// in a media block only if it is a web-only base token whose value differs.
+const MEDIA_QUERIES = new Set(['(resolution >= 192dpi)']);
 const BARE_ELEMENTS = [
   'a', 'body', 'button', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
   'html', 'input', 'label', 'select', 'textarea',
@@ -100,6 +103,26 @@ export function validate(data) {
   }
   for (const name of Object.keys(applicability)) {
     if (!requiredApplicability.includes(name)) errors.push(`applicability contains unknown token: ${name}`);
+  }
+
+  const media = data.media ?? {};
+  if (typeof media !== 'object' || Array.isArray(media)) errors.push('media must be an object of named blocks');
+  const seenQueries = new Set();
+  for (const [block, spec] of Object.entries(media)) {
+    if (!/^[a-z0-9-]+$/.test(block)) errors.push(`media.${block} has an invalid block name`);
+    if (!spec || typeof spec.query !== 'string' || !MEDIA_QUERIES.has(spec.query)) {
+      errors.push(`media.${block}.query is not an allowed media query: ${spec?.query}`);
+    } else if (seenQueries.has(spec.query)) errors.push(`media.${block}.query repeats ${spec.query}`);
+    else seenQueries.add(spec.query);
+    const tokens = spec?.tokens ?? {};
+    if (!Object.keys(tokens).length) errors.push(`media.${block}.tokens is empty`);
+    for (const [name, value] of Object.entries(tokens)) {
+      if (!(name in base)) errors.push(`media.${block}.${name} is not a base token`);
+      else if (applicability[name] !== 'web-only') errors.push(`media.${block}.${name} must be web-only`);
+      else if (String(value) === String(base[name])) errors.push(`media.${block}.${name} repeats the base value`);
+      if (name in (themes.light ?? {}) || name in (themes.dark ?? {})) errors.push(`media.${block}.${name} is themed`);
+    }
+    checkRefs(tokens, `media.${block}.tokens`);
   }
   if (errors.length) throw new Error(`token validation failed:\n  ${errors.join('\n  ')}`);
 }
@@ -285,7 +308,10 @@ export function build() {
   ]) mkdirSync(path, { recursive: true });
 
   const generatedHeader = header(data.meta.version);
-  const primitivesBody = cssBlock(':root', data.tokens);
+  const mediaBody = Object.values(data.media ?? {})
+    .map((spec) => `@media ${spec.query} {\n${cssBlock(':root', spec.tokens).replace(/^(?=.)/gm, '  ')}}\n`)
+    .join('\n');
+  const primitivesBody = cssBlock(':root', data.tokens) + (mediaBody ? `\n${mediaBody}` : '');
   const lightDefaultBody =
     `${cssBlock(':root', data.themes.light, 'only light')}\n${cssBlock("[data-theme='dark']", data.themes.dark, 'dark')}`;
   const darkDefaultBody =
@@ -357,9 +383,15 @@ export function build() {
   const swift = emitSwift(data, resolved);
   writeFileSync(join(ROOT, 'dist/swift/GeneratedTokens.swift'), swift);
   writeFileSync(join(ROOT, 'Sources/TiptreeDesignSystem/GeneratedTokens.swift'), swift);
+  const media = Object.fromEntries(
+    Object.entries(data.media ?? {}).map(([block, spec]) => [
+      block,
+      { query: spec.query, tokens: resolve(spec.tokens, data.tokens) },
+    ]),
+  );
   writeFileSync(
     join(ROOT, 'dist/showcase-data.json'),
-    `${JSON.stringify({ version: data.meta.version, ...resolved }, null, 2)}\n`,
+    `${JSON.stringify({ version: data.meta.version, ...resolved, media }, null, 2)}\n`,
   );
 
   const pythonAssets = join(ROOT, 'python/tiptree_ui/assets');

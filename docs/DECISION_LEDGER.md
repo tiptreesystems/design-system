@@ -912,3 +912,295 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - The two scrub commits made under the clause (`c8fade2`, `d928859`) stand as
   tidy-ups; nothing is restored and no history is rewritten. Entries after
   this one may cite private-repository paths and line numbers again.
+
+## 2026-10-01 — v0.7.0: the icon library (provisional) and the type foundations (Richard; Ivan's sheet of 2026-10-01)
+
+- Ruled by Richard on 2026-10-01: decisions A1 to A9 before the 0.7.0 build,
+  under his tie-break of the same evening, "try to be as close to
+  althea-prototype as possible as that is the source of truth". Where a
+  default was open and the prototype has a value for it, the prototype's
+  value is taken. Sources: `althea-prototype` at `99ac4f6` (every prototype
+  citation below is at that commit); docs `2a4dffd`; website-v2 `4f93cb8`;
+  frontend `origin/main` `e1ab358b`. Built on `release/v0.7.0` from `main`
+  `1197267`; every version surface reads `0.7.0`. The specification
+  is the workspace's `analysis-0.7.0-icons-and-tokens.md` with
+  `decisions-new-app-landing-2026-10-01.md` section A and
+  `analysis-prototype-delta-2026-10-01.md` §1, workspace-relative as the
+  2026-08-19 entry's pointer. Two evidence reviews of the branch
+  (2026-10-02) found it ready after fixes, and the fixes are in.
+- **Rulings (Richard, 2026-10-01).** A1: icon names are Iconify's current
+  Solar names; bodies already approved keep their bytes; the additions are
+  fetched once and frozen. Applied to two names the specification listed:
+  `plain-2-linear` and `link-broken-linear` are aliases in Iconify's current
+  listing (of `plane-2-linear` and `unlink-linear`), so the glyphs ship as
+  `plane-2` and `unlink`. A2: all of Ivan's Tiptree drawings are kept,
+  including `close`, `check`, `blockquote`, `table-header`, `grip-dots`,
+  `list-numbered` and `reply-arrow`, where Solar now has a glyph. A3: folded
+  into A9. A4: the Solar credit reaches the chat widget through `NOTICE` (the
+  frontend's widget build is to read `NOTICE` files; owed, see the last
+  bullet) and travels inside the icon module. A5: docs' twelve sidebar glyphs ship. A6: release-candidate tags
+  bump every version surface to `X.Y.Z-rc.N`; the final tag re-bumps; no
+  default branch pins a candidate. No candidate was cut for 0.7.0: the
+  rebuild's first step proved the build in Althea on its landing branch, and
+  Richard tags `v0.7.0` once (2026-10-02). A7: `radius-28` is minted, `radius-10` is
+  not, the numeric names stay and `radius-6` stays off the ladder. A8: the
+  ten surface roles are minted and the `tokens.css` and theme-file budgets
+  rise with them. A9: the Button's dark tokens are the prototype's glass made
+  opaque, row (c): primary `#2e585a`, hover `#43696b`, secondary hover
+  `#40403f`; the light values are `teal-600` / `teal-700` / white with
+  secondary hover `stone-150`; the border assertion re-rules to
+  `color-border-control`.
+- **Ivan's sheet of 2026-10-01, the answers taken** (sent asynchronously; a
+  default holds unless he objects, and any item he changes is recorded as a
+  new entry). 3: primary is teal; black stays the invert variant. 4: the four
+  Button roles above. 8: icon names describe the drawing in Solar's
+  kebab-case; role maps live in apps. 9: Linear at rest; `-filled` is Bold
+  only for the identical drawing (`pin-filled`); `menu-dots` and `grip-dots`
+  are the sanctioned solids (`plus-heavy` joins them from the proposals of
+  2026-10-02, below); `pause` gets the Linear `pause-circle`. 10: every
+  stroked shape carries `vector-effect="non-scaling-stroke"` at 1.5. 11:
+  `projects` = `folder` and `chat` = `sms` merge; `whatsapp` stays out (brand
+  mark); `comment` stays out until its origin is known and lives app-local.
+  12: glyphs the registry lacks are fetched under Solar's names or go in an
+  app's registered extension file, folded in at the next release; at the
+  landing that file holds `comment` only. 14: `font-label-mono` is not
+  minted. 15: the heading sub-weight is 510. 16: motion and z-index values
+  are unchanged. 17: `surface-alpha-*` is not minted (soft → `surface-hover`,
+  current → `surface-open`, inks → `shadow-*`). 18: `radius-28`, the ladder
+  with numeric names, `radius-6` kept for Lacuna off the ladder, no
+  `radius-10`. 19: `border-hairline`, 1px and 0.5px at twice the density,
+  web-only. 26: the surface role names follow his block, box and overlay.
+  Recorded for the component phase: D5 (sheet 1), atoms take `.tt-*` class
+  names; D6 (sheet 2), the library owns the four `control-*` sizes with their
+  type and glyph sizes, icon-only buttons are circles with a required label,
+  no per-consumer geometry knobs; D9 (sheet 7), the frontend retires its iOS
+  blue `--color-accent` and re-points its two uses by role.
+- **Prototype proposals of 2026-10-02 (Richard).** Ivan's
+  `docs/design-system/package-proposals.md`, with its
+  `package-proposals.tokens.json` in our `tokens.json` shape (prototype
+  `035beb5`), ruled by Richard on 2026-10-02. Taken in 0.7.0: row 10, New
+  conversation's plus as the fourteenth Tiptree drawing, `plus-heavy` (Ivan,
+  2026-10-02, decisions 12.25: the plus with its bars filled 2.7 thick in the
+  24 box, the one optical correction, drawn in so the line rule holds with no
+  exception), a sanctioned solid beside `menu-dots` and `grip-dots`; named
+  for what it draws, not `plus-new`, which would name its role; the box's
+  plus stays `add`. Row 8, one family for a control's colours: declined for
+  0.7.0, because taking one name now would split the secondary Button's
+  colours across two families, and deferred to Button's graduation, where
+  the five `color-button-*` names fold into `color-action-*` with aliases
+  for the four released ones, and the package adopts the prototype's naming
+  rule (kind first for scale and roles, component first for a component's
+  own tokens, the package's words, no abbreviations) as its own. Deferred to
+  a tokens-only 0.8.0 cut before the landing's atoms step: row 1 (the
+  spacing scale, web-only, which that step reads), row 3 (the title step in
+  the heading register, before the home is ported), row 5 (the two glyph
+  sizes, with row 4), and row 2 (the corner roles, minted when a prototype
+  stylesheet reads them, his phase 4). Later: row 4 (the control sizes in
+  rem would change four released web-only values; decided with his phase 5
+  pictures at 125%) and row 6 (shadows at their drawn strengths, with the
+  alpha-as-number question of row 9; the hex pairs are within 0.2 of a
+  point, a known rounding). Row 7 agreed: Button's sizes are 12 at the
+  sides and 6 from glyph to word; the app builds its Button at those values
+  now, so graduation is a lift, not a change. Declined for now: row 9 (the
+  W3C Design Tokens format would rewrite the generator's source format with
+  no consumer benefit yet; the proposals file in our `tokens.json` shape is
+  the intake; the converter and its test are welcome when his phase 3
+  lands). Ivan's D11 question: the prototype writes the package's names
+  itself from its phase 2, with no alias layer, and the app carries no
+  override layer for unreleased proposals, so a proposal the landing's CSS
+  reads is released before that CSS ports.
+- **`border-hairline`** (web-only; base `1px`; `0.5px` in a new top-level
+  `media` block, `high-density`, query `(resolution >= 192dpi)`). Demand,
+  counted as `var(--border-hairline` uses: the prototype 86 (`app/explore.css`
+  49, `app/features/*.css` 27, `app/components/*.css` 10), docs 26
+  (`docs_server/web/src`), website-v2 44 (43 in CSS, 1 in HTML); all three
+  write the same query (prototype `design-system/styles/brand.css:286-290`,
+  docs `brand.css:138-141`, website-v2 `layouts/assets/styles/brand.css:279-282`).
+  The generator accepts named media blocks with allow-listed queries, only
+  for web-only base tokens whose value differs, and emits each after the base
+  `:root` in `primitives.css` and the compatibility `tokens.css`, never in a
+  theme file; Python keeps `'border-hairline': '1px'` and Swift never sees it.
+  Value, not geometry: this is a token, not a component rule, so the
+  2026-07-24 correction (a Button rule that overwrote consumer geometry at
+  high density) does not apply. Engine evidence: Chromium 154 headless at
+  device scale 2 matches the query and computes `border-top-width: 0.5px` and
+  a 0.5px fill; at scale 1, `1px` (the 2026-07-24 note of Chromium computing
+  1px under emulation does not reproduce here). WebKit at DPR 2 is not
+  measured; it is owed with the showcase review.
+- **`radius-28`** (cross-platform; Swift `r28`): the prototype's
+  `--radius-3xl`, the home box (`app/features/composer.css:25`), with
+  website-v2's three literal 28s as a second consumer
+  (`layouts/assets/hero-demo/hero-demo.css:256`, `:1889`;
+  `layouts/assets/styles/site.css:2554`); Ivan's 12.15. The ladder is
+  4 / 8 / 12 / 16 / 20 / 24 / 28 / full under numeric names, each step's
+  role recorded in `docs/USING.md` from the prototype's `CHANGES.md`; apps
+  map `--radius-sm` → 8, `-md` → 12, `-2xl` → 24, `-3xl` → 28. `radius-6`
+  stays because Lacuna reads it twice; no new use.
+- **Font stacks.** `font-sans` leads `'Inter Variable', 'Inter',
+  'Inter Fallback'`, then the package's existing tail (nothing ruled the
+  prototype's tail); `font-serif` gains `'Literata Fallback'`. Evidence: the
+  prototype `design-system/styles/brand.css:193-196`, website-v2
+  `brand.css:188-190`, the frontend `frontend/web/src/assets/styles/tokens.css:368-371`,
+  docs `brand.css:78-80` with `fonts.css:4, 47` (docs spells
+  `inter Fallback`; family names match case-insensitively). Visible nowhere at
+  a bump except where a consumer reads `--tt-font-sans` directly and the
+  visitor has a local "Inter Variable"; adoption stays under D12.
+  `font-heading-sub-weight` becomes `{font-weight-medium}` (510), resolving
+  the 2026-09-29 entry's "recorded, not resolved"; visible on website-v2,
+  which aliases it.
+- **Button roles** (cross-platform): `color-action-primary-bg` `{teal-600}` /
+  `#2e585a`, `color-action-primary-bg-hover` `{teal-700}` / `#43696b`,
+  `color-action-primary-fg` `{stone-000}` in both, and
+  `color-button-secondary-bg-hover` `{stone-150}` / `#40403f`. The prototype
+  paints them at `app/features/composer.css:1643-1697` (light: `teal-600`,
+  `teal-700` on hover, the secondary on `--row-hover`; dark: glass,
+  `rgb(46 88 90 / 82%)` and `rgb(46 88 90)` on hover, white 7% and 18%);
+  the opaque values are the literal (`#2e585a`), the literal mixed 90% with
+  white (`#43696b`) and white 18% over the dark canvas `#161615`
+  (`#40403f`); the glass, its blur and its two-layer shadow are the
+  component's material at 0.8.0, not tokens. White on the primary: light
+  6.00:1 and 7.81:1 on hover, dark 7.90:1 and 6.05:1. The secondary border
+  (`stone-550`) keeps its 3:1 test on its six surfaces; the hover ground is
+  not added to it (dark 2.48:1), because the Button's ring is
+  `color-border-control`, pinned by value. No role folds into an existing one
+  as a pair (invariant 6, now a test).
+- **Surface roles** (Ivan 12.11 to 12.14; prototype `app/explore.css:3807-3867`):
+  `color-surface-block` `{stone-000}` / `#ffffff0f`, `color-surface-box`
+  `{stone-000}` / `#ffffff17`, `color-border-block` `#ecece9` / `#ffffff14`,
+  `color-border-box` `#d0d0c8` / `#ffffff24`, `color-border-box-focus`
+  `#bdbdb3` / `#ffffff33`, `color-border-control` `#e3e3de` / `#ffffff1f`,
+  `color-border-overlay` `#e8e8e3` / `#ffffff1a` (cross-platform; Swift gains
+  fourteen identifiers), and `shadow-block` `0 2px 8px #4d4d470d` /
+  `{shadow-lift}`, `shadow-box` `0 1px 2px #4d4d470d` / `{shadow-lift}`,
+  `shadow-overlay` `0 1px 2px #4d4d470d, 0 8px 24px #4d4d4714` /
+  `0 2px 6px #0000003d, 0 12px 32px #00000066` (web-only). The light rims
+  are the prototype's `hsl(60 8% 92% / 80% / 88% / 90%)` and
+  `hsl(60 7% 72%)` as hex; alphas round by at most 0.3 points. An overlay's
+  fill is the existing `color-surface-card` (the prototype's `--fill-over`),
+  not minted. A test keeps Ivan's rule that the box is the one outlined
+  surface: rims rise block, overlay, box, box focused in both themes, the
+  control ring between block and box.
+- **Tip** (recorded, nothing minted): the frontend's Tip reads `brand-black`
+  and `brand-white` in both themes, as the prototype paints it ("a note laid
+  on the page"); `color-surface-tooltip` keeps its graduated value, since
+  Lacuna reads it; whether it follows the prototype is Ivan's question for
+  0.8.0.
+- **Measured payloads** (raw / Brotli; v0.6.0 against `0.7.0`):
+
+  | Generated file | v0.6.0 | 0.7.0 | Ceiling |
+  |---|---:|---:|---:|
+  | `primitives.css` | 4,383 / 1,117 | 4,600 / 1,198 | 12,288 / 3,072 |
+  | `themes/light-default.css` | 6,408 / 1,025 | 7,677 / 1,202 | 9,216 / 2,048 (was 8,192) |
+  | `themes/dark-default.css` | 6,409 / 1,018 | 7,678 / 1,207 | 9,216 / 2,048 (was 8,192) |
+  | `themes/explicit.css` | 6,423 / 1,026 | 7,692 / 1,201 | 9,216 / 2,048 (was 8,192) |
+  | `tokens.css` | 10,726 / 2,034 | 12,212 / 2,296 | 13,312 / 3,072 (was 12,288) |
+  | `icons/icons.js` | — | 94,236 / 20,008 | 102,400 / 22,528 |
+  | `icons/icons.json` | — | 109,015 / 20,563 | 118,784 / 23,552 |
+
+  Budget ruling: the ten surface roles cost 855 B raw in `tokens.css` and in
+  each theme file, which would have left `tokens.css` 76 B under its 12,288
+  ceiling; the four raw ceilings rise by 1 KiB in this release, Brotli
+  ceilings unchanged. The icon rows are measured plus about 10%; a glyph
+  addition that crosses one is a ruling, not a bump. 125 → 127 base tokens;
+  65 → 79 semantic roles per theme.
+- **The icon contract.** `icons/icons.json` (SOURCE, stored canonically)
+  keys each glyph by what it draws, in Iconify's current Solar kebab-case,
+  with `cut`, `source` (`solar`, `solar-modified`, `tiptree`), `solar` (the
+  Iconify id), `licence` (`CC-BY-4.0` or `Apache-2.0`) and, for modified
+  glyphs, `modified`. 130 glyphs: 113 Solar verbatim (111 linear,
+  `menu-dots` solid, `pin-filled` filled), 3 modified (`microphone`, grille
+  lines removed; `ghost`, eyes filled and enlarged; `history-2`, its dashed
+  ring expanded to the four dots that show) and 14 Tiptree drawings
+  (`grip-dots` and `plus-heavy` solid). Bodies: 88 from the prototype's
+  `app/solar-line.js` (87 at `99ac4f6`, `plus-heavy` at `035beb5`), 19 from
+  docs' sidebar set at
+  `2a4dffd` (Ivan's picks of 2026-09-09, approved, so their bytes are kept:
+  Iconify now hoists `stroke-linecap="round"` onto the group, which rounds
+  some open ends docs draws butt, in 17 of the 19), and 23 fetched from
+  `api.iconify.design` on 2026-10-01 at one request a second and frozen.
+  Normal form: one 24 viewBox; paint explicit as `currentColor` or `none`; a
+  shape is stroked or filled, never both; every `stroke-width` is 1.5 and
+  every stroked shape carries the vector effect, so the line is 1.5px at
+  every size, set by the data; consumers set size and colour only, one
+  resting ink, the glyph centred in its box. The sparkles of `moon-stars` and
+  `stars-minimalistic` keep Solar's unset (1) width and draw at 1px; the lint
+  allow-lists those two names and rejects an unset width anywhere else. No
+  dashes, transforms, styles, references or hex; `validateIcons()` enforces
+  it in the build and `scripts/icon-body.mjs` is the only importer. This line
+  rule replaces the 2026-09-29 entry's "2.25 at 16, 1.8 at 20" and, for
+  package consumers, the prototype's per-size stroke rules and its 15px
+  default. Tiptree drawings take a name that is not a Solar name, except
+  `close` and `check`. Excluded: `whatsapp` (brand mark), `comment` (origin
+  unknown), six Bold library-page glyphs, and marks. Role maps live in apps,
+  which test that every mapped name exists. A glyph an app needs first lives
+  in its extension file, registered in `registry/icon-extensions.md` (one
+  row: Althea's `comment`, `third-party-unknown`, which never folds) and
+  folded in at the next minor. Attribution: `NOTICE`, `LICENSE-CC-BY-4.0.txt`
+  in both artifacts, the module's `/*! … @license Apache-2.0 AND CC-BY-4.0 */`
+  header and its `attribution` property; the package licence is
+  `Apache-2.0 AND CC-BY-4.0`. The prototype port's rename map is
+  `icons/prototype-names.json`, re-stamped to `99ac4f6` (no glyph changed
+  since `2172ffc`), with `send` → `plane-2` and, at `035beb5`,
+  `plusNew` → `plus-heavy`.
+- **Status: provisional.** Consumer: Althea, pending (checkpoint 1 of the
+  rebuild's landing branch, pinned to `v0.7.0`).
+  Withdrawal: if no Althea release that imports
+  `@tiptree/design-system/icons.js` has merged to the frontend's `main` when
+  0.8.0 is cut, 0.8.0 removes the icon export (`icons/`, `dist/icons/`, the
+  exports, the wheel assets, the budget rows, the tests) with no deprecation
+  release, as v0.4.0 removed Button (2026-08-17); consumers pin immutable
+  assets and see nothing until they bump.
+- **Supersessions.** The 2026-09-29 sub-weight "recorded, not resolved" →
+  510. Its icon line rule → the data-carried line above. Its sitting agenda:
+  secondary-hover convergence closes with `color-button-secondary-bg-hover`;
+  the ghost/button hover folds onto `surface-hover` unless Ivan objects;
+  invert-hover dark graduation stays open. D6 amends invariant 3 for the
+  graduating Button and supersedes the 2026-07-24 knob entries (the
+  identity/geometry split's six knobs, the border-width knob, the knob
+  ownership correction): no migration knobs, the four `control-*` sizes
+  library-owned; it takes effect when Button graduates at 0.8.0.
+- **The 0.x versioning policy.** A patch changes no name. A minor may add
+  names; it renames or removes one only with an alias kept for one minor
+  (`aliases` in `icons.json`; an alias token `{new}` for a token) and a line
+  under "Removed" or "Renamed" in the notes. `tests/public-surface/` records
+  every release's names (CSS name per block, applicability, Swift
+  identifiers, Python keys, npm exports, files and licence, the wheel's
+  package data and licence files, glyph names with cuts), written by
+  `scripts/public-surface.mjs`; the test fails on any unrecorded change,
+  checks removals against the previous release's snapshot and the notes, and
+  freezes a snapshot once its tag exists. The v0.6.0 baseline was built from
+  the `v0.6.0` tag. Against it, 0.7.0 adds 323 names and removes none:
+  157 for tokens (16 applicability, 23 Swift identifiers, 118 CSS
+  name/block pairs), 130 glyphs, 30 Python keys, 4 npm entries (two exports,
+  two files) and 2 wheel entries; the npm licence changes. Pre-release tags
+  `vX.Y.Z-rc.N` are immutable, attested and never pinned by a default branch;
+  `release.yml` now triggers on them and marks them pre-releases. 1.0 when
+  the names have survived a second merged consumer, the names snapshot is
+  unchanged for one release after it, provenance is complete, and the
+  snapshot test runs in CI; from 1.0, semver.
+- **Tests.** `tests/icons.test.mjs`: the names snapshot
+  (`tests/snapshots/icon-names.json`), the body lint with its rejections, the
+  importer (the `history-2` expansion), provenance and the pinned counts,
+  exclusions, parity of the source, module and wheel copies with a
+  byte-for-byte rebuild, the packaging and licence wiring, the port map.
+  `tests/decisions.test.mjs`: version parity includes `icons.json`; the
+  sub-weight by reference; `radius-28`, the hairline, the Button and surface
+  roles by value, reference and applicability, their contrast and order; no
+  new role folding into an existing pair; the rulings not to mint; the font
+  stacks; the media block's placement and its six rejections; Swift free of
+  the hairline; Python carrying the base value. `tests/public-surface.test.mjs`
+  as above. `scripts/check_artifacts.py` runs in CI and in the release after
+  the tarball and wheel are built. `npm run ci` passes on the branch.
+- **At the tag (2026-10-02).** The rebuild's first step proved the build in
+  Althea, and its two reviews asked nothing of the package, so `v0.7.0` is
+  tagged without a candidate; the guide's Current-release line and
+  release-history row are written with it. Owed after the tag (RELEASING
+  step 3; guide §3): Ivan's approval on the showcase (the glyphs at 16 and 20
+  in both themes, the hairline at DPR 1 and 2 with WebKit measured, the
+  corner ladder and its nested pairs, the Button roles and the surfaces),
+  which the 0.6.0 hand-over does not cover for Tiptree-drawn, renamed,
+  re-cut or fetched glyphs; the audit matrix with consumer SHAs (owed since
+  0.6.0); verification in the other five consumers, at their bumps; the
+  frontend's widget notices reading `NOTICE` before Althea's bump merges
+  (A4); iOS through CI's `swift-package` job and the Swift diff (additions
+  only, 23 identifiers).

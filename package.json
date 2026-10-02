@@ -1,6 +1,6 @@
 {
   "name": "@tiptree/design-system",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": false,
   "description": "Tiptree shared design tokens and light/dark theme policies.",
   "license": "Apache-2.0 AND CC-BY-4.0",
