@@ -35,8 +35,9 @@ same source commit.
    ```
 
 6. The tag starts `.github/workflows/release.yml`. The workflow repeats the
-   release gates, builds both packages, writes their SHA-256 checksums, attests
-   their provenance, and creates the GitHub Release with the checked-in notes.
+   release gates, builds both packages, checks their contents (below), writes
+   their SHA-256 checksums, attests their provenance, and creates the GitHub
+   Release with the checked-in notes.
 7. Before announcing the release, download every asset, verify it against
    `SHA256SUMS`, and run `gh attestation verify` on the tarball, wheel, and
    checksum file.
@@ -48,6 +49,36 @@ same source commit.
 
 Release assets are immutable. Never delete, replace, or re-upload an asset. If
 an artifact or its metadata is wrong, fix the source and cut a new version.
+
+### Artifact contents
+
+`scripts/check_artifacts.py` (standard library only) runs in CI's
+`candidate-artifacts` job and in the release workflow, after the tarball and
+the wheel are built and before anything is checksummed or attested:
+
+```sh
+python scripts/check_artifacts.py candidate/npm/*.tgz candidate/python/*.whl
+```
+
+It fails unless the wheel holds exactly the files the build wrote under
+`python/tiptree_ui/assets/` (so a package-data glob that misses a file fails,
+including `assets/icons.json` and `assets/icons.js`); the wheel's
+`*.dist-info/licenses/` holds `LICENSE`, `NOTICE` and `LICENSE-CC-BY-4.0.txt`;
+its `METADATA` carries `License-Expression: Apache-2.0 AND CC-BY-4.0`; the
+tarball holds `package/LICENSE`, `package/NOTICE`,
+`package/LICENSE-CC-BY-4.0.txt`, `package/dist/icons/icons.js` and
+`package/dist/icons/icons.json`; and the wheel's two icon files are
+byte-identical to the tarball's. `npm run ci` builds no wheel, so this check
+is not part of it; run it locally after building the candidates as CI does.
+
+### Attribution
+
+The icon artwork is Solar by 480 Design under CC BY 4.0. A consumer that
+bundles `icons.js` keeps its `/*! … */` header or ships the package's `NOTICE`
+and `LICENSE-CC-BY-4.0.txt` with its third-party notices; the module's
+`attribution` property survives a bundler that strips comments. Althea's chat
+widget notices must name Solar: its notices builder must read the package's
+`NOTICE` and every licence file, not only the first `LICENSE`.
 
 ## Pin a consumer
 
@@ -127,3 +158,6 @@ every page links both files with a version query
 bump; an opt-in check that downloads the tarball and byte-compares the two
 files proves the hashes were not typed by hand. Bump by replacing the files,
 the hashes in the test, and the version queries.
+
+Copy `dist/icons/icons.js` too when the site uses icons, pin its sha256 in the
+same test, and import it with `?v=X.Y.Z`.

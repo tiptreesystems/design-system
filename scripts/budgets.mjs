@@ -1,6 +1,7 @@
-// Payload budgets are a release gate. Every default/unlayered component must
-// have an explicit entry; layered copies are exempt as documented in _meta.
-import { readFileSync, readdirSync } from 'node:fs';
+// Payload budgets are a release gate. Every default/unlayered component and
+// every file under dist/icons/ must have an explicit entry; layered copies are
+// exempt as documented in _meta.
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { brotliCompressSync, constants } from 'node:zlib';
@@ -9,22 +10,23 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const budgets = JSON.parse(readFileSync(join(ROOT, 'budgets.json'), 'utf8'));
 const slash = (value) => value.split(sep).join('/');
 
-function cssFiles(directory) {
+function filesUnder(directory, extension = '') {
   const files = [];
   const walk = (current) => {
     for (const entry of readdirSync(current, { withFileTypes: true })) {
       const path = join(current, entry.name);
       if (entry.isDirectory()) walk(path);
-      else if (entry.isFile() && entry.name.endsWith('.css')) files.push(path);
+      else if (entry.isFile() && entry.name.endsWith(extension)) files.push(path);
     }
   };
-  walk(directory);
+  if (existsSync(directory)) walk(directory);
   return files.sort();
 }
 
 let failed = false;
 const componentRoot = join(ROOT, 'dist/css/components');
-for (const file of cssFiles(componentRoot)) {
+const iconRoot = join(ROOT, 'dist/icons');
+for (const file of [...filesUnder(componentRoot, '.css'), ...filesUnder(iconRoot)]) {
   const key = slash(relative(ROOT, file));
   if (!(key in budgets)) {
     console.error(`FAIL  ${key}  missing payload budget`);

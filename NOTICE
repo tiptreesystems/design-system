@@ -8,3 +8,17 @@ The "Tiptree" name, the Tiptree logo and wordmarks, and Tiptree's brand
 identity are trademarks of Tiptree Systems. They are not licensed under
 the Apache License, Version 2.0, and no rights to them are granted by
 this distribution (see Section 6 of the LICENSE file).
+
+Icons
+
+This distribution includes icon artwork from Solar by 480 Design
+(https://www.figma.com/community/file/1166831539721848736), obtained through
+Iconify (https://icon-sets.iconify.design/solar/), licensed under the Creative
+Commons Attribution 4.0 International License (CC BY 4.0,
+https://creativecommons.org/licenses/by/4.0/; full text in
+LICENSE-CC-BY-4.0.txt). Tiptree Systems changed the SVG markup of every Solar
+glyph (attributes normalised, vector-effect="non-scaling-stroke" added) and
+changed the drawings of the glyphs whose "source" is "solar-modified" in
+icons/icons.json, as that file's "modified" field describes. Glyphs whose
+"source" is "tiptree" are original works of Tiptree Systems under the Apache
+License 2.0. 480 Design does not endorse Tiptree Systems or this distribution.

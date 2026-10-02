@@ -1,6 +1,6 @@
-# Tiptree Design System — Operating Guide (v3.2)
+# Tiptree Design System — Operating Guide (v3.3)
 
-**Status:** current as of 2026-09-30. Supersedes the Operating *Plan* v3.0 (2026-08-13): that plan's roadmap is complete except for the items in §4, so this document no longer schedules work — it describes how the system works and the rules it runs by. Decisions live in `docs/DECISION_LEDGER.md`; this guide points at them and never duplicates them. The plan-era text remains in git history (`docs/PLAN.md`, renamed 2026-08-21).
+**Status:** current as of 2026-10-01. Supersedes the Operating *Plan* v3.0 (2026-08-13): that plan's roadmap is complete except for the items in §4, so this document no longer schedules work — it describes how the system works and the rules it runs by. Decisions live in `docs/DECISION_LEDGER.md`; this guide points at them and never duplicates them. The plan-era text remains in git history (`docs/PLAN.md`, renamed 2026-08-21).
 
 ## 1. What is true
 
@@ -49,11 +49,13 @@ Consumer entries are appended to the ledger only after the corresponding merge.
 10. **Respect asset inheritance boundaries.** Inline SVG may use `currentColor`; `<img>`-loaded SVG cannot, and uses canonical literals guarded by a retired-palette test (2026-08-19).
 11. **Public evidence is self-contained and machine-neutral.** Repo-relative paths, roles over names, no citations that resolve only on someone's machine (2026-08-20 redaction). Citing a file path or line number inside a private consumer repository is allowed; it discloses layout, not secrets (a stricter 2026-10-01 clause was withdrawn the same day, see the ledger).
 12. **Agent-entry parity.** All agent entry files resolve to the same repo guide — symlink, never duplicate (2026-08-21).
+13. **Icons are data keyed by what they draw; role names live in apps; provenance travels with every glyph.** The package names a glyph for its drawing in Solar's current Iconify kebab-case, never for a product role; each app keeps its own role map and tests that every mapped name exists; every glyph records its source, Iconify id, licence and any modification, and the line rule travels in the data, not in consumer CSS (2026-10-01).
 
 ## 3. Governance
 
 - **The ledger is the record; this guide is the map.** `docs/DECISION_LEDGER.md` is append-only and evidence-first; corrections are new entries. Check it before changing any value.
 - **How a token enters.** Shared across two or more independent consumers, or carrying a ruled-canon justification → a ledger ruling, an entry in `tokens/tokens.json` with its applicability class, symmetric light/dark decision tests (resolved values *and* reference structure), and a release. Consumers then alias it. App-only roles stay in the consumer, registered as app-local.
+- **How a glyph enters.** Fetched from Solar under its current Iconify name and imported with `scripts/icon-body.mjs` (one request a second, honouring `retry-after`; the body is then frozen), or drawn by Tiptree on the 24 grid at 1.5 under a descriptive name that is not a Solar name; either way with the designer's approval, its provenance in `icons/icons.json`, the names snapshot regenerated, and a release. A glyph an app needs sooner goes in that app's extension file, registered in `registry/icon-extensions.md` and folded in at the next minor; a glyph of unknown origin never folds. Brand marks are never icons.
 - **Divergence is classified, not prevented.** Visibility comes from consumer pins and pinned-SHA audit matrices (a supported in-repo audit script is open work; the earlier generator lives only in a consumer's branch history). Four dispositions, each with precedent: accidental drift → fix to canon; deliberate sub-brand → a named `themes/*.css` file here, never app-local CSS; genuinely app-local → registered; component behavioral fork → reconcile into core plus adapter. An audit is required whenever a release proposes roles outside the last audited matrix, and the audited consumer SHAs are recorded.
 - **Goal: zero divergence that nobody chose.** Registered app-local roles and app-owned geometry are healthy, permanent divergence. Shared palette and surface roles converge unless explicitly ruled otherwise — Lacuna's palette and surface hierarchy were ruled drift and converged, not registered.
 - **Review protocol for material rulings.** Two independent evidence reviews (adversarial, grep-verified) precede the authority entry; each batch closes with a bounded sitting agenda rather than open questions.
@@ -75,4 +77,5 @@ Consumer entries are appended to the ledger only after the corresponding merge.
 - `RELEASING.md` — cutting releases and pinning consumers. `docs/ROLLBACK.md` — reverting a consumer.
 - `docs/USING.md` (integrators), `docs/ADDING_A_COMPONENT.md` (contributors), `docs/DESIGNER_GUIDE.md` (designer).
 - `specs/` — component contracts (`TEMPLATE.md`; `button.md` dormant). `themes/README.md` — sub-brand theme rules.
+- `icons/icons.json` — the icon registry; `icons/prototype-names.json` — the prototype port's rename map; `registry/icon-extensions.md` — app-local icon extensions.
 - `showcase/index.html` — the explorer.

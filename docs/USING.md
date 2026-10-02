@@ -96,6 +96,53 @@ content-hashed build artifact. A site without one vendors verbatim copies of
 checks their sha256s and that every page links them with a version query; that
 is the sanctioned form, not a fork (`RELEASING.md`, Static sites).
 
+## Icons
+
+`@tiptree/design-system/icons.js` is one frozen, data-only ES module (provisional
+at 0.7.0: if no Althea release importing it has merged when 0.8.0 is cut, 0.8.0
+withdraws it). Each glyph is keyed by what it draws, in Solar's current Iconify
+names (`close`, `close-circle`, `magnifier`, `pin-filled`), and carries its cut
+(`linear` at rest; `filled`, the Bold of the same drawing, for an on state;
+`solid` for `menu-dots`, `grip-dots` and `plus-heavy` only) and its body for a
+24 viewBox.
+Provenance and licence per glyph stay in `icons.json`.
+
+```js
+import { ICONS } from '@tiptree/design-system/icons.js';
+
+// The app's own helper and class; the package ships data, not markup helpers.
+export const icon = (name, size = 16) =>
+  `<svg viewBox="${ICONS.viewBox}" width="${size}" height="${size}" aria-hidden="true" focusable="false" class="app-icon">${ICONS.glyphs[name].body}</svg>`;
+
+// Role names live in the app: a role map from what the control means to what
+// the glyph draws.
+export const ROLES = { search: 'magnifier', dismiss: 'close', send: 'arrow-up', pinned: 'pin-filled' };
+```
+
+- **Test that every mapped name exists.** An unknown name is a silent empty
+  glyph in a template helper, so the app asserts
+  `Object.values(ROLES).every((name) => name in ICONS.glyphs)`.
+- **Size and colour only.** Every stroked shape carries
+  `vector-effect="non-scaling-stroke"` at `stroke-width` 1.5, so the line is
+  1.5px at 16, 20 or any size (the sparkles of `moon-stars` and
+  `stars-minimalistic` draw at 1px, by Solar's design). Set `width`/`height` and `color`
+  (`currentColor` paints the glyph); delete CSS `stroke-width` rules aimed at
+  icons, which now mean screen pixels. One resting ink; centre the glyph in
+  its box.
+- **A glyph the registry lacks** goes in the app's extension file (same schema
+  as `icons/icons.json`, imported with `scripts/icon-body.mjs`), registered in
+  `registry/icon-extensions.md` and folded into the package at the next minor.
+  Brand marks are not icons and stay app assets.
+- **Attribution.** A bundle that strips legal comments still carries the
+  module's `attribution` property; ship the package's `NOTICE` and
+  `LICENSE-CC-BY-4.0.txt` with the app's third-party notices.
+- **Python:** no API; read the data with
+  `importlib.resources.files('tiptree_ui') / 'assets' / 'icons.json'`.
+- **Static sites:** vendor `dist/icons/icons.js` byte-for-byte from the
+  release tarball like the CSS, pin its sha256 in the same test, and import it
+  with `?v=X.Y.Z`.
+- There is no Swift form; iOS keeps its own assets.
+
 ## Components
 
 There are currently no published components. A shared component is added only

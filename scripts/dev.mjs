@@ -1,5 +1,5 @@
 // The designer's one command: npm run dev
-// Watches tokens/ + css/, rebuilds on change, serves the showcase.
+// Watches tokens/, css/ and icons/, rebuilds on change, serves the showcase.
 // Zero dependencies; the designer never touches the generator.
 import { existsSync, watch } from 'node:fs';
 import { readFile } from 'node:fs/promises';
@@ -23,7 +23,7 @@ function rebuild() {
 
 rebuild();
 let timer;
-for (const dir of ['tokens', 'css']) {
+for (const dir of ['tokens', 'css', 'icons']) {
   const sourceDirectory = join(ROOT, dir);
   if (!existsSync(sourceDirectory)) continue;
   watch(sourceDirectory, { recursive: true }, () => {

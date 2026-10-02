@@ -1,6 +1,7 @@
 // Zero-dependency token/theme generator with optional graduated components.
-// Source files are tokens/tokens.json and any css/components/**/*.css; every
-// file under dist/ and Python package assets is generated.
+// Source files are tokens/tokens.json, icons/icons.json and any
+// css/components/**/*.css; every file under dist/ and Python package assets is
+// generated.
 import {
   copyFileSync,
   existsSync,
@@ -14,6 +15,7 @@ import { createHash } from 'node:crypto';
 import { brotliCompressSync, constants as zlibConstants } from 'node:zlib';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildIcons } from './build-icons.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PREFIX = '--tt-';
@@ -266,6 +268,7 @@ export function build() {
 
   const generatedRoots = [
     join(ROOT, 'dist/css'),
+    join(ROOT, 'dist/icons'),
     join(ROOT, 'dist/swift'),
     join(ROOT, 'python/tiptree_ui/assets'),
   ];
@@ -377,11 +380,14 @@ export function build() {
     copyFileSync(join(ROOT, 'dist/css', file), destination);
   }
   copyFileSync(join(ROOT, 'dist/manifest.json'), join(pythonAssets, 'manifest.json'));
+  // After the Python assets: the generated roots above were just recreated.
+  const icons = buildIcons(ROOT, { tokensVersion: data.meta.version });
 
   return {
     tokens: Object.keys(data.tokens).length,
     semantic: Object.keys(data.themes.dark).length,
     components: order.length,
+    icons: icons.glyphs,
   };
 }
 
@@ -389,6 +395,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const result = build();
   console.log(
     `built: ${result.tokens} base tokens, ${result.semantic} semantic tokens x2 themes, ` +
-      `${result.components} component(s) -> dist/, python/tiptree_ui/`,
+      `${result.components} component(s), ${result.icons} icons -> dist/, python/tiptree_ui/`,
   );
 }

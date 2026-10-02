@@ -3,12 +3,14 @@
   "version": "0.6.0",
   "private": false,
   "description": "Tiptree shared design tokens and light/dark theme policies.",
-  "license": "Apache-2.0",
+  "license": "Apache-2.0 AND CC-BY-4.0",
   "type": "module",
   "files": [
     "LICENSE",
+    "LICENSE-CC-BY-4.0.txt",
     "NOTICE",
     "dist/css/",
+    "dist/icons/",
     "dist/manifest.json",
     "themes/"
   ],
@@ -16,12 +18,14 @@
     "./primitives.css": "./dist/css/primitives.css",
     "./themes/*.css": "./dist/css/themes/*.css",
     "./manifest.json": "./dist/manifest.json",
-    "./tokens.css": "./dist/css/tokens.css"
+    "./tokens.css": "./dist/css/tokens.css",
+    "./icons.js": "./dist/icons/icons.js",
+    "./icons.json": "./dist/icons/icons.json"
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "node scripts/build-tokens.mjs",
-    "test:node": "node --test tests/*.test.mjs",
+    "test:node": "node --test --test-concurrency=1 tests/*.test.mjs",
     "test:python": "node scripts/test-python.mjs",
     "test": "npm run test:node && npm run test:python",
     "budgets": "node scripts/build-tokens.mjs && node scripts/budgets.mjs",

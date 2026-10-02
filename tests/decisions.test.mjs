@@ -375,12 +375,13 @@ test('resolver handles arbitrary-depth chains and rejects cycles and unknowns', 
   assert.throws(() => resolve({ x: '{ghost}' }, {}), /unknown token reference/);
 });
 
-test('version parity: packages, tokens, release notes', () => {
+test('version parity: packages, tokens, icons, release notes', () => {
   const pkg = JSON.parse(read('package.json')).version;
   const pyproject = read('python/pyproject.toml').match(/^version = "(.+)"$/m)[1];
   const init = read('python/tiptree_ui/__init__.py').match(/__version__ = "(.+)"/)[1];
   const releaseNotes = read('RELEASE_NOTES.md').match(/^# v(.+)$/m)[1];
-  const versions = { pkg, pyproject, tokens: data.meta.version, init, releaseNotes };
+  const icons = JSON.parse(read('icons/icons.json')).meta.version;
+  const versions = { pkg, pyproject, tokens: data.meta.version, icons, init, releaseNotes };
   assert.equal(new Set(Object.values(versions)).size, 1, `version drift: ${JSON.stringify(versions)}`);
 });
 

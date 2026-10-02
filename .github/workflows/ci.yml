@@ -49,6 +49,8 @@ jobs:
           mkdir -p candidate/npm candidate/python
           npm pack --pack-destination candidate/npm
           python -m pip wheel python/ --no-deps --wheel-dir candidate/python
+      - name: Check artifact contents
+        run: python scripts/check_artifacts.py candidate/npm/*.tgz candidate/python/*.whl
       - name: Create SHA-256 checksums
         working-directory: candidate
         run: sha256sum npm/*.tgz python/*.whl > SHA256SUMS

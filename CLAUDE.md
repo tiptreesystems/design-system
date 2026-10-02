@@ -1,7 +1,8 @@
 # Tiptree Design System — repo guide (humans and agents)
 
 One typed token/theme source, consumed as versioned artifacts (npm package,
-Python wheel, Swift Package, or the release's generated CSS vendored byte-for-byte by a static site). Components join only after production adoption; CSS + markup
+Python wheel, Swift Package, or the release's generated CSS vendored byte-for-byte by a static site),
+and one icon registry, shipped in the npm package and the wheel only. Components join only after production adoption; CSS + markup
 specs are then the canonical web implementation. Generated native tokens serve
 iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 
@@ -13,8 +14,10 @@ iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 | `css/components/*.css` | SOURCE — optional graduated components, authored unlayered |
 | `specs/*.md` | SOURCE — active or explicitly dormant component contracts |
 | `themes/` | SOURCE — sub-brand token overrides (designer-owned) |
+| `icons/icons.json` | SOURCE — designer-approved glyphs keyed by what they draw; provenance (`source`, `solar`, `licence`, `modified`) required on every glyph; stored canonically |
+| `icons/prototype-names.json` | SOURCE — the prototype port's rename map (port aid, not published) |
 | `Sources/TiptreeDesignSystem/GeneratedTokens.swift` | GENERATED + COMMITTED — never edit; rebuilt by `npm run build` and checked by `npm run ci` |
-| `dist/`, `python/tiptree_ui/_tokens.py`, `python/tiptree_ui/assets/` | GENERATED — never edit; rebuilt by `npm run build` |
+| `dist/` (including `dist/icons/`), `python/tiptree_ui/_tokens.py`, `python/tiptree_ui/assets/` (including `icons.json`, `icons.js`) | GENERATED — never edit; rebuilt by `npm run build` |
 
 ## Commands
 
@@ -34,8 +37,12 @@ system python3 is 3.9). Wheel proof: `python3.12 -m pip wheel python/ --no-deps 
   knobs on their own classes without redefining `.tt-*` rules.
 - No bare-element selectors (`button`, `input`, `a`, …) — opt-in `.tt-*` classes only.
 - Every component depends on tokens + its own file — nothing else. No `core.css`.
-- Payload budgets are release gates: a component without a `budgets.json` entry fails.
-- Version parity: package.json = pyproject.toml = tokens meta = `__version__`.
+- Payload budgets are release gates: a component, or a file under `dist/icons/`, without a
+  `budgets.json` entry fails.
+- Version parity: package.json = pyproject.toml = tokens meta = icons meta = `__version__`.
+- Icon bodies pass the lint in `scripts/build-icons.mjs`: the 24 grid, `currentColor`
+  or `none` paint, `stroke-width` 1.5 with `vector-effect="non-scaling-stroke"` on
+  every stroked shape, no hex, dashes, transforms, styles, scripts or references.
 - Override VALUES (tokens/themes), never RULES (`.tt-*` selectors) — app-local
   redefinition of component rules is drift.
 - The brand palette is LOCKED (`#1b1b1b #47696b #638b8d #e3e6a6` + greys); the accent
@@ -67,3 +74,5 @@ between apps for a designer ruling instead of picking a winner silently.
   from a recorded SHA. Never switch branches in a consumer's live working directory;
   never touch main/master; never assume a consumer tree is clean.
 - Never fabricate measurements (payload, performance) — report degraded evidence honestly.
+- Never hand-edit a glyph body: import it with `scripts/icon-body.mjs`. Never add a
+  brand mark, or a glyph without provenance, to `icons/icons.json`.

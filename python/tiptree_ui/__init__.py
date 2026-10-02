@@ -1,7 +1,8 @@
 """tiptree-ui: Tiptree shared tokens and themes for Python consumers.
 
 Ships generated primitives, theme policies, resolved values for media pipelines,
-and (with the flask extra) a Blueprint serving content-addressed CSS. Graduated
+the icon registry as package data (assets/icons.json, assets/icons.js), and
+(with the flask extra) a Blueprint serving content-addressed CSS. Graduated
 components join only after a production consumer adopts their shared contract.
 """
 

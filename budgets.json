@@ -1,10 +1,13 @@
 {
   "_meta": {
-    "componentPolicy": "a component budget is added only when a production consumer graduates its contract"
+    "componentPolicy": "a component budget is added only when a production consumer graduates its contract",
+    "iconPolicy": "the icon module is budgeted per release; a glyph addition that crosses the row is a ruling, not a bump"
   },
   "dist/css/primitives.css": { "raw": 12288, "brotli": 3072 },
   "dist/css/themes/light-default.css": { "raw": 8192, "brotli": 2048 },
   "dist/css/themes/dark-default.css": { "raw": 8192, "brotli": 2048 },
   "dist/css/themes/explicit.css": { "raw": 8192, "brotli": 2048 },
-  "dist/css/tokens.css": { "raw": 12288, "brotli": 3072 }
+  "dist/css/tokens.css": { "raw": 12288, "brotli": 3072 },
+  "dist/icons/icons.js": { "raw": 102400, "brotli": 22528 },
+  "dist/icons/icons.json": { "raw": 118784, "brotli": 23552 }
 }
