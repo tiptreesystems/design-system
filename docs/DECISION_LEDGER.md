@@ -899,3 +899,16 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   use of those weights) and removed it before the merge; marketing-site
   kept the Inter Variable face it already shipped for its public header
   and now paints its own pages from it, retiring its static faces.
+
+## 2026-10-01 — Private-repository citations in public evidence: the same-day clause withdrawn (Richard)
+
+- The clause added to invariant 11 earlier today (`2495b6a`), which required
+  public evidence to name a private consumer repository and its pull request
+  number only and never a file path or line number inside it, is withdrawn on
+  Richard's ruling. Reason: such citations disclose repository layout, not
+  secrets; the risk is low and the clause cost the evidence its precision.
+  The original 2026-08-20 clause stands: no citations that resolve only on
+  someone's machine, and no secrets.
+- The two scrub commits made under the clause (`c8fade2`, `d928859`) stand as
+  tidy-ups; nothing is restored and no history is rewritten. Entries after
+  this one may cite private-repository paths and line numbers again.
