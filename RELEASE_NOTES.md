@@ -2,7 +2,7 @@
 
 This release makes the Althea prototype's September tuning canon, as ruled in
 the 2026-09-29 entry in `docs/DECISION_LEDGER.md`: the prototype
-(`althea-prototype/app/explore.css` and its vendored `brand.css`) is the
+(the `althea-prototype` repository's `explore.css` and its vendored `brand.css`) is the
 source of truth for every value, and everything it introduced is shared. Three
 independent consumers (the homepage, docs, and the prototype) already carry the
 direction. The 2026-08-18 light-canvas gate is satisfied, so Althea's pin bump

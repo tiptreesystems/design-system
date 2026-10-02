@@ -85,9 +85,9 @@ rasterization.
 
 | Preset | Height / min-height | Padding | Gap | Font size / line height | Provenance |
 |---|---|---|---|---|---|
-| `sm` | 32px / auto | 1px 12px | 8px | 13px / normal | `docs_server/web/src/styles/components/button.css:29-34` |
-| `md` | 40px / auto | 1px 14px | 8px | 13px / normal | `docs_server/web/src/styles/components/button.css:36-41` |
-| `lg` | 44px / auto | 1px 20px | 6px | 16px / normal | `docs_server/web/src/styles/components/button.css:43-48` |
+| `sm` | 32px / auto | 1px 12px | 8px | 13px / normal | docs `button.css`, small preset |
+| `md` | 40px / auto | 1px 14px | 8px | 13px / normal | docs `button.css`, medium preset |
+| `lg` | 44px / auto | 1px 20px | 6px | 16px / normal | docs `button.css`, large preset |
 
 The 37 app-context profiles remain recorded in
 `docs/button-parity-inventory.md`; they are migration inputs and future designer

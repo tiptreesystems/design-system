@@ -15,9 +15,9 @@ retiring `docs-new` proof worktree is not a migration target.
 
 | Surface | Source inspected | Revision |
 |---|---|---|
-| Lacuna | `.slice-worktrees/lacuna/lacuna/interfaces/web.py`, `flask_site/*.py` | worktree `594816de20eddb428963ad6c45d1d448819c215b`; pre-slice consumer pin `c83877d185fa9e3a6fe95e07fba336744f91c923` |
-| Althea | `.slice-worktrees/althea/frontend/web/src/assets/styles/`, component renderers, settings CSS | worktree `4605773be410c2f5232342b5b97baca2ac3cc755`; pre-slice consumer pin `3614b8ebe7b7fef0cede8c6bbff40f9446000fde` |
-| Docs reference | `docs/docs_server/web/src/styles/components/button.css` and rendered fragments/components | `a918274a91b50c384ed1c8160726c83e9f80ca27` |
+| Lacuna | `web.py` and the page modules | worktree `594816de20eddb428963ad6c45d1d448819c215b`; pre-slice consumer pin `c83877d185fa9e3a6fe95e07fba336744f91c923` |
+| Althea | the app stylesheets, component renderers, settings CSS | worktree `4605773be410c2f5232342b5b97baca2ac3cc755`; pre-slice consumer pin `3614b8ebe7b7fef0cede8c6bbff40f9446000fde` |
+| Docs reference | `button.css` and rendered fragments/components | `a918274a91b50c384ed1c8160726c83e9f80ca27` |
 
 The source scan found 71 Lacuna and 133 Althea button/anchor candidates. The
 tables below group repeated uses of the same control family; they do not hide
@@ -31,8 +31,8 @@ Computed values were captured with an installed Chromium headless shell against:
 - the isolated anonymous-renderer CSS embedded in `web.py`; and
 - the updated docs Button CSS with its token/base dependencies.
 
-These are synthetic, saved-in-`/private/tmp` measurement fixtures, not migrated
-real pages. They confirm cascade-resolved geometry but do **not** satisfy the
+These are synthetic measurement fixtures saved in a temporary directory, not
+migrated real pages. They confirm cascade-resolved geometry but do **not** satisfy the
 Phase 3 no-reflow gate. Widths shown for intrinsic controls use the fixture
 label; Phase 3 must compare the same real label and surrounding layout before
 and after migration. A source-only responsive result is marked `UNMEASURED`.
@@ -49,9 +49,9 @@ All measurements are CSS pixels.
 
 | ID | Selector and live usage | Source | Computed geometry | Measurement status |
 |---|---|---|---|---|
-| L1 | `.btn-read-paper` PDF-viewer action in `flask_site/paper_page.py:127` | Lacuna's web layer | `29/0; 6 14 6 14; 6; 14.4/normal/600; 0; 6; 16×16`; example `128.703×29` | Measured |
-| L2 | `.claim-btn.claim-btn-primary` “Send suggestion” in `flask_site/author_page.py:381` | Lacuna's web layer | `27/0; 6 16 6 16; 4; 13.6/normal/600; 0; 6; none`; example `141.578×27`. Secondary adds a 1px border and therefore is a distinct geometry. | Primary measured; secondary source-only |
-| L3 | `.article-suggest-submit` in `flask_site/direction_page.py:454` | Lacuna's web layer,1225` | desktop `36/0; 10 18 10 18; normal; 13.6/normal/600; 0; 6; none`; example `82.844×36`. At `≤640px`, width is `100%`. | Desktop measured; responsive width source-only |
+| L1 | `.btn-read-paper` PDF-viewer action in `paper_page.py` | Lacuna's web layer | `29/0; 6 14 6 14; 6; 14.4/normal/600; 0; 6; 16×16`; example `128.703×29` | Measured |
+| L2 | `.claim-btn.claim-btn-primary` “Send suggestion” in `author_page.py` | Lacuna's web layer | `27/0; 6 16 6 16; 4; 13.6/normal/600; 0; 6; none`; example `141.578×27`. Secondary adds a 1px border and therefore is a distinct geometry. | Primary measured; secondary source-only |
+| L3 | `.article-suggest-submit` in `direction_page.py` | Lacuna's web layer | desktop `36/0; 10 18 10 18; normal; 13.6/normal/600; 0; 6; none`; example `82.844×36`. At `≤640px`, width is `100%`. | Desktop measured; responsive width source-only |
 | L4 | `.feed-query-submit` “Update Feed” in Lacuna's web layer | Lacuna's web layer | desktop `54/54; 0 20 0 20; normal; 16/25.6/700; 0; 18; none`; example `138.453×54`. At `≤700px`, min-height is 50. | Desktop measured; mobile `UNMEASURED` |
 | L5 | `.adv-apply-btn` “Apply” in Lacuna's web layer | Lacuna's web layer | `29/0; 7 18 7 18; normal; 13.6/normal/500; 0; 6; none`; example `70.031×29` | Measured |
 | L6 | anonymous-renderer search submit in Lacuna's web layer | Lacuna's web layer | `45.594/auto; 0 14 0 14; normal; 16/25.6/400; borders 0 0 0 1; 0; none`; `79.516×45.594`, inside a `420×47.594` search form | Measured |
@@ -65,8 +65,7 @@ Notes:
 - `.article-suggest-submit` and the two search actions have layout-dependent
   responsive widths. “Same Button” is not enough to prove no reflow; their
   containing form geometry must also be asserted.
-- `.signup-email-btn` and `.hyp-chat-btn` have CSS at Lacuna's web layer and
-  Lacuna's web layer, but no rendering usage was found in the current Python/JS
+- `.signup-email-btn` and `.hyp-chat-btn` have CSS in Lacuna's web layer, but no rendering usage was found in the current Python/JS
   source. They are orphan styles, not current generic usages.
 - The `Keep in Reading` / `Dismiss` actions in `_BOOKMARKS_CSS` compute to
   `24px` high, but `_unused_bookmarks_page()` is unreachable because
@@ -77,26 +76,26 @@ Notes:
 
 | ID | Selector and usage family | Source | Computed geometry | Measurement status |
 |---|---|---|---|---|
-| A1 | `.app-btn` base: feedback cancel/submit, contact actions, provider add/edit/save/cancel, network actions, settings integration actions | `styles/buttons-app.css:2-38`; render sites include `ChatMessageFooter.js:190-191`, `BaseContactSection.js:45-168`, `advancedPanel.js:183,201,207-208`, `integrationPanel.js:18-88`, `networkPanel.js:79-81` | `36/36; 0 16 0 16; 6; 14/14/500; 1; 999; 16×16 when present`; example text `65.906×36`, with icon `87.906×36` | Measured |
-| A2 | `.add-contact-button.app-btn` full-width contact action | `styles/contact.css:301-314`; `BaseContactSection.js:155` | `48/48; 0 16 0 16; 8; 14/14/500; 2 dashed; 999; none`; fixture width 420 (`100%`) | Measured |
-| A3 | `.qr-action-btn.app-btn` Download vCard | `styles/contact.css:482-534`; `QRCodeDisplay.js:75` | desktop `36/36; 0 16 0 16; 6; 14/14/500; 1; 999; none; width 150`. At `≤768px`: same height, `px12`, font 13, width 150. | Desktop and mobile measured |
-| A4 | `.profile-info-action.app-btn` OpenReview connect/disconnect | `js/settings/settings.css:1176-1185`; `profilePanel.js:530-532` | `36/36; 6 12 6 12; 6; 13/17.55/500; 1; 999; 16×16`; example `98.813×36` | Measured |
-| A5 | `.github-connect-btn.app-btn` connect choices | `js/settings/settings.css:2483-2490`; `githubPanel.js:146,169,192` | `38/36; 10 16 10 16; 6; 14/14/500; 1; 999; 16×16; width 100%`; fixture width 420 | Measured |
-| A6 | `.wandb-connect-btn.app-btn` | `js/settings/settings.css:2704-2710`; `wandbPanel.js:131` | `46/36; 14 24 14 24; 6; 16/16/600; 1; 999; 16×16`; example `136.609×46` (responsive rule makes it `100%`) | Measured |
-| A7 | `.daemon-delete-btn.app-btn` | `js/settings/settings.css:2786-2790`; `daemonPanel.js:66` | `30/30; 0 10 0 10; 6; 12/12/500; 1; 999; none`; example `57.578×30` | Measured |
-| A8 | `.daemon-refresh-btn.app-btn` | `js/settings/settings.css:2792-2795`; `daemonPanel.js:126` | `36/36; 0 16 0 16; 6; 13/13/500; 1; 999; none`; example `80.266×36` | Measured |
-| A9 | `.bug-submit-btn.app-btn` | `js/settings/settings.css:2797-2803`; `bugsPanel.js:62` | A1 geometry plus `min-width:180`; measured `180×36` | Measured |
-| A10 | `.task-modal .btn-primary/.btn-secondary` form actions | `styles/tasks.css:421-461`; `TaskForm.js:84-85` | desktop `33/auto; 8 16 8 16; 4; 13/normal/400; 1; 999; none`. At `≤600px`: `44px`, padding 12, font 16, width `100%`. | Desktop and mobile measured; natural desktop width must be measured in the real flex parent |
-| A11 | `.new-task.btn-primary` | `styles/tasks.css:252-270,428-438,697-707`; `TaskModal.js:334` | desktop `34/auto; 8 16 8 16; 4; 13/normal/500; 1; 999; none`; example `91.719×34`. At `≤600px`: `45px`, padding 12, font 16, width `100%`. | Desktop and mobile measured |
-| A12 | `.pill-button` onboarding idle action emitted by `PillButton` | `styles/base.css:43-64`; `PillButton.js:1-6`, `ChatInput.js:282-286` | `34/0; 8 20 8 20; 4; 13.6/normal/400; 1; 20; none`; example `106.75×34` | Measured |
-| A13 | `.onboarding-skip` | `styles/onboarding.css:123-134`; `OnboardingModal.js:41` | `32/0; 8 4 8 4; 4; 13.6/normal/400; 0; 6; none`; example `34.969×32` | Measured |
-| A14 | `.onboarding-back` | `styles/onboarding.css:141-153`; `OnboardingModal.js:43` | `35/0; 8 20 8 20; 4; 14.4/normal/400; 1; 8; none`; example `74.813×35` | Measured |
-| A15 | `.onboarding-next` | `styles/onboarding.css:155-168`; `OnboardingModal.js:44` | `33/0; 8 24 8 24; 4; 14.4/normal/500; 0; 8; none`; example `78.938×33` | Measured |
-| A16 | `.vcf-download-btn` | `styles/onboarding.css:255-269`; `AltheaContactStep.js:61` | `43/0; 12 12 12 12; 8; 14.4/normal/400; 1 dashed; 8; 16×16; width 100%`; fixture width 420 | Measured |
-| A17 | `.auth-button` authentication/request-access actions | `styles/auth.css:339-398,483-496,615-629`; `AuthScreen.js:241,269-276`, `RequestAccessFlow.js:96-200` | desktop `44/44; 0 16 0 16; 4; 14/16.8/500; 1; 999; none; width 100%`. At `≤480px`: `56/56`, font `16/19.2`; same padding. | Desktop and mobile measured |
-| A18 | `.oauth-button/.google-button` | `styles/auth.css:339-341,398-428,615-640`; `AuthScreen.js:208-214` | desktop `44/44; 0 24 0 24; row/column gap 4/10; 14/16.8/500; 1; 999; icon 18`. At `≤480px`: `56/56`, px20, column gap 11, `16/19.2`, icon 22. | Desktop and mobile measured |
-| A19 | `.cta-button` waitlist action/submit | `styles/platform.css:55-94,275-285`; `Platform.js:25,138` | desktop `52/0; 14 24 14 24; 8; 17.6/normal/600; 1; 8; none`; example `150.313×52`. At the mobile breakpoint: `45px`, padding `12 20`, font 16, width `100%`. | Desktop and mobile measured |
-| A20 | `.request-access-openreview-signin` text action | `styles/auth.css:883-894`; `RequestAccessFlow.js:167-169` | `16.797/0; 0; 4 inherited; 12/16.8/400; 0; 6 inherited; none`; example `176.234×16.797` | Measured; visually link-like but semantically an action button |
+| A1 | `.app-btn` base: feedback cancel/submit, contact actions, provider add/edit/save/cancel, network actions, settings integration actions | `buttons-app.css`; render sites include `ChatMessageFooter.js`, `BaseContactSection.js`, `advancedPanel.js`, `integrationPanel.js`, `networkPanel.js` | `36/36; 0 16 0 16; 6; 14/14/500; 1; 999; 16×16 when present`; example text `65.906×36`, with icon `87.906×36` | Measured |
+| A2 | `.add-contact-button.app-btn` full-width contact action | `contact.css`; `BaseContactSection.js` | `48/48; 0 16 0 16; 8; 14/14/500; 2 dashed; 999; none`; fixture width 420 (`100%`) | Measured |
+| A3 | `.qr-action-btn.app-btn` Download vCard | `contact.css`; `QRCodeDisplay.js` | desktop `36/36; 0 16 0 16; 6; 14/14/500; 1; 999; none; width 150`. At `≤768px`: same height, `px12`, font 13, width 150. | Desktop and mobile measured |
+| A4 | `.profile-info-action.app-btn` OpenReview connect/disconnect | `settings.css`; `profilePanel.js` | `36/36; 6 12 6 12; 6; 13/17.55/500; 1; 999; 16×16`; example `98.813×36` | Measured |
+| A5 | `.github-connect-btn.app-btn` connect choices | `settings.css`; `githubPanel.js` | `38/36; 10 16 10 16; 6; 14/14/500; 1; 999; 16×16; width 100%`; fixture width 420 | Measured |
+| A6 | `.wandb-connect-btn.app-btn` | `settings.css`; `wandbPanel.js` | `46/36; 14 24 14 24; 6; 16/16/600; 1; 999; 16×16`; example `136.609×46` (responsive rule makes it `100%`) | Measured |
+| A7 | `.daemon-delete-btn.app-btn` | `settings.css`; `daemonPanel.js` | `30/30; 0 10 0 10; 6; 12/12/500; 1; 999; none`; example `57.578×30` | Measured |
+| A8 | `.daemon-refresh-btn.app-btn` | `settings.css`; `daemonPanel.js` | `36/36; 0 16 0 16; 6; 13/13/500; 1; 999; none`; example `80.266×36` | Measured |
+| A9 | `.bug-submit-btn.app-btn` | `settings.css`; `bugsPanel.js` | A1 geometry plus `min-width:180`; measured `180×36` | Measured |
+| A10 | `.task-modal .btn-primary/.btn-secondary` form actions | `tasks.css`; `TaskForm.js` | desktop `33/auto; 8 16 8 16; 4; 13/normal/400; 1; 999; none`. At `≤600px`: `44px`, padding 12, font 16, width `100%`. | Desktop and mobile measured; natural desktop width must be measured in the real flex parent |
+| A11 | `.new-task.btn-primary` | `tasks.css`; `TaskModal.js` | desktop `34/auto; 8 16 8 16; 4; 13/normal/500; 1; 999; none`; example `91.719×34`. At `≤600px`: `45px`, padding 12, font 16, width `100%`. | Desktop and mobile measured |
+| A12 | `.pill-button` onboarding idle action emitted by `PillButton` | `base.css`; `PillButton.js`, `ChatInput.js` | `34/0; 8 20 8 20; 4; 13.6/normal/400; 1; 20; none`; example `106.75×34` | Measured |
+| A13 | `.onboarding-skip` | `onboarding.css`; `OnboardingModal.js` | `32/0; 8 4 8 4; 4; 13.6/normal/400; 0; 6; none`; example `34.969×32` | Measured |
+| A14 | `.onboarding-back` | `onboarding.css`; `OnboardingModal.js` | `35/0; 8 20 8 20; 4; 14.4/normal/400; 1; 8; none`; example `74.813×35` | Measured |
+| A15 | `.onboarding-next` | `onboarding.css`; `OnboardingModal.js` | `33/0; 8 24 8 24; 4; 14.4/normal/500; 0; 8; none`; example `78.938×33` | Measured |
+| A16 | `.vcf-download-btn` | `onboarding.css`; `AltheaContactStep.js` | `43/0; 12 12 12 12; 8; 14.4/normal/400; 1 dashed; 8; 16×16; width 100%`; fixture width 420 | Measured |
+| A17 | `.auth-button` authentication/request-access actions | `auth.css`; `AuthScreen.js`, `RequestAccessFlow.js` | desktop `44/44; 0 16 0 16; 4; 14/16.8/500; 1; 999; none; width 100%`. At `≤480px`: `56/56`, font `16/19.2`; same padding. | Desktop and mobile measured |
+| A18 | `.oauth-button/.google-button` | `auth.css`; `AuthScreen.js` | desktop `44/44; 0 24 0 24; row/column gap 4/10; 14/16.8/500; 1; 999; icon 18`. At `≤480px`: `56/56`, px20, column gap 11, `16/19.2`, icon 22. | Desktop and mobile measured |
+| A19 | `.cta-button` waitlist action/submit | `platform.css`; `Platform.js` | desktop `52/0; 14 24 14 24; 8; 17.6/normal/600; 1; 8; none`; example `150.313×52`. At the mobile breakpoint: `45px`, padding `12 20`, font 16, width `100%`. | Desktop and mobile measured |
+| A20 | `.request-access-openreview-signin` text action | `auth.css`; `RequestAccessFlow.js` | `16.797/0; 0; 4 inherited; 12/16.8/400; 0; 6 inherited; none`; example `176.234×16.797` | Measured; visually link-like but semantically an action button |
 
 The A1 family covers all current ordinary `.app-btn` uses unless an override is
 listed separately. Icon-only `.app-btn--icon` controls are excluded below.
@@ -112,9 +111,9 @@ because the medium 14px padding discrepancy was an explicit input to this audit.
 
 | ID | Selector | Source | Computed geometry | Measurement status |
 |---|---|---|---|---|
-| D1 | `.button.button-small` | `docs_server/web/src/styles/components/button.css:29-34`; “Copy .md” in every article fragment | `32/0; 1 12 1 12; 8; 13/normal/510; variant border 0 or 1; 999; 14×14 when present` | Measured |
-| D2 | `.button.button-medium` | same file `:36-41` | `40/0; 1 14 1 14; 8; 13/normal/510; variant border 0 or 1; 999` | Measured reference; no current action usage found |
-| D3 | `.button.button-large` | same file `:43-48` | `44/0; 1 20 1 20; 6; 16/normal/510; variant border 0 or 1; 999` | Measured reference; no current action usage found |
+| D1 | `.button.button-small` | `button.css`; “Copy .md” in every article fragment | `32/0; 1 12 1 12; 8; 13/normal/510; variant border 0 or 1; 999; 14×14 when present` | Measured |
+| D2 | `.button.button-medium` | same file | `40/0; 1 14 1 14; 8; 13/normal/510; variant border 0 or 1; 999` | Measured reference; no current action usage found |
+| D3 | `.button.button-large` | same file | `44/0; 1 20 1 20; 6; 16/normal/510; variant border 0 or 1; 999` | Measured reference; no current action usage found |
 
 The 1px block padding is Chromium's computed remainder from a fixed height; the
 source specifies height and inline padding, not `padding-block:1px`.
