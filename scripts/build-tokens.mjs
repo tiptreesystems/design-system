@@ -208,7 +208,7 @@ const swiftUIColor = (value, name) => {
 export function emitSwift(data, resolved) {
   const applicability = data.applicability;
   const isColor = (name) =>
-    name.startsWith('brand-') || name.startsWith('color-') || /^(stone|teal|citron)-\d+$/.test(name);
+    name === 'black' || name.startsWith('brand-') || name.startsWith('color-') || /^(stone|teal|citron)-\d+$/.test(name);
   const lines = [
     '// GENERATED from tokens/tokens.json — DO NOT EDIT.',
     `// Design-system version ${data.meta.version}.`,

@@ -129,21 +129,44 @@ Three surfaces and a control ring: a block in the flow
 (`color-surface-block`, `color-border-block`, `shadow-block`), the box
 (`color-surface-box`, `color-border-box`, firming to `color-border-box-focus`
 on `:focus-within`, `shadow-box`), and anything that floats (the existing
-`color-surface-card`, `color-border-overlay`, `shadow-overlay`); a control's
-ring is `color-border-control`. An overlay draws its edge inside its shadow
+`color-surface-card`, `color-border-overlay`, `shadow-overlay`); a Button's
+ring is `color-border-control`, and a pill's, a chip's or a field's ring at
+rest is `color-action-secondary-border`, a step lighter than the content line
+in the light. An overlay draws its edge inside its shadow
 list, `box-shadow: var(--tt-shadow-overlay), 0 0 0 1px var(--tt-color-border-overlay)`,
 so a host that silences elevation sets a layer such as `0 0 #0000`, never
 `none`, which would drop the ring with it.
 
+## Spacing and glyph sizes
+
+The spacing scale is twelve steps in rem, `--tt-space-025` to
+`--tt-space-800`: 2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 48 and 64 at the
+default text size, so padding, margins and gaps grow with the reader's text.
+A name states a step, not a size (`space-100` is 8), so it stays true if the
+scale is ever drawn larger. Every padding, margin and gap takes a step; a
+value between two steps is written as what it is, such as a glyph centred in
+a control, `calc((var(--tt-control-default) - var(--tt-glyph-small)) / 2)`,
+not as a new number. No spacing roles are published yet: an app keeps its own
+(a section's 16, a page gutter's 24), each pointing at a step.
+
+`--tt-glyph-small` (1rem, 16 at the default text size) is the glyph in a small
+or default control and `--tt-glyph-large` (1.25rem, 20) the glyph in a large
+or hero control. Set an icon's width and height from them so a glyph grows
+with its words; the line stays 1.5px at both, because every stroked shape
+carries `vector-effect="non-scaling-stroke"` (Icons, below). The control
+heights (`control-*`) are still px at 0.8.0, so at a raised text size the
+glyph grows inside a control that does not.
+
 ## Icons
 
-`@tiptree/design-system/icons.js` is one frozen, data-only ES module (provisional
-at 0.7.0: if no Althea release importing it has merged when 0.8.0 is cut, 0.8.0
-withdraws it). Each glyph is keyed by what it draws, in Solar's current Iconify
-names (`close`, `close-circle`, `magnifier`, `pin-filled`), and carries its cut
-(`linear` at rest; `filled`, the Bold of the same drawing, for an on state;
-`solid` for `menu-dots`, `grip-dots` and `plus-heavy` only) and its body for a
-24 viewBox.
+`@tiptree/design-system/icons.js` is one frozen, data-only ES module
+(provisional: it is withdrawn at the first minor cut after the Althea landing's
+pull request is closed without merging or is reverted; a minor cut while the
+landing is open on its branch withdraws nothing). Each glyph is keyed by what
+it draws, in Solar's current Iconify names (`close`, `close-circle`,
+`magnifier`, `pin-filled`), and carries its cut (`linear` at rest; `filled`,
+the Bold of the same drawing, for an on state; `solid` for `menu-dots`,
+`grip-dots` and `plus-heavy` only) and its body for a 24 viewBox.
 Provenance and licence per glyph stay in `icons.json`.
 
 ```js

@@ -14,8 +14,8 @@ append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
 
 - `tokens/tokens.json` is the single value source. Portable custom properties use
   the `--tt-*` namespace.
-- `primitives.css` provides locked brand anchors, color ramps, type, radii,
-  motion, focus geometry, and elevation primitives.
+- `primitives.css` provides locked brand anchors, color ramps, type, spacing,
+  radii, glyph sizes, motion, focus geometry, and elevation primitives.
 - `themes/light-default.css`, `themes/dark-default.css`, and
   `themes/explicit.css` provide the semantic theme surface.
 - `icons.js` (and `icons.json`) is the icon library: one frozen, data-only ES
