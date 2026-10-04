@@ -373,6 +373,147 @@ test('rulings recorded at v0.7.0 mint nothing for label-mono or surface alphas a
   );
 });
 
+// v0.8.0 (ledger 2026-10-03): the prototype's proposals rows 1, 3 and 5, all
+// web-only; the sizes are in rem, so they grow with the reader's text (Ivan,
+// 12.17, 12.18, 12.28); none has a Swift form.
+test('v0.8.0 spacing scale pins its twelve steps, named by step with 100 at 8', () => {
+  const scale = {
+    'space-025': '0.125rem',
+    'space-050': '0.25rem',
+    'space-075': '0.375rem',
+    'space-100': '0.5rem',
+    'space-150': '0.75rem',
+    'space-200': '1rem',
+    'space-250': '1.25rem',
+    'space-300': '1.5rem',
+    'space-400': '2rem',
+    'space-500': '2.5rem',
+    'space-600': '3rem',
+    'space-800': '4rem',
+  };
+  assert.deepEqual(
+    Object.keys(data.tokens).filter((name) => name.startsWith('space-')),
+    Object.keys(scale),
+    'the scale is these twelve steps; its role tier is not minted yet',
+  );
+  for (const [name, value] of Object.entries(scale)) {
+    assert.equal(data.tokens[name], value, `${name} drifted from the prototype`);
+    assert.equal(data.applicability[name], 'web-only');
+    // A name states a step, not a size (12.22): step / 100 x 0.5rem.
+    assert.equal(Number(name.slice('space-'.length)) / 200, Number.parseFloat(value), `${name} is off its step`);
+  }
+  assert.doesNotMatch(read('dist/swift/GeneratedTokens.swift'), /space/i);
+  assert.match(read('python/tiptree_ui/_tokens.py'), /'space-100': '0\.5rem'/);
+});
+
+test('v0.8.0 title step sits in the heading register between page and section', () => {
+  const title = {
+    'font-heading-title-family': '{font-serif}',
+    'font-heading-title-size': '2rem',
+    'font-heading-title-line-height': '1.25',
+    'font-heading-title-letter-spacing': '-0.015em',
+    'font-heading-title-weight': '{font-weight-normal}',
+  };
+  for (const [name, value] of Object.entries(title)) {
+    assert.equal(data.tokens[name], value, `${name} drifted from the prototype`);
+    assert.equal(data.applicability[name], 'web-only');
+  }
+  const base = resolve(data.tokens, data.tokens);
+  assert.equal(base['font-heading-title-weight'], '400');
+  assert.equal(base['font-heading-title-family'], base['font-serif']);
+  // 12.17: the step fills the gap from the section's 22 to the page's 40,
+  // its line height and tracking between its neighbours'.
+  const step = (part) => ['page', 'title', 'section'].map((name) => Number.parseFloat(data.tokens[`font-heading-${name}-${part}`]));
+  const [pageSize, titleSize, sectionSize] = step('size');
+  assert.ok(pageSize > titleSize && titleSize > sectionSize, 'title size sits between page and section');
+  const [pageLine, titleLine, sectionLine] = step('line-height');
+  assert.ok(pageLine < titleLine && titleLine < sectionLine, 'title line height sits between its neighbours');
+  const [pageTrack, titleTrack, sectionTrack] = step('letter-spacing');
+  assert.ok(pageTrack < titleTrack && titleTrack < sectionTrack, 'title tracking sits between its neighbours');
+  const order = Object.keys(data.tokens).filter((name) => /^font-heading-[a-z]+-size$/.test(name));
+  assert.deepEqual(order, ['font-heading-display-size', 'font-heading-page-size', 'font-heading-title-size', 'font-heading-section-size', 'font-heading-sub-size']);
+});
+
+test('v0.8.0 glyph sizes pin the small and large glyphs in rem', () => {
+  assert.equal(data.tokens['glyph-small'], '1rem');
+  assert.equal(data.tokens['glyph-large'], '1.25rem');
+  assert.deepEqual(Object.keys(data.tokens).filter((name) => name.startsWith('glyph-')), ['glyph-small', 'glyph-large']);
+  for (const name of ['glyph-small', 'glyph-large']) assert.equal(data.applicability[name], 'web-only');
+  assert.doesNotMatch(read('dist/swift/GeneratedTokens.swift'), /glyph/i);
+});
+
+// v0.8.0, for the atoms step (ledger 2026-10-03): three roles the atoms read
+// and the light danger grounds at the prototype's values. A minted role folds
+// into no existing role (invariant 6).
+const foldsInto = (name) => {
+  const pair = (role) => `${resolvedThemes.light[role]} | ${resolvedThemes.dark[role]}`;
+  return Object.keys(data.themes.dark).find((other) => other !== name && pair(other) === pair(name));
+};
+
+test('v0.8.0 secondary control ring is the prototype\'s, a step lighter than the content line', () => {
+  assert.equal(data.themes.light['color-action-secondary-border'], '{stone-300}');
+  assert.equal(data.themes.dark['color-action-secondary-border'], '#464641');
+  assert.equal(resolvedThemes.light['color-action-secondary-border'], '#dcdcd4');
+  assert.equal(data.applicability['color-action-secondary-border'], 'cross-platform');
+  assert.ok(
+    relativeLuminance(resolvedThemes.light['color-action-secondary-border']) >
+      relativeLuminance(resolvedThemes.light['color-border-interactive']),
+    'light ring sits a step lighter than the content line',
+  );
+  assert.equal(foldsInto('color-action-secondary-border'), undefined);
+  // The older border keeps stone-550 and its 3:1 edge until the family fold.
+  for (const theme of ['light', 'dark']) assert.equal(data.themes[theme]['color-button-secondary-border'], '{stone-550}');
+  assert.match(read('dist/swift/GeneratedTokens.swift'), /public static let colorActionSecondaryBorder = /);
+});
+
+test('v0.8.0 light danger grounds are the brand red deepened as the prototype paints them', () => {
+  const towardBlack = (hex, share) =>
+    `#${hex.slice(1).match(/../g).map((part) => Math.round(Number.parseInt(part, 16) * share).toString(16).padStart(2, '0')).join('')}`;
+  const red = data.tokens['color-red'];
+  assert.equal(data.themes.light['color-action-danger-bg'], '#c84a4a');
+  assert.equal(data.themes.light['color-action-danger-bg-hover'], '#b34242');
+  assert.equal(data.themes.light['color-action-danger-bg-pressed'], '#b34242');
+  assert.equal(towardBlack(red, 0.85), '#c84a4a');
+  assert.equal(towardBlack(red, 0.76), '#b34242');
+  assert.equal(data.themes.light['color-action-danger-fg'], '{stone-000}');
+  for (const ground of ['color-action-danger-bg', 'color-action-danger-bg-hover']) {
+    const ratio = contrast(resolvedThemes.light['color-action-danger-fg'], resolvedThemes.light[ground]);
+    assert.ok(ratio >= 4.5, `light danger label on ${ground} is ${ratio.toFixed(2)}:1`);
+  }
+  // Dark unchanged.
+  assert.deepEqual(
+    ['color-action-danger-bg', 'color-action-danger-bg-hover', 'color-action-danger-bg-pressed', 'color-action-danger-fg'].map((name) => data.themes.dark[name]),
+    ['{color-red}', '#d64c4c', '#c24444', '{brand-black}'],
+  );
+});
+
+test('v0.8.0 expired mark is the citron pair, one of five distinct marks', () => {
+  assert.equal(data.themes.light['color-mark-expired'], '{citron-600}');
+  assert.equal(data.themes.dark['color-mark-expired'], '{citron-300}');
+  assert.equal(resolvedThemes.light['color-mark-expired'], '#7d842e');
+  assert.equal(resolvedThemes.dark['color-mark-expired'], '#cfd478');
+  assert.equal(data.applicability['color-mark-expired'], 'cross-platform');
+  assert.equal(foldsInto('color-mark-expired'), undefined);
+  const marks = ['new', 'live', 'idle', 'community', 'expired'].map((mark) => `color-mark-${mark}`);
+  for (const theme of ['light', 'dark']) {
+    assert.equal(new Set(marks.map((name) => resolvedThemes[theme][name])).size, marks.length, `${theme} marks collapse`);
+  }
+  assert.notEqual(resolvedThemes.light['color-mark-expired'], resolvedThemes.light['color-highlight']);
+});
+
+test('v0.8.0 neutral badge tint is 7% of the ink, with no foreground of its own', () => {
+  assert.equal(data.themes.light['color-badge-neutral-bg'], '#4d4d4712');
+  assert.equal(data.themes.dark['color-badge-neutral-bg'], '#ffffff12');
+  assert.equal(data.applicability['color-badge-neutral-bg'], 'cross-platform');
+  assert.equal(data.themes.light['color-badge-neutral-bg'].slice(0, 7), data.tokens['stone-700']);
+  for (const theme of ['light', 'dark']) {
+    assert.equal(Math.round((Number.parseInt(resolvedThemes[theme]['color-badge-neutral-bg'].slice(7), 16) / 255) * 100), 7);
+  }
+  assert.equal(foldsInto('color-badge-neutral-bg'), undefined);
+  // Its ink is color-text-secondary, an alias, not a token.
+  assert.equal(Object.keys(data.applicability).some((name) => name.startsWith('color-badge-') && name !== 'color-badge-neutral-bg'), false);
+});
+
 test('font stacks lead with the variable face and keep the metric fallbacks', () => {
   assert.match(data.tokens['font-sans'], /^'Inter Variable', 'Inter', 'Inter Fallback', /);
   assert.match(data.tokens['font-serif'], /^'Literata', 'Literata Fallback', /);

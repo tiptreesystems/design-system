@@ -1204,3 +1204,220 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   frontend's widget notices reading `NOTICE` before Althea's bump merges
   (A4); iOS through CI's `swift-package` job and the Swift diff (additions
   only, 23 identifiers).
+
+## 2026-10-03 — v0.8.0: the spacing scale, the title step, the glyph sizes and the atoms' roles (Richard; Ivan's proposals of 2026-10-02; the atoms step's review)
+
+- Ruled by Richard on 2026-10-02, on Ivan's
+  `docs/design-system/package-proposals.md` and its
+  `package-proposals.tokens.json` (prototype `origin/main` `035beb5`; every
+  prototype citation below is at that commit): the 2026-10-01 entry's
+  "Prototype proposals of 2026-10-02" bullet deferred rows 1, 3 and 5 to a
+  tokens-only 0.8.0 cut before the landing's atoms step, and named row 2 in
+  the same sentence under its own condition, a prototype stylesheet reading
+  the corner roles, which is unmet; this release is that cut. The nineteen names, values and applicability classes of the
+  proposals' `add` block for those rows are merged as written; nothing else
+  in the block is taken. Built on `release/v0.8.0` from `main` `16c5d34`
+  (the `v0.7.0` tag); every version surface reads `0.8.0`. The specification
+  is the workspace's `decisions-new-app-landing-2026-10-01.md` section F with
+  `analysis-prototype-delta-2026-10-02.md` §1(e), §3 and §7,
+  workspace-relative as the 2026-08-19 entry's pointer.
+- **Row 1, the spacing scale** (web-only): `space-025`, `-050`, `-075`,
+  `-100`, `-150`, `-200`, `-250`, `-300`, `-400`, `-500`, `-600` and `-800`
+  = 0.125, 0.25, 0.375, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3 and 4rem (2, 4, 6,
+  8, 12, 16, 20, 24, 32, 40, 48 and 64 at the default text size). The
+  designer's reasons: decisions 12.18 (Ivan, 2026-10-02, "Scale works,
+  proceed"), one scale on the 4 grid with half steps at the small end for
+  every padding, margin and gap, in rem so it grows with the reader's text
+  size; the prototype moved 786 values onto it, checked pixel by pixel on
+  17 surfaces in both themes with one anti-aliased pixel of difference.
+  Decisions 12.22 (Ivan, 2026-10-02), the names: by step, Atlassian's steps
+  with 100 at 8, not by pixels, so a name states a step and stays true while
+  the scale grows with the text or a platform or a density draws it larger;
+  a role tier goes over the scale later, as the package already names colour
+  by step (`teal-550`) and by role (`color-accent`). The prototype declares the scale at
+  `app/explore.css:3887-3898` and reads it 835 times across 25 stylesheets
+  under `app/`. Web-only because the Swift export has no mapping for rem.
+  The role tier (a section's 16, a gutter's 24 and the rest of 12.22's
+  list) is not minted: it comes as its own proposal.
+- **Row 3, the title step** (web-only): `font-heading-title-family`
+  `{font-serif}`, `-size` 2rem, `-line-height` 1.25, `-letter-spacing`
+  -0.015em, `-weight` `{font-weight-normal}` (400). The designer's reason:
+  decisions 12.17 (Ivan, 2026-10-02, "Bring them back to scale. We don't
+  want to set a precedent of snowflakes anywhere"): the heading register
+  jumped from the section's 22 to the page's 40, 1.8 times where every other
+  step grows by 1.1 to 1.3, and the home's greeting stood in that gap at 32;
+  the register gains a step there, 32 at 400 in the serif, its line height
+  and tracking between its neighbours'. The weight points at the scale, not
+  a typed 400 (12.24). The prototype declares it at
+  `app/explore.css:3866-3870` and the home's greeting reads it
+  (`app/features/composer.css:429-433`). The register is display, page,
+  title, section, sub.
+- **Row 5, the glyph sizes** (web-only): `glyph-small` 1rem (16, the glyph in
+  the small and default controls) and `glyph-large` 1.25rem (20, in the large
+  and hero controls). The designer's reasons: decisions 12.28 (Ivan,
+  2026-10-02, "This looks very good. Your demo shows it clearly. Proceed."),
+  every size that holds words grows with them, the glyphs among them, since
+  at Chrome's Large setting (125%) glyphs looked shrunken beside their words;
+  decisions 12.25, a glyph's line is one line at every size, 1.5 on screen,
+  which the package's icon data already carries in its
+  `vector-effect="non-scaling-stroke"`. D6 (the 2026-10-01 entry) gives the
+  library the control sizes with their type and glyph sizes; these are the
+  glyph sizes. The prototype draws a glyph at 16 by default
+  (`app/solar-line.js:189`); 12.28 names the two sizes, 16 and 20. Row 4
+  stays later, as the 2026-10-01 entry records, so the control heights are
+  still px: at a raised text size a glyph grows inside a control that does
+  not, until the control sizes are ruled; `docs/USING.md` says so.
+- **For the atoms step: three roles and the light danger grounds**
+  (2026-10-03; the overseer's change list from the atoms step's fidelity
+  review, the workspace's `review-s2-A-fable.md` §5, under Richard's rules:
+  the prototype is the source of truth for values, a role is minted when a
+  consumer reads it, and 0.8.0 is an untagged minor, so a released role may
+  take a new value). The atoms step is the first consumer of each: its
+  stylesheets read these in place of a role a step off the prototype or a
+  themed pair written inside the atom.
+  - `color-action-secondary-border` (cross-platform): light `{stone-300}`
+    (`#dcdcd4`), dark `#464641`, the ring on a pill, a chip or a field at
+    rest; the prototype's `--action-secondary-border`
+    (`design-system/styles/brand.css:258` dark, `:353` light), which the
+    chips, the pills and the fields read (`app/explore.css:3720`,
+    `app/features/scheduled.css:198, 869`, `app/features/documents.css:91`).
+    In the light the prototype moved the content line a step darker, to
+    stone-350 (Ivan, 2026-09-16, `app/explore.css:4060-4063`), and left the
+    ring on the brand's stone-300, so the ring is a step lighter than
+    `color-border-interactive` and is not that role. Nor is it a re-value of
+    `color-button-secondary-border`, which keeps `stone-550` and its 3:1
+    edge for the consumers that still draw it and retires at the Button's
+    family fold (the 2026-10-01 entry, row 8) instead of taking an alias.
+  - `color-mark-expired` (cross-platform): light `{citron-600}`, dark
+    `{citron-300}`, a task whose window has closed; the prototype's
+    `--state-expired` (`app/explore.css:4835-4836`), drawn by the panel and
+    the Scheduled Tasks pane (`:4842`; `app/features/scheduled.css:235`). In
+    the mark family beside new, live, idle and community; not a re-value of
+    `color-highlight`, a text highlight with readers of its own.
+  - `color-badge-neutral-bg` (cross-platform): light `#4d4d4712` (stone-700
+    at 7%), dark `#ffffff12` (white at 7%), the tint behind a category word;
+    the prototype's `--fam-shown-bg` (`app/features/network.css:75, 86`,
+    read at `:111`). Named component first, the naming rule the 2026-10-01
+    entry adopts at the family fold. No `-fg`: its ink is
+    `color-text-secondary`, an alias, not a token (invariant 6). The owed,
+    done and brought families are minted when the network lands.
+  - The light danger grounds, a minor's value change:
+    `color-action-danger-bg` `#b04a3f` → `#c84a4a`, `-bg-hover` `#963f36` →
+    `#b34242`, `-bg-pressed` `#7f352e` → `#b34242`. The prototype paints its
+    danger control in the light as the brand red deepened toward black, 85%
+    at rest and 76% under the pointer (`app/features/composer.css:193, 220`;
+    its comment of 2026-09-16: "the brand red itself carries white at 3.5, so
+    it deepens by a seventh towards black, where white reaches 4.7"), and
+    draws no pressed step beyond its hover. White on the new grounds is
+    4.63:1 and 5.56:1 (5.39:1 and 6.86:1 before); the old values were the
+    hub's. Dark (`{color-red}`, `#d64c4c`, `#c24444`) and `-fg` in both
+    themes are unchanged: the prototype's white on the dark glass is the
+    component's own rule, and the opaque pair keeps `brand-black`. What
+    moves: Althea's destructive controls in the light, through its alias
+    (`frontend/web/src/assets/styles/tokens.css:437-439` on `feature/new-app`
+    at `70a0af8f`); Lacuna and marketing-site carry literal copies of the old
+    values and do not; platform-ios's `develop` (`03b2aef`) reads none of the
+    danger colours.
+  - Later, with the review's reasons: a pure-black primitive for the glass
+    Button's shadows (with rows 6 and 9 at the Button's graduation;
+    meanwhile `stone-1050` at the same alphas is within 4/255 a channel, the
+    Tip's rounding); a 16 type step (Ivan's, on the sheet; the atoms' two
+    recorded exceptions read 1rem); the ghost grounds (Ivan's at the Button's
+    graduation: the round controls, pills and chips all take
+    `color-row-hover`, and a ghost role at the hub's pair would
+    near-duplicate it in the dark); the glass grounds and shadows (the
+    Button's material, at its graduation). `color-keycap-bg` and `-bg-hover`
+    are deprecated: no prototype key has drawn a ground since 2026-09-25 and
+    no consumer in the estate reads them; they stay until the next major
+    removes them.
+- **Consumers.** Althea's atoms step (S2 of the rebuild's landing, on the
+  frontend's `feature/new-app`) is the first consumer: it ports the
+  prototype's atoms onto `--tt-space-*` and the glyph sizes, and the home's
+  port (S5) takes the title step. The app carries no override layer for
+  unreleased proposals (the 2026-10-01 entry), so these names are released
+  before that CSS ports. Docs, Lacuna, marketing-site and website-v2 skip
+  0.7.0 and bump once to 0.8.0 after the landing, one pull request each
+  instead of two, since 0.7.0 changes nothing they read; platform-ios floats
+  within 0.x, and its Swift source gains the three roles above (six
+  identifiers) and the light danger values.
+- **No candidate**, the pattern of 0.7.0: no `v0.8.0-rc.N` is cut. The atoms
+  step installs the locally packed tarball without saving it to a manifest,
+  and Richard tags `v0.8.0` once that step proves the build in Althea; the
+  operating guide's current-release line and release-history row read "tag
+  pending" until then.
+- **Not in 0.8.0** (Richard's rulings of 2026-10-02, in the 2026-10-01
+  entry): row 2, the corner roles, minted when a prototype stylesheet reads
+  them (his phase 4); row 4, the control sizes in rem, decided with his phase
+  5 pictures at 125%; row 6, the shadows at their drawn strengths, with the
+  alpha-as-number question of row 9; row 7, Button's sizes, agreed and built
+  app-local by the landing; row 8, the family fold, at Button's graduation;
+  row 9, the token source format, declined for now. No component ships:
+  Button's graduation, which the 2026-10-01 entry placed at 0.8.0, is a
+  separate project after the landing (Richard, 2026-10-02: building the
+  atoms in the package during the redesign would be two moving targets), and
+  D6 takes effect then.
+  `color-surface-tooltip` stays open past this cut: the 2026-10-01 entry left
+  it as Ivan's question, and it is neither answered nor moved here.
+- **The icon withdrawal clause, amended** (2026-10-03; the overseer's
+  default under Richard's rules, which he may change before the tag). The
+  2026-10-01 entry withdraws the icon export at 0.8.0 if no Althea release
+  that imports it has merged to the frontend's `main` by then; it was written
+  when 0.8.0 was to be cut at the landing. 0.8.0 became a tokens-only cut
+  before the landing merges, so read literally the clause would withdraw the
+  export from the landing branch it exists to protect. Re-worded: the icon
+  export, and any component the landing consumes, is withdrawn at the first
+  minor cut after the landing's pull request is closed without merging or is
+  reverted, as that entry sets out (no deprecation release); a minor cut
+  while the landing is open on its branch withdraws nothing, because that
+  branch is the consumer the clause protects. This amends the 2026-10-01
+  entry's clause, which stays as written. The export stays provisional, with
+  Althea its pending first consumer, and 0.8.0 ships it unchanged.
+- **Generator.** Unchanged: rem values and unitless line heights are already
+  web-only forms (the v0.6.0 type scale), and web-only names never reach the
+  Swift export. 127 → 146 base tokens; 79 → 82 semantic roles per theme.
+- **Measured payloads** (raw / Brotli; v0.7.0 against `0.8.0`; no ceiling
+  moves). The icon files keep their bytes but for the version in their
+  header, which moves their Brotli sizes by a few bytes.
+
+  | Generated file | v0.7.0 | 0.8.0 | Ceiling |
+  |---|---:|---:|---:|
+  | `primitives.css` | 4,600 / 1,198 | 5,221 / 1,293 | 12,288 / 3,072 |
+  | `themes/light-default.css` | 7,677 / 1,202 | 7,965 / 1,239 | 9,216 / 2,048 |
+  | `themes/dark-default.css` | 7,678 / 1,207 | 7,966 / 1,253 | 9,216 / 2,048 |
+  | `themes/explicit.css` | 7,692 / 1,201 | 7,980 / 1,236 | 9,216 / 2,048 |
+  | `tokens.css` | 12,212 / 2,296 | 13,121 / 2,422 | 13,312 / 3,072 |
+  | `icons/icons.js` | 94,236 / 20,008 | 94,236 / 20,022 | 102,400 / 22,528 |
+  | `icons/icons.json` | 109,015 / 20,563 | 109,015 / 20,536 | 118,784 / 23,552 |
+
+  `tokens.css` keeps 191 B of raw headroom under its ceiling: the next role
+  it carries is likely to need the ruling its budget policy asks for.
+- **Public surface.** Against v0.7.0, 0.8.0 adds 115 names and removes and
+  changes none: 62 CSS name/block pairs (the nineteen tokens in
+  `primitives.css` and `tokens.css`; the three roles in both blocks of each
+  theme file and of `tokens.css`), 22 applicability entries, 6 Swift
+  identifiers and 25 Python keys (19 base, 3 per theme); no glyph, npm or
+  wheel entry. The snapshot holds names, not values, so the light danger
+  re-value is recorded by its decision test, the notes and this entry.
+  `tests/public-surface/v0.8.0.json` records it.
+- **Tests.** `tests/decisions.test.mjs` gains one pin per family: the
+  spacing scale (the twelve values and names, web-only, each value its step
+  over 200 in rem, absent from Swift, resolved in Python); the title step
+  (its five values and references, 400 and the serif resolved, size, line
+  height and tracking between page and section, and the register's order);
+  the glyph sizes (values, web-only, absent from Swift); and one pin per
+  atoms' role: the secondary ring (references, a step lighter than the
+  content line in the light, `color-button-secondary-border` unchanged), the
+  light danger grounds (the brand red at 85% and 76% toward black, white at
+  4.5:1 or more, dark unchanged), the expired mark (the citron pair, five
+  distinct marks in each theme) and the neutral badge tint (7% of the ink, no
+  foreground role); no new role folds into an existing pair. Version parity
+  reads 0.8.0. The showcase gains a Spacing section and a Heading register section,
+  its icon grid is drawn at `glyph-small` and `glyph-large`, the secondary
+  ring joins its borders group, and a group shows the five marks and the
+  neutral badge tint. `npm run ci`
+  passes on the branch.
+- **Owed after the tag:** Ivan's approval of the showcase's two new sections,
+  of the icon grid at the glyph tokens, and of the three roles and the light
+  danger grounds beside their prototype drawings; his `package-proposals.md` moves
+  rows 1, 3 and 5 to its "Taken, declined, withdrawn" record; RELEASING step
+  3 for the other consumers at their bumps after the landing.

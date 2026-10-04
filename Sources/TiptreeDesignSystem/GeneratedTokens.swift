@@ -1,5 +1,5 @@
 // GENERATED from tokens/tokens.json — DO NOT EDIT.
-// Design-system version 0.7.0.
+// Design-system version 0.8.0.
 import SwiftUI
 import UIKit
 
@@ -315,19 +315,19 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 31.0 / 255.0, green: 41.0 / 255.0, blue: 40.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 228.0 / 255.0, green: 238.0 / 255.0, blue: 238.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorAccentTint = Color(uiColor: colorAccentTintUIColor)
-    // color-action-danger-bg: light #b04a3f, dark #eb5757
+    // color-action-danger-bg: light #c84a4a, dark #eb5757
     public static let colorActionDangerBgUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 235.0 / 255.0, green: 87.0 / 255.0, blue: 87.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 176.0 / 255.0, green: 74.0 / 255.0, blue: 63.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 235.0 / 255.0, green: 87.0 / 255.0, blue: 87.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 200.0 / 255.0, green: 74.0 / 255.0, blue: 74.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorActionDangerBg = Color(uiColor: colorActionDangerBgUIColor)
-    // color-action-danger-bg-hover: light #963f36, dark #d64c4c
+    // color-action-danger-bg-hover: light #b34242, dark #d64c4c
     public static let colorActionDangerBgHoverUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 214.0 / 255.0, green: 76.0 / 255.0, blue: 76.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 150.0 / 255.0, green: 63.0 / 255.0, blue: 54.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 214.0 / 255.0, green: 76.0 / 255.0, blue: 76.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 179.0 / 255.0, green: 66.0 / 255.0, blue: 66.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorActionDangerBgHover = Color(uiColor: colorActionDangerBgHoverUIColor)
-    // color-action-danger-bg-pressed: light #7f352e, dark #c24444
+    // color-action-danger-bg-pressed: light #b34242, dark #c24444
     public static let colorActionDangerBgPressedUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 194.0 / 255.0, green: 68.0 / 255.0, blue: 68.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 127.0 / 255.0, green: 53.0 / 255.0, blue: 46.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 194.0 / 255.0, green: 68.0 / 255.0, blue: 68.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 179.0 / 255.0, green: 66.0 / 255.0, blue: 66.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorActionDangerBgPressed = Color(uiColor: colorActionDangerBgPressedUIColor)
     // color-action-danger-fg: light #ffffff, dark #1b1b1b
@@ -355,6 +355,11 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorActionPrimaryFg = Color(uiColor: colorActionPrimaryFgUIColor)
+    // color-action-secondary-border: light #dcdcd4, dark #464641
+    public static let colorActionSecondaryBorderUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 70.0 / 255.0, green: 70.0 / 255.0, blue: 65.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 220.0 / 255.0, green: 220.0 / 255.0, blue: 212.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorActionSecondaryBorder = Color(uiColor: colorActionSecondaryBorderUIColor)
     // color-link: light #47696b, dark #a3c3c4
     public static let colorLinkUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 163.0 / 255.0, green: 195.0 / 255.0, blue: 196.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 71.0 / 255.0, green: 105.0 / 255.0, blue: 107.0 / 255.0, alpha: 255.0 / 255.0)
@@ -515,6 +520,11 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 154.0 / 255.0, green: 149.0 / 255.0, blue: 189.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 106.0 / 255.0, green: 100.0 / 255.0, blue: 153.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorMarkCommunity = Color(uiColor: colorMarkCommunityUIColor)
+    // color-mark-expired: light #7d842e, dark #cfd478
+    public static let colorMarkExpiredUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 207.0 / 255.0, green: 212.0 / 255.0, blue: 120.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 125.0 / 255.0, green: 132.0 / 255.0, blue: 46.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorMarkExpired = Color(uiColor: colorMarkExpiredUIColor)
     // color-channel-whatsapp: light #4e7c5c, dark #7fae8c
     public static let colorChannelWhatsappUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 127.0 / 255.0, green: 174.0 / 255.0, blue: 140.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 78.0 / 255.0, green: 124.0 / 255.0, blue: 92.0 / 255.0, alpha: 255.0 / 255.0)
@@ -525,6 +535,11 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 157.0 / 255.0, green: 184.0 / 255.0, blue: 132.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 99.0 / 255.0, green: 134.0 / 255.0, blue: 74.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorChannelSms = Color(uiColor: colorChannelSmsUIColor)
+    // color-badge-neutral-bg: light #4d4d4712, dark #ffffff12
+    public static let colorBadgeNeutralBgUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 18.0 / 255.0) : UIColor(red: 77.0 / 255.0, green: 77.0 / 255.0, blue: 71.0 / 255.0, alpha: 18.0 / 255.0)
+    }
+    public static let colorBadgeNeutralBg = Color(uiColor: colorBadgeNeutralBgUIColor)
   }
 
   public enum Radius {

@@ -69,6 +69,13 @@
   .hairline-sample { padding: 14px; border-radius: var(--tt-radius-8); background: var(--tt-color-surface-card); font: 0.6875rem/1.5 var(--tt-font-mono); }
   .hairline-sample__line { height: 24px; margin-bottom: 8px; border-bottom: var(--tt-border-hairline) solid var(--tt-color-text-primary); }
   .hairline-sample__line--one { border-bottom-width: 1px; }
+  .spacing { display: grid; gap: 6px; }
+  .space-row { display: grid; grid-template-columns: 72px auto minmax(0, 1fr); gap: 10px; align-items: center; min-height: 18px; color: var(--tt-color-text-tertiary); font: 0.625rem/1.2 var(--tt-font-mono); }
+  .space-row__bar { height: 12px; border-radius: 2px; background: var(--tt-color-accent); }
+  .register { display: grid; gap: 20px; }
+  .register__step { display: grid; gap: 6px; }
+  .register__step code { color: var(--tt-color-text-tertiary); font-size: 0.625rem; }
+  .register__step--new code { color: var(--tt-color-accent); }
   .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
   .sample-button { display: inline-flex; align-items: center; height: var(--tt-control-default); padding: 0 16px; border-radius: var(--tt-radius-full); font: var(--tt-font-weight-normal) var(--tt-font-size-small)/1 var(--tt-font-sans); }
   .sample-button--primary { background: var(--tt-color-action-primary-bg); color: var(--tt-color-action-primary-fg); }
@@ -84,7 +91,7 @@
   .surface--control { grid-template-columns: 36px 1fr; gap: 10px; align-items: center; align-content: center; }
   .surface--control span { width: 36px; height: 36px; border-radius: var(--tt-radius-full); background: var(--tt-color-button-secondary-bg); box-shadow: inset 0 0 0 1px var(--tt-color-border-control); }
   .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; }
-  .icon-cell { display: grid; grid-template-columns: 16px 20px minmax(0, 1fr); gap: 8px; align-items: center; min-height: 34px; padding: 4px 6px; border-radius: var(--tt-radius-4); color: var(--tt-color-text-primary); }
+  .icon-cell { display: grid; grid-template-columns: var(--tt-glyph-small) var(--tt-glyph-large) minmax(0, 1fr); gap: 8px; align-items: center; min-height: 34px; padding: 4px 6px; border-radius: var(--tt-radius-4); color: var(--tt-color-text-primary); }
   .icon-cell svg { display: block; }
   .icon-cell code { overflow: hidden; color: var(--tt-color-text-secondary); font-size: 0.625rem; text-overflow: ellipsis; white-space: nowrap; }
   .icon-cell[data-source='tiptree'] code, .icon-cell[data-source='solar-modified'] code { color: var(--tt-color-accent); }
@@ -126,12 +133,20 @@
   <p><code>--tt-border-hairline</code> is 1px, and 0.5px under <code>@media (resolution &gt;= 192dpi)</code> in <code>primitives.css</code> and <code>tokens.css</code>. The value is the token's; how an engine rasterises half a pixel is its own.</p>
   <div class="hairlines" id="hairlines"></div>
 
+  <h2>Spacing</h2>
+  <p>Twelve steps in rem, <code>space-025</code> to <code>space-800</code>, so every padding, margin and gap grows with the reader's text. A name states a step, with 100 at 8; the pixels are at the default text size. Each bar is drawn at its token.</p>
+  <div class="spacing" id="spacing"></div>
+
+  <h2>Heading register</h2>
+  <p>Display, page, title, section, sub. The title step stands in the gap between the page's 40 and the section's 22, its line height and tracking between its neighbours'. Each line is drawn from its <code>font-heading-*</code> tokens; the new step is named in the accent.</p>
+  <div class="register" id="register"></div>
+
   <h2>Semantic themes</h2>
   <p>Both published polarities are always visible together. The control in the corner changes only the surrounding explorer chrome.</p>
   <div class="theme-grid" id="themeGrid"></div>
 
   <h2>Icons</h2>
-  <p id="iconLede">Every glyph of <code>@tiptree/design-system/icons.js</code>, drawn at 16 and 20 in both themes from <code>dist/icons/icons.json</code>. The line is 1.5px at both sizes because every stroked shape carries <code>vector-effect="non-scaling-stroke"</code>; consumers set size and colour only. Names in the accent are Tiptree drawings or modified Solar glyphs.</p>
+  <p id="iconLede">Every glyph of <code>@tiptree/design-system/icons.js</code>, drawn at <code>glyph-small</code> and <code>glyph-large</code> (16 and 20 at the default text size) in both themes from <code>dist/icons/icons.json</code>. The line is 1.5px at both sizes because every stroked shape carries <code>vector-effect="non-scaling-stroke"</code>; consumers set size and colour only. Names in the accent are Tiptree drawings or modified Solar glyphs.</p>
   <div class="theme-grid" id="iconGrid"></div>
 </main>
 <script type="module">
@@ -181,10 +196,11 @@
   const groups = [
     ['Surfaces', ['color-bg-primary', 'color-bg-secondary', 'color-bg-tertiary', 'color-surface-card', 'color-surface-code', 'color-surface-inverse']],
     ['Text and accent', ['color-text-primary', 'color-text-secondary', 'color-text-tertiary', 'color-text-on-inverse', 'color-accent', 'color-accent-hover', 'color-accent-tint', 'color-accent-on-surface', 'color-accent-on-surface-hover', 'color-link', 'color-highlight', 'color-focus-ring']],
-    ['Borders and controls', ['color-border-primary', 'color-border-translucent', 'color-button-invert-bg', 'color-button-invert-fg', 'color-button-secondary-bg', 'color-button-secondary-border']],
+    ['Borders and controls', ['color-border-primary', 'color-border-translucent', 'color-button-invert-bg', 'color-button-invert-fg', 'color-button-secondary-bg', 'color-button-secondary-border', 'color-action-secondary-border']],
     ['Danger action', ['color-action-danger-bg', 'color-action-danger-bg-hover', 'color-action-danger-bg-pressed', 'color-action-danger-fg']],
     ['Button roles', ['color-action-primary-bg', 'color-action-primary-bg-hover', 'color-action-primary-fg', 'color-button-secondary-bg-hover', 'color-border-control']],
     ['Surface roles', ['color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box', 'color-border-box-focus', 'color-border-overlay']],
+    ['Marks and the neutral badge', ['color-mark-new', 'color-mark-live', 'color-mark-idle', 'color-mark-community', 'color-mark-expired', 'color-badge-neutral-bg']],
   ];
   const recipes = ['success', 'danger', 'warning', 'info'];
 
@@ -226,14 +242,33 @@
     `<div class="hairline-sample"><div class="hairline-sample__line"></div>--tt-border-hairline<br>base ${data.base['border-hairline']}; ${mediaRows}<br>here: devicePixelRatio ${devicePixelRatio}, computed ${rendered}</div>` +
     `<div class="hairline-sample"><div class="hairline-sample__line hairline-sample__line--one"></div>1px, for comparison</div>`;
 
+  const pixels = (rem) => `${Number.parseFloat(rem) * 16}`;
+  document.querySelector('#spacing').innerHTML = Object.entries(data.base)
+    .filter(([name]) => name.startsWith('space-'))
+    .map(([name, value]) => `<div class="space-row"><span>${name}</span><span class="space-row__bar" style="width:var(--tt-${name})"></span><span>${value} · ${pixels(value)}</span></div>`)
+    .join('');
+  document.querySelector('#register').innerHTML = ['display', 'page', 'title', 'section', 'sub']
+    .map((step) => {
+      const token = (part) => `font-heading-${step}-${part}`;
+      const style = ['family', 'size', 'line-height', 'letter-spacing', 'weight']
+        .filter((part) => token(part) in data.base)
+        .map((part) => `${part === 'family' ? 'font-family' : part === 'size' ? 'font-size' : part === 'weight' ? 'font-weight' : part}:var(--tt-${token(part)})`)
+        .join(';');
+      const family = token('family') in data.base ? (data.base[token('family')].includes('Literata') ? 'serif' : 'sans') : 'inherits its family';
+      const size = data.base[token('size')];
+      const values = `${size} (${pixels(size)}) / ${data.base[token('line-height')]} / ${data.base[token('letter-spacing')]} / ${data.base[token('weight')]} / ${family}`;
+      return `<div class="register__step${step === 'title' ? ' register__step--new' : ''}"><div style="${style}">Good evening</div><code>${step}: ${values}</code></div>`;
+    })
+    .join('');
+
   const icons = await (await fetch('/dist/icons/icons.json')).json();
-  const glyph = (body, size) => `<svg viewBox="${icons.meta.viewBox}" width="${size}" height="${size}" aria-hidden="true" focusable="false">${body}</svg>`;
+  const glyph = (body, size) => `<svg viewBox="${icons.meta.viewBox}" style="width:var(--tt-glyph-${size});height:var(--tt-glyph-${size})" aria-hidden="true" focusable="false">${body}</svg>`;
   const iconCells = Object.entries(icons.glyphs)
-    .map(([name, entry]) => `<div class="icon-cell" data-source="${entry.source}" title="${name}: ${entry.cut}, ${entry.source}${entry.solar ? ` (${entry.solar})` : ''}">${glyph(entry.body, 16)}${glyph(entry.body, 20)}<code>${name}</code></div>`)
+    .map(([name, entry]) => `<div class="icon-cell" data-source="${entry.source}" title="${name}: ${entry.cut}, ${entry.source}${entry.solar ? ` (${entry.solar})` : ''}">${glyph(entry.body, 'small')}${glyph(entry.body, 'large')}<code>${name}</code></div>`)
     .join('');
   document.querySelector('#iconLede').insertAdjacentHTML('beforeend', ` ${Object.keys(icons.glyphs).length} glyphs, status ${icons.meta.status}.`);
   for (const theme of ['light', 'dark']) {
-    document.querySelector('#iconGrid').insertAdjacentHTML('beforeend', `<section class="theme-panel" data-theme="${theme}"><h3>${theme[0].toUpperCase() + theme.slice(1)} theme <code>16 / 20</code></h3><div class="icon-grid">${iconCells}</div></section>`);
+    document.querySelector('#iconGrid').insertAdjacentHTML('beforeend', `<section class="theme-panel" data-theme="${theme}"><h3>${theme[0].toUpperCase() + theme.slice(1)} theme <code>glyph-small / glyph-large</code></h3><div class="icon-grid">${iconCells}</div></section>`);
   }
 
   themeToggle.addEventListener('click', () => {
