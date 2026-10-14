@@ -90,6 +90,13 @@
   .surface--overlay { border-radius: var(--tt-radius-16); background: var(--tt-color-surface-card); box-shadow: var(--tt-shadow-overlay), 0 0 0 1px var(--tt-color-border-overlay); }
   .surface--control { grid-template-columns: 36px 1fr; gap: 10px; align-items: center; align-content: center; }
   .surface--control span { width: 36px; height: 36px; border-radius: var(--tt-radius-full); background: var(--tt-color-button-secondary-bg); box-shadow: inset 0 0 0 1px var(--tt-color-border-control); }
+  .samples { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 16px; border-radius: var(--tt-radius-12); background: var(--tt-color-bg-primary); }
+  .sample-ring { outline: var(--tt-focus-ring-width) solid var(--tt-color-focus-ring); outline-offset: var(--tt-focus-ring-offset); }
+  .sample-tip { padding: 6px 10px; border-radius: var(--tt-radius-row); background: var(--tt-color-surface-tooltip); color: var(--tt-color-text-on-tooltip); font: var(--tt-font-size-mini)/1.4 var(--tt-font-sans); }
+  .sample-step { display: inline-flex; align-items: center; gap: 8px; color: var(--tt-color-text-secondary); font: var(--tt-font-size-small)/var(--tt-font-line-height-small) var(--tt-font-sans); }
+  .sample-step::before { content: ''; width: 10px; height: 10px; border-radius: var(--tt-radius-full); background: var(--tt-color-mark-done); }
+  .small-text { max-width: 560px; margin: 0; color: var(--tt-color-text-primary); font-size: var(--tt-font-size-small); line-height: var(--tt-font-line-height-small); letter-spacing: var(--tt-font-letter-spacing-small); }
+  .small-text + code { display: block; margin-top: 8px; color: var(--tt-color-text-tertiary); font-size: 0.625rem; }
   .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; }
   .icon-cell { display: grid; grid-template-columns: var(--tt-glyph-small) var(--tt-glyph-large) minmax(0, 1fr); gap: 8px; align-items: center; min-height: 34px; padding: 4px 6px; border-radius: var(--tt-radius-4); color: var(--tt-color-text-primary); }
   .icon-cell svg { display: block; }
@@ -123,6 +130,7 @@
   <h2>Corners</h2>
   <p>The ladder 4 / 8 / 12 / 16 / 20 / 24 / 28 / full, with <code>radius-6</code> kept off it. A corner inside a corner is the outer corner less the gap: the three nested pairs show it.</p>
   <div class="ladder" id="ladder"></div>
+  <p>Three roles name the rules that recur: <code>radius-block</code> (20, a block that holds rows), <code>radius-field</code> (16, a field and anything that is one) and <code>radius-row</code> (12, a row or an item not inside a block, and a tip).</p>
   <div class="nested">
     <div class="nested__outer" style="padding:4px;border-radius:var(--tt-radius-20)"><div class="nested__inner" style="border-radius:var(--tt-radius-16)">block 20 / gap 4 / row 16</div><div class="nested__inner" style="border-radius:var(--tt-radius-16);background:transparent">row 16</div></div>
     <div class="nested__outer" style="padding:4px;border-radius:var(--tt-radius-16)"><div class="nested__inner" style="border-radius:var(--tt-radius-12)">menu 16 / gap 4 / item 12</div><div class="nested__inner" style="border-radius:var(--tt-radius-12);background:transparent">item 12</div></div>
@@ -140,6 +148,11 @@
   <h2>Heading register</h2>
   <p>Display, page, title, section, sub. The title step stands in the gap between the page's 40 and the section's 22, its line height and tracking between its neighbours'. Each line is drawn from its <code>font-heading-*</code> tokens; the new step is named in the accent.</p>
   <div class="register" id="register"></div>
+
+  <h2>Small text</h2>
+  <p>Every text at 14 stands on the one line of 22: <code>font-size-small</code> with <code>font-line-height-small</code>, <code>calc(22 / 14)</code>.</p>
+  <p class="small-text">What Althea says over a list page's groups is the small step on the message's line, as her words are in a conversation. The second line of this paragraph shows the line: 22 at the default text size.</p>
+  <code id="smallText"></code>
 
   <h2>Semantic themes</h2>
   <p>Both published polarities are always visible together. The control in the corner changes only the surrounding explorer chrome.</p>
@@ -195,12 +208,13 @@
 
   const groups = [
     ['Surfaces', ['color-bg-primary', 'color-bg-secondary', 'color-bg-tertiary', 'color-surface-card', 'color-surface-code', 'color-surface-inverse']],
-    ['Text and accent', ['color-text-primary', 'color-text-secondary', 'color-text-tertiary', 'color-text-on-inverse', 'color-accent', 'color-accent-hover', 'color-accent-tint', 'color-accent-on-surface', 'color-accent-on-surface-hover', 'color-link', 'color-highlight', 'color-focus-ring']],
+    ['Text and accent', ['color-text-primary', 'color-text-secondary', 'color-text-tertiary', 'color-text-quaternary', 'color-text-on-inverse', 'color-accent', 'color-accent-hover', 'color-accent-tint', 'color-accent-on-surface', 'color-accent-on-surface-hover', 'color-link', 'color-highlight', 'color-focus-ring']],
     ['Borders and controls', ['color-border-primary', 'color-border-translucent', 'color-button-invert-bg', 'color-button-invert-fg', 'color-button-secondary-bg', 'color-button-secondary-border', 'color-action-secondary-border']],
     ['Danger action', ['color-action-danger-bg', 'color-action-danger-bg-hover', 'color-action-danger-bg-pressed', 'color-action-danger-fg']],
     ['Button roles', ['color-action-primary-bg', 'color-action-primary-bg-hover', 'color-action-primary-fg', 'color-button-secondary-bg-hover', 'color-border-control']],
     ['Surface roles', ['color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box', 'color-border-box-focus', 'color-border-overlay']],
-    ['Marks and the neutral badge', ['color-mark-new', 'color-mark-live', 'color-mark-idle', 'color-mark-community', 'color-mark-expired', 'color-badge-neutral-bg']],
+    ['Tooltip', ['color-surface-tooltip', 'color-text-on-tooltip']],
+    ['Marks and the neutral badge', ['color-mark-new', 'color-mark-live', 'color-mark-idle', 'color-mark-community', 'color-mark-expired', 'color-mark-done', 'color-badge-neutral-bg']],
   ];
   const recipes = ['success', 'danger', 'warning', 'info'];
 
@@ -224,12 +238,13 @@
     }).join('');
     const shadows = ['low', 'medium', 'high', 'lift'].map((level) => `<div class="shadow-sample" style="box-shadow:${data.themes[theme][`shadow-${level}`]}">--tt-shadow-${level}</div>`).join('');
     const buttons = `<div class="buttons"><span class="sample-button sample-button--primary">Primary</span><span class="sample-button sample-button--primary-hover">Primary, hover</span><span class="sample-button sample-button--secondary">Secondary</span><span class="sample-button sample-button--secondary-hover">Secondary, hover</span></div>`;
+    const samples = `<div class="samples"><span class="sample-button sample-button--secondary sample-ring">Focused: focus-ring</span><span class="sample-tip">A tip: surface-tooltip, text-on-tooltip</span><span class="sample-step">A step done: mark-done</span></div>`;
     const surfaces = `<div class="surfaces"><div class="surface surface--block">block: surface-block, border-block, shadow-block</div><div class="surface surface--overlay">overlay: surface-card, border-overlay, shadow-overlay</div><div class="surface surface--box">box, resting: surface-box, border-box, shadow-box</div><div class="surface surface--box-focus">box, focused: border-box-focus</div><div class="surface surface--control"><span></span>control ring: border-control</div></div>`;
-    themeGrid.insertAdjacentHTML('beforeend', `<section class="theme-panel" data-theme="${theme}"><h3>${theme[0].toUpperCase() + theme.slice(1)} theme <code>themes/${theme}-default.css</code></h3>${sections}<h4>Button roles, opaque values (the dark Button's glass is the component's)</h4>${buttons}<h4>Surfaces and the control ring</h4>${surfaces}<h4>Status recipes</h4><div class="recipes">${recipeCards}</div><h4>Elevation</h4><div class="recipes">${shadows}</div></section>`);
+    themeGrid.insertAdjacentHTML('beforeend', `<section class="theme-panel" data-theme="${theme}"><h3>${theme[0].toUpperCase() + theme.slice(1)} theme <code>themes/${theme}-default.css</code></h3>${sections}<h4>Button roles, opaque values (the dark Button's glass is the component's)</h4>${buttons}<h4>The focus ring, a tip and the done mark, on the primary ground</h4>${samples}<h4>Surfaces and the control ring</h4>${surfaces}<h4>Status recipes</h4><div class="recipes">${recipeCards}</div><h4>Elevation</h4><div class="recipes">${shadows}</div></section>`);
   }
 
   document.querySelector('#ladder').innerHTML = Object.entries(data.base)
-    .filter(([name]) => name.startsWith('radius-'))
+    .filter(([name]) => /^radius-(?:\d+|full)$/.test(name))
     .map(([name, value]) => `<div class="ladder__step"><div class="ladder__chip" style="border-radius:${value}"></div>${name.replace('radius-', '')}${name === 'radius-6' ? ' (off)' : ''}</div>`)
     .join('');
   const probe = document.createElement('div');
@@ -247,6 +262,8 @@
     .filter(([name]) => name.startsWith('space-'))
     .map(([name, value]) => `<div class="space-row"><span>${name}</span><span class="space-row__bar" style="width:var(--tt-${name})"></span><span>${value} · ${pixels(value)}</span></div>`)
     .join('');
+  document.querySelector('#smallText').textContent =
+    `font-size-small ${data.base['font-size-small']} / font-line-height-small ${data.base['font-line-height-small']}: here ${getComputedStyle(document.querySelector('.small-text')).lineHeight}`;
   document.querySelector('#register').innerHTML = ['display', 'page', 'title', 'section', 'sub']
     .map((step) => {
       const token = (part) => `font-heading-${step}-${part}`;

@@ -88,8 +88,8 @@ test('the importer adds the vector effect, expands the one dash and drops self-r
 
 test('provenance: sources, licences, cuts and the counts are pinned', () => {
   const tally = (field) => glyphs.reduce((acc, [, glyph]) => ({ ...acc, [glyph[field]]: (acc[glyph[field]] ?? 0) + 1 }), {});
-  assert.deepEqual(tally('source'), { solar: 113, 'solar-modified': 3, tiptree: 14 });
-  assert.deepEqual(tally('cut'), { linear: 126, filled: 1, solid: 3 });
+  assert.deepEqual(tally('source'), { solar: 114, 'solar-modified': 3, tiptree: 14 });
+  assert.deepEqual(tally('cut'), { linear: 127, filled: 1, solid: 3 });
   assert.deepEqual(
     glyphs.filter(([, glyph]) => glyph.source === 'tiptree').map(([name]) => name),
     ['blockquote', 'check', 'close', 'divider', 'grip-dots', 'heading', 'list-numbered', 'merge', 'plus-heavy', 'question', 'reply-arrow', 'subheading', 'table-header', 'transcript'],

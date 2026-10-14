@@ -1,5 +1,5 @@
 // GENERATED from tokens/tokens.json — DO NOT EDIT.
-// Design-system version 0.8.0.
+// Design-system version 0.9.0.
 import SwiftUI
 import UIKit
 
@@ -278,9 +278,9 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 36.0 / 255.0) : UIColor(red: 208.0 / 255.0, green: 208.0 / 255.0, blue: 200.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorBorderBox = Color(uiColor: colorBorderBoxUIColor)
-    // color-border-box-focus: light #bdbdb3, dark #ffffff33
+    // color-border-box-focus: light #3c8286, dark #82a7a9
     public static let colorBorderBoxFocusUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 51.0 / 255.0) : UIColor(red: 189.0 / 255.0, green: 189.0 / 255.0, blue: 179.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 130.0 / 255.0, green: 167.0 / 255.0, blue: 169.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 60.0 / 255.0, green: 130.0 / 255.0, blue: 134.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorBorderBoxFocus = Color(uiColor: colorBorderBoxFocusUIColor)
     // color-border-control: light #e3e3de, dark #ffffff1f
@@ -343,14 +343,14 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 20.0 / 255.0) : UIColor(red: 27.0 / 255.0, green: 27.0 / 255.0, blue: 27.0 / 255.0, alpha: 15.0 / 255.0)
     }
     public static let colorActionDisabledBg = Color(uiColor: colorActionDisabledBgUIColor)
-    // color-action-primary-bg: light #47696b, dark #2e585a
+    // color-action-primary-bg: light #47696b, dark #3a5759
     public static let colorActionPrimaryBgUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 46.0 / 255.0, green: 88.0 / 255.0, blue: 90.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 71.0 / 255.0, green: 105.0 / 255.0, blue: 107.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 58.0 / 255.0, green: 87.0 / 255.0, blue: 89.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 71.0 / 255.0, green: 105.0 / 255.0, blue: 107.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorActionPrimaryBg = Color(uiColor: colorActionPrimaryBgUIColor)
-    // color-action-primary-bg-hover: light #3a5759, dark #43696b
+    // color-action-primary-bg-hover: light #3a5759, dark #4e686a
     public static let colorActionPrimaryBgHoverUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 67.0 / 255.0, green: 105.0 / 255.0, blue: 107.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 58.0 / 255.0, green: 87.0 / 255.0, blue: 89.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 78.0 / 255.0, green: 104.0 / 255.0, blue: 106.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 58.0 / 255.0, green: 87.0 / 255.0, blue: 89.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorActionPrimaryBgHover = Color(uiColor: colorActionPrimaryBgHoverUIColor)
     // color-action-primary-fg: light #ffffff, dark #ffffff
@@ -408,9 +408,9 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 111.0 / 255.0, green: 111.0 / 255.0, blue: 103.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 126.0 / 255.0, green: 124.0 / 255.0, blue: 115.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorKeycapBgHover = Color(uiColor: colorKeycapBgHoverUIColor)
-    // color-focus-ring: light #5e9cff, dark #82a7a9
+    // color-focus-ring: light #3c8286, dark #82a7a9
     public static let colorFocusRingUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 130.0 / 255.0, green: 167.0 / 255.0, blue: 169.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 94.0 / 255.0, green: 156.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 130.0 / 255.0, green: 167.0 / 255.0, blue: 169.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 60.0 / 255.0, green: 130.0 / 255.0, blue: 134.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorFocusRing = Color(uiColor: colorFocusRingUIColor)
     // color-surface-inverse: light #1b1b1b, dark #edede9
@@ -423,9 +423,9 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 16.0 / 255.0, green: 16.0 / 255.0, blue: 15.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 241.0 / 255.0, green: 241.0 / 255.0, blue: 236.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorSurfaceSunken = Color(uiColor: colorSurfaceSunkenUIColor)
-    // color-surface-tooltip: light #000000cc, dark #edede9
+    // color-surface-tooltip: light #1b1b1b, dark #1b1b1b
     public static let colorSurfaceTooltipUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 237.0 / 255.0, green: 237.0 / 255.0, blue: 233.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 0.0 / 255.0, alpha: 204.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 27.0 / 255.0, green: 27.0 / 255.0, blue: 27.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 27.0 / 255.0, green: 27.0 / 255.0, blue: 27.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorSurfaceTooltip = Color(uiColor: colorSurfaceTooltipUIColor)
     // color-status-success-fg: light #047857, dark #6ee7b7
@@ -503,6 +503,11 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 27.0 / 255.0, green: 27.0 / 255.0, blue: 27.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorTextOnInverse = Color(uiColor: colorTextOnInverseUIColor)
+    // color-text-on-tooltip: light #ffffff, dark #ffffff
+    public static let colorTextOnTooltipUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorTextOnTooltip = Color(uiColor: colorTextOnTooltipUIColor)
     // color-mark-new: light #a4564a, dark #c47b6e
     public static let colorMarkNewUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 196.0 / 255.0, green: 123.0 / 255.0, blue: 110.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 164.0 / 255.0, green: 86.0 / 255.0, blue: 74.0 / 255.0, alpha: 255.0 / 255.0)
@@ -528,6 +533,11 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 207.0 / 255.0, green: 212.0 / 255.0, blue: 120.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 125.0 / 255.0, green: 132.0 / 255.0, blue: 46.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorMarkExpired = Color(uiColor: colorMarkExpiredUIColor)
+    // color-mark-done: light #27a644, dark #27a644
+    public static let colorMarkDoneUIColor = UIColor { traits in
+      traits.userInterfaceStyle == .dark ? UIColor(red: 39.0 / 255.0, green: 166.0 / 255.0, blue: 68.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 39.0 / 255.0, green: 166.0 / 255.0, blue: 68.0 / 255.0, alpha: 255.0 / 255.0)
+    }
+    public static let colorMarkDone = Color(uiColor: colorMarkDoneUIColor)
     // color-channel-whatsapp: light #4e7c5c, dark #7fae8c
     public static let colorChannelWhatsappUIColor = UIColor { traits in
       traits.userInterfaceStyle == .dark ? UIColor(red: 127.0 / 255.0, green: 174.0 / 255.0, blue: 140.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 78.0 / 255.0, green: 124.0 / 255.0, blue: 92.0 / 255.0, alpha: 255.0 / 255.0)
@@ -564,12 +574,22 @@ public enum TiptreeTokens {
     public static let r28: CGFloat = 28
     // radius-full: 9999px
     public static let full: CGFloat = 9999
+    // radius-block: 20px
+    public static let block: CGFloat = 20
+    // radius-field: 16px
+    public static let field: CGFloat = 16
+    // radius-row: 12px
+    public static let row: CGFloat = 12
   }
 
   public enum Duration {
     // speed-quick: 0.1s
     public static let quick: TimeInterval = 0.1
+    // speed-brisk: 0.15s
+    public static let brisk: TimeInterval = 0.15
     // speed-regular: 0.25s
     public static let regular: TimeInterval = 0.25
+    // speed-slow: 0.4s
+    public static let slow: TimeInterval = 0.4
   }
 }

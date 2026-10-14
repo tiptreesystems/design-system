@@ -1422,3 +1422,256 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   danger grounds beside their prototype drawings; his `package-proposals.md` moves
   rows 1, 3 and 5 to its "Taken, declined, withdrawn" record; RELEASING step
   3 for the other consumers at their bumps after the landing.
+
+## 2026-10-13 — v0.8.0 tagged at `e007f76` (Richard)
+
+- Richard tagged `v0.8.0` on 2026-10-03 (annotated tag, "Release v0.8.0") at
+  `e007f76`, the 2026-10-03 entry's single commit, which is `main`; the tag
+  is on `origin`. The release went out with no candidate, as that entry
+  planned, and the operating guide's "tag pending" for it is corrected in
+  the 0.9.0 cut below.
+
+## 2026-10-13 — v0.9.0: the prototype's findings against 0.8.0, its open proposals and the `sort` glyph (Richard; Ivan's rulings 12.15 to 12.83)
+
+- **Source.** The Althea prototype at `54ab90f` (its
+  `docs/design-system/package-proposals.md`, its `docs/decisions.md` and its
+  token files) and its look of 2026-10-13 on `origin/demo-2026-10-13` at
+  `0be5002` (its `docs/decisions.md` and `app/`); every prototype citation
+  below names one of the two. Built on `release/v0.9.0` from `main`
+  `e007f76` (the `v0.8.0` tag); every version surface reads `0.9.0`.
+- **Richard's rulings of 2026-10-13.**
+  - No component in 0.9.0. Button graduates as 0.10.0, after the landing
+    reaches the frontend's `main` and the prototype's look of 2026-10-13
+    updates its contract; the family fold and the glass roles go with it.
+  - The tooltip takes the brand black in both themes, with an ink role of
+    its own for its words, so Lacuna re-inks its tooltip at its bump.
+  - The control heights move to rem, now that the renders at 125% have been
+    seen (Ivan's 12.32).
+  - The shadows take the strengths they were drawn at, as web-only `rgb()`
+    strings; alpha kept as a number (the token source format) stays declined.
+  - `z-overlay` is documented as a layer that floats without stopping the
+    page, under the popovers, and a modal's veil stands at `z-dialog - 1`;
+    no value changes.
+  - The `tokens.css` raw ceiling rises by 1 KiB, and a theme file's only if
+    it needs it (none does).
+  - The check that every text at 14 stands on 22 lives in Althea's own
+    tests; the package pins only its own pair.
+  - 0.9.0 is built now and tagged once Althea proves it; no candidate.
+  - A consumer is verified in the owner's own checkout of it, on the branch
+    that takes the release, with the locally packed tarball installed
+    `--no-save`; `RELEASING.md` step 3 is amended to say so. The agents'
+    fence in `CLAUDE.md` that names worktrees for consumer edits is not
+    amended in this cut.
+- **Ivan's open questions, ruled by Richard.** Where the prototype asked
+  Ivan and he has not yet answered, Richard ruled on 2026-10-13, Ivan's to
+  confirm or overturn at his approval of the showcase:
+  every consumer's text at 14 takes the 22 line, as his "22 everywhere"
+  reads; the done mark is the palette green in both themes, drawn on the
+  primary ground only; the quaternary ink keeps its value and is documented
+  for marks and disabled labels only; the box's focused-rim role takes the
+  accent rather than retiring; the 480 ms rise (12.54) stays Althea's own;
+  and a 16 type step waits until he gives its line and tracking.
+- **The focus ring on paper** (cross-platform): light `color-focus-ring`
+  `#5e9cff` → `{color-accent}` (teal-550, `#3c8286`); dark `{teal-400}` →
+  `{color-accent}`, the same value by reference. Ivan's 12.48 (2026-10-10,
+  `docs/decisions.md:1538` at `54ab90f`): "In focus every control draws the
+  fields' ring, 2px of the accent standing 2 out"; the prototype's Button
+  and field rings read `{color-accent}`
+  (`tokens/althea/components/button.tokens.json:39-45`,
+  `field.tokens.json:20-26`). The prototype's finding against 0.8.0
+  (`package-proposals.md:26`): the old ring read 2.67:1 on
+  `color-bg-primary` and 2.74:1 on white, under a ring's 3:1. Now 4.33:1 on
+  `color-bg-primary`, 3.92:1 on `color-bg-secondary` and 4.44:1 on white;
+  dark 6.94:1 and 6.11:1.
+- **The tooltip** (cross-platform): `color-surface-tooltip` light
+  `#000000cc` → `{brand-black}`, dark `{stone-200}` → `{brand-black}`; new
+  `color-text-on-tooltip`, white in both themes. Ivan's 12.43 (2026-10-05,
+  `docs/decisions.md:1516-1518`): the tip is never under anything, a note
+  laid on the page; the prototype draws it as the brand black with white
+  words on both grounds (`app/tokens/althea.css:158-163`;
+  `package-proposals.md:26, 64`), where 0.8.0 would have turned it light
+  grey under white words in the dark and let the page show through it on
+  paper. White on it reads 17.22:1. The ink resolves like
+  `color-action-primary-fg` (`{stone-000}`, white) in both themes, so under
+  invariant 6 it is minted as an alias of that role,
+  `{color-action-primary-fg}`, as the 2026-08-17 inverse roles alias the
+  invert-button pair, not as a second white; its value is the ruled brand
+  white. This answers the 2026-10-01 entry's Tip bullet and the 2026-10-03
+  entry's open `color-surface-tooltip` line. What moves: Lacuna's tooltip
+  inks its words with `color-text-on-inverse`, the brand black in the dark,
+  so it must take `color-text-on-tooltip` at its bump or turn black on
+  black (`lacuna/interfaces/web.py:1203` on its `main`); Althea's dark
+  lightbox veil, which reads the role through its alias, turns near-black.
+- **The quaternary ink**, a rule and no value change. Ivan's 12.46
+  (2026-10-06, `docs/decisions.md:1530`): "words never read it, in either
+  theme ... the quietest ink keeps what words do not depend on, a disabled
+  label or a mark beside words". On paper `color-text-quaternary` reads
+  4.08:1 on `color-bg-primary` and 3.69:1 on `color-bg-secondary`; the step
+  darker, stone-600, still reads only 4.47:1 on the second, so the value is
+  kept and the rule goes in `docs/USING.md`. `color-text-tertiary` reads
+  6.56:1 and 5.95:1 on paper and 9.66:1 and 8.50:1 in the dark; a test holds
+  it at 4.5:1 or more on both grounds. Each consumer moves its own words.
+- **The dark primary action** (cross-platform): dark
+  `color-action-primary-bg` `#2e585a` → `{teal-700}` (`#3a5759`) and
+  `-bg-hover` `#43696b` → `#4e686a`, teal-700 mixed 90% with white, the
+  rule of the 2026-10-01 entry's opaque hover. The pill's move onto
+  teal-700 is one of 12.46's twelve moves (`docs/decisions.md:1530`), as
+  `package-proposals.md:39` records; the prototype's token is
+  `tokens/theme/dark.tokens.json:12-22` (the hover as
+  `color-mix(in srgb, {teal-700} 90%, #fff)`, `#4e686a`), and
+  `package-proposals.md:39-40` records the difference from 0.8.0. White
+  reads 7.81:1 and 5.98:1 (7.90:1 and 6.05:1 before). Light is unchanged.
+- **The box's rim while you write** (cross-platform):
+  `color-border-box-focus` light `#bdbdb3` → `{color-accent}`, dark
+  `#ffffff33` → `{color-accent}`. Ivan's 12.46: "its rim takes the accent
+  while you write in it (3.9 to 1 against the rim at rest in the dark, 2.9
+  on paper, carried as a written exception to the check's 3)"; the
+  prototype draws it at `app/features/composer.css:259-266` and reads the
+  old role nowhere (`package-proposals.md:46`). The old step read 1.22:1
+  against the rim at rest on paper; the accent reads 2.86:1 there. The
+  2026-10-01 entry's rims-order test keeps only the resting rims (block,
+  overlay, box), and the role leaves that entry's fold test, being an alias
+  of the accent. Althea's box reads it, with no CSS change.
+- **Text at 14 on a line of 22** (web-only): `font-line-height-small` `1.5` →
+  `calc(22 / 14)`, as the prototype's look writes it
+  (`app/features/transcript.css:1084-1088` on `origin/demo-2026-10-13`).
+  Ivan's 12.83 (2026-10-13, `docs/decisions.md:1748` there): "Excellent find
+  and that's exactly the one we need the design system to always flag. 22
+  everywhere."; 12.73 (2026-10-13, `:1650`), a list page speaks at 14 on 22.
+  21 → 22 at the default text size. No Python reader parses line heights as
+  numbers (the package's `TOKENS` holds strings; Lacuna and docs read the role
+  in CSS), so the value is the expression, not `1.571429`. A test holds
+  `font-size-small` × `font-line-height-small` at 22 on a 16 root, with no
+  other size token at 0.875rem; the consumer check that no text at 14 sits on
+  another line is Althea's.
+- **Motion** (cross-platform): new `speed-brisk` 0.15s, what opens (a tip,
+  a menu, a dialog, a section), and `speed-slow` 0.4s, what Althea adds to
+  the page arriving, beside `speed-quick` 0.1s and `speed-regular` 0.25s;
+  Swift `Duration.brisk` and `.slow`. Ivan's 12.44 (2026-10-05,
+  `docs/decisions.md:1520-1522` at `54ab90f`): "Very good call on the motion
+  scale", four steps; the prototype's tokens at
+  `tokens/proposals/names.tokens.json:21-32`, and its look's row entry and
+  landing read the slow step (12.53 and 12.54, both 2026-10-12,
+  `docs/decisions.md:1558, 1562` on `origin/demo-2026-10-13`). The 480 ms
+  rise is not a package speed.
+- **The corner roles** (cross-platform): new `radius-block` `{radius-20}`,
+  `radius-field` `{radius-16}` and `radius-row` `{radius-12}`; Swift
+  `Radius.block`, `.field` and `.row`. Ivan's 12.15 (2026-10-01) and 12.23
+  (2026-10-02) (`docs/decisions.md:1242, 1366` at `54ab90f`; 12.23: "If you
+  are confident we are building for long term, then yes"), the ladder gets
+  roles; the
+  values and their meanings are `tokens/proposals/names.tokens.json:3-20`.
+  The 2026-10-01 entry minted them once a prototype stylesheet reads them;
+  the prototype's stylesheets do (`package-proposals.md:17`).
+- **The shadows at their drawn strengths** (web-only): light `shadow-lift`
+  → `0 4px 24px rgb(77 77 71 / 2.2%), 0 4px 32px rgb(77 77 71 / 2.2%),
+  0 16px 32px rgb(77 77 71 / 1.7%)`, `shadow-block` → `0 2px 8px rgb(77 77
+  71 / 5%)`, `shadow-box` → `0 1px 2px rgb(77 77 71 / 5%)`, `shadow-overlay`
+  → `0 1px 2px rgb(77 77 71 / 5%), 0 8px 24px rgb(77 77 71 / 8%)`; dark
+  `shadow-lift` → `0 2px 6px rgb(0 0 0 / 20%), 0 8px 24px rgb(0 0 0 /
+  28%)` (dark `shadow-block` and `-box` read it) and `shadow-overlay` →
+  `0 2px 6px rgb(0 0 0 / 24%), 0 12px 32px rgb(0 0 0 / 40%)`. Merged as
+  written from `package-proposals.tokens.json:26-37` (`change.themes`; the
+  row at `package-proposals.md:19`). Each layer moves by at most 0.2 of a
+  point (a test holds it); nothing visible. The dark translucent surfaces
+  and rims stay hex: they are cross-platform colours, and alpha as a number
+  stays declined.
+- **The control heights in rem** (web-only): `control-hero` `56px` →
+  `3.5rem`, `-large` `44px` → `2.75rem`, `-default` `36px` → `2.25rem`,
+  `-small` `28px` → `1.75rem`, the same pixels at the default text size.
+  Ivan's 12.28 (2026-10-02, `docs/decisions.md:1404-1408`: "This looks very
+  good. Your demo shows it clearly. Proceed.") and 12.32 (2026-10-04,
+  `:1443-1445`, the renders at 125%: "Rest seems ok, I think."); merged from
+  `package-proposals.tokens.json:20-25`
+  (`tokens/proposals/overrides.tokens.json:3-26`).
+  The 2026-10-03 entry's note that a glyph grows inside a control that does
+  not is retired from `docs/USING.md`.
+- **The done mark** (cross-platform): new `color-mark-done` `{color-green}`
+  (`#27a644`) in both themes, in the mark family beside new, live, idle,
+  community and expired. Ivan's 12.64 (2026-10-12, `docs/decisions.md:1604`
+  on `origin/demo-2026-10-13`): a step "green once done (the role
+  color.done)"; the look draws it at `app/features/transcript.css:1371,
+  1375` with the palette green. It reads 3.09:1 on paper's
+  `color-bg-primary` and 2.80:1 on `color-bg-secondary`, 5.71:1 and 5.03:1
+  in the dark, so it is drawn on the primary ground only, as `docs/USING.md`
+  says. It folds into no role; the six marks stay distinct in each theme.
+- **`z-overlay`**, documented, no value change: a layer that floats without
+  stopping the page, under the popovers; a modal's veil stands one under its
+  dialog, as the prototype's command menu draws it
+  (`app/shell/command.css:27`, `calc(var(--tt-z-dialog) - 1)`), the
+  question at `package-proposals.md:23`. A test holds the order.
+- **The `sort` glyph** (icons): Solar `sort-linear`, three lines with the
+  longest first, imported with `scripts/icon-body.mjs` from Iconify as
+  `solar`, linear, CC BY 4.0; its body matches the look's drawing
+  (`app/solar-line.js:28` on `origin/demo-2026-10-13`) with the vector effect
+  added. Ivan's 12.73 (2026-10-13, `docs/decisions.md:1644` there): "go with
+  the one in the image". 130 → 131 glyphs (114 Solar); `sort-vertical`, the
+  two arrows, is unchanged and keeps its readers. No `NOTICE` change. The port
+  map's prototype names (`sort`, `sortVertical`) and its `_source` stamp, and
+  the sweep of the prototype's glyphs against the registry, wait for the look
+  to land on the prototype's `main`. The landing is unmerged (the frontend's
+  `feature/new-app` at `a9beaea1` pins v0.8.0; its `main` at `486755bd` pins
+  v0.6.0), so 0.9.0 withdraws no glyph under the 2026-10-03 entry's clause.
+- **Budget ruling.** `dist/css/tokens.css`'s raw ceiling rises from 13,312
+  to 14,336 bytes (Richard, 2026-10-13, under `budgets.json`'s theme
+  policy): 0.9.0 takes it to 13,734, 422 over the old ceiling, with the two
+  new roles in both of its blocks, the five new base tokens and the
+  shadows' `rgb()` strings. No other ceiling moves.
+- **Generator.** Unchanged: the Swift emitter already maps `radius-*` px
+  values and `speed-*` seconds, and the corner roles resolve to px. 147 →
+  152 base tokens; 82 → 84 semantic roles per theme.
+- **Measured payloads** (raw / Brotli; v0.8.0, built from `e007f76`,
+  against `0.9.0`).
+
+  | Generated file | v0.8.0 | 0.9.0 | Ceiling |
+  |---|---:|---:|---:|
+  | `primitives.css` | 5,244 / 1,301 | 5,441 / 1,352 | 12,288 / 3,072 |
+  | `themes/light-default.css` | 7,965 / 1,239 | 8,358 / 1,279 | 9,216 / 2,048 |
+  | `themes/dark-default.css` | 7,966 / 1,253 | 8,359 / 1,286 | 9,216 / 2,048 |
+  | `themes/explicit.css` | 7,980 / 1,236 | 8,373 / 1,280 | 9,216 / 2,048 |
+  | `tokens.css` | 13,144 / 2,436 | 13,734 / 2,505 | 14,336 / 3,072 |
+  | `icons/icons.js` | 94,236 / 20,022 | 94,544 / 20,015 | 102,400 / 22,528 |
+  | `icons/icons.json` | 109,015 / 20,536 | 109,433 / 20,562 | 118,784 / 23,552 |
+
+- **Public surface.** Against v0.8.0, 0.9.0 adds 52 names and removes and
+  changes none: 26 CSS name/block pairs (the five new base tokens in
+  `primitives.css` and `tokens.css`; the two roles in both blocks of each
+  theme file and of `tokens.css`), 7 applicability entries, 9 Swift
+  identifiers, 9 Python keys (5 base, 2 per theme) and the `sort` glyph; no
+  npm or wheel entry. Value changes are recorded by their decision tests,
+  the notes and this entry. `tests/public-surface/v0.9.0.json` records it.
+- **Tests.** `tests/decisions.test.mjs` re-pins the moved values where the
+  earlier releases pinned them (the tooltip, the dark primary grounds, the
+  box's focused rim, the shadows, the control heights, the small line) and
+  keeps the corner ladder to its numeric steps; the fold test of the
+  2026-10-01 entry treats a role that references another role in both
+  themes as an alias. New pins: the ring is the accent at 3:1 or more on
+  every ground; the tooltip's surface and its aliased ink at 4.5:1 or more;
+  the tertiary ink at 4.5:1 or more on both grounds; the dark primary
+  grounds as teal-700 and its 90% mix; the box's rim on the accent (2.86:1
+  against the rim at rest on paper, 3:1 or more in the dark); 14 × the
+  small line = 22 with no other size at 0.875rem; the four speeds; the
+  three corner roles and their Swift members; each shadow layer within 0.2
+  of a point of the hex it replaces; the control heights' pixels; the done
+  mark at 3:1 or more on the primary ground, six distinct marks; and the
+  layer order with a veil at `z-dialog - 1`. `tests/icons.test.mjs` counts
+  114 Solar and 127 linear glyphs and the names snapshot gains `sort`. The
+  showcase gains a Small text section, the corner roles under the ladder,
+  the tooltip's two roles, the quaternary ink and the done mark in their
+  groups, and in each theme a sample of the focus ring, a tip and a done
+  step on the primary ground. `npm run ci` passes on the branch.
+- **Consumers.** Althea first: the frontend branch that takes the prototype's
+  look verifies 0.9.0 from a local pack installed `--no-save` in the owner's
+  own checkout, once that checkout is clean and free, with its gates unchanged
+  and the resolved CSS diffed against 0.8.0; Richard tags after it, and Althea
+  then pins the release. Docs, Lacuna, marketing-site and website-v2 bump once
+  each to 0.9.0 after the landing, skipping 0.7.0 and 0.8.0; platform-ios
+  floats within 0.x and gains nine identifiers and the changed colours.
+- **No candidate**: no `v0.9.0-rc.N` is cut, the pattern of 0.7.0 and 0.8.0.
+- **Owed after the tag:** Ivan's approval of the showcase's new samples and
+  of Richard's rulings on his open questions; his `package-proposals.md`
+  moves rows 2, 4, 6, 11, 12 and 15 to its "Taken, declined, withdrawn"
+  record; the port map and the glyph sweep when the look lands on the
+  prototype's `main`; `RELEASING.md` step 3 for the other consumers at their
+  bumps; and, before Althea's verification, the `CLAUDE.md` consumer-edit
+  fence, amended by Richard to match `RELEASING.md` step 3.

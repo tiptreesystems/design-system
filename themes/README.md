@@ -13,6 +13,8 @@ Sub-brands are **token-value overrides** under a `[data-brand]` attribute — th
 | `--tt-color-bg-primary` (surface tint) | yes, within contrast budget |
 | spacing scale, type ladder, focus rings, z-scale | **locked** |
 
+Since 0.9.0 the focus ring and the box's rim while you write (`--tt-color-focus-ring`, `--tt-color-border-box-focus`) resolve to `--tt-color-accent`, so a sub-brand accent moves both with it and must keep 3:1 against every ground the ring is drawn on.
+
 ## Status
 
 Empty by ruling. Lacuna's teal (`#4a7c7c`) was ruled drift, not a sub-brand, and converged to the canonical ramp (ledger, 2026-08-18) — so no `lacuna.css` exists. A sub-brand theme lands here only by a recorded ruling; see `docs/OPERATING_GUIDE.md` §3 (divergence dispositions).

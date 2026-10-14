@@ -23,13 +23,18 @@ same source commit.
    platform-ios compile. Build the artifacts locally exactly as
    `.github/workflows/ci.yml` does (`npm run build`, then `npm pack` and
    `python -m pip wheel python/ --no-deps`, then
-   `scripts/check_artifacts.py`), install the tarball into a worktree of each
-   npm consumer through a `file:` pin, the wheel into a virtualenv for each
-   Python consumer, and the vendored files into a worktree of each static
-   site, and run each consumer's own gates unchanged: the
+   `scripts/check_artifacts.py`), install the tarball into the owner's own
+   checkout of each npm consumer, on the branch that will take the release,
+   with `npm install --no-save <tarball>`, so its manifest and lockfile stay
+   on the last published release; the wheel into a virtualenv for each
+   Python consumer; and the vendored files, uncommitted, into the owner's own
+   checkout of each static site. Install only into a checkout that is clean
+   and that no other work is using at the time, since its `node_modules` is
+   shared. Run each consumer's own gates unchanged: the
    unknown-custom-property lint, the build, the adapter and pin tests, and a
-   diff of the resolved CSS against the previous release. A `file:` pin is
-   for this verification only and is never committed. Record the results,
+   diff of the resolved CSS against the previous release. A local tarball or
+   `file:` path is for this verification only and is never committed; the
+   consumer pins the release's URL only after the tag. Record the results,
    with each consumer's SHA, in the release's ledger entry; the v0.6.0
    verification (ledger 2026-09-29) is the model.
 4. Confirm the repository's immutable-releases setting is enabled.

@@ -62,7 +62,8 @@ test('v0.4.1 estate graduations pin both theme values symmetrically', () => {
     'color-action-disabled-bg': ['#1b1b1b0f', '#ffffff14'],
     'color-status-success-bg-emphasis': ['#d1fae5', '#0f2e1f'],
     'color-status-warning-bg-emphasis': ['#fef3c7', '#2a2510'],
-    'color-surface-tooltip': ['#000000cc', '#edede9'],
+    // Re-pinned at 0.9.0 (ledger 2026-10-13): the brand black on both grounds.
+    'color-surface-tooltip': ['#1b1b1b', '#1b1b1b'],
   };
   for (const [name, [light, dark]] of Object.entries(expected)) {
     assert.equal(resolvedThemes.light[name], light, `${name} light value drifted`);
@@ -70,7 +71,7 @@ test('v0.4.1 estate graduations pin both theme values symmetrically', () => {
   }
   assert.equal(data.themes.dark['color-status-success-bg-emphasis'], '{color-status-success-bg}');
   assert.equal(data.themes.dark['color-status-warning-bg-emphasis'], '{color-status-warning-bg}');
-  assert.equal(data.themes.dark['color-surface-tooltip'], '{stone-200}');
+  assert.equal(data.themes.dark['color-surface-tooltip'], '{brand-black}');
   assert.equal('color-button-hover-bg' in data.themes.light, false);
   assert.equal('color-button-hover-bg' in data.themes.dark, false);
 });
@@ -158,9 +159,10 @@ test('v0.6.0 new roles pin both theme values, references, and applicability', ()
     'color-mark-community': ['#6a6499', '#9a95bd'],
     'color-channel-whatsapp': ['#4e7c5c', '#7fae8c'],
     'color-channel-sms': ['#63864a', '#9db884'],
+    // Re-pinned at 0.9.0 (ledger 2026-10-13): at the strengths it was drawn.
     'shadow-lift': [
-      '0 4px 24px #4d4d4706, 0 4px 32px #4d4d4706, 0 16px 32px #4d4d4704',
-      '0 2px 6px #00000033, 0 8px 24px #00000047',
+      '0 4px 24px rgb(77 77 71 / 2.2%), 0 4px 32px rgb(77 77 71 / 2.2%), 0 16px 32px rgb(77 77 71 / 1.7%)',
+      '0 2px 6px rgb(0 0 0 / 20%), 0 8px 24px rgb(0 0 0 / 28%)',
     ],
   };
   for (const [name, [light, dark]] of Object.entries(expected)) {
@@ -199,11 +201,13 @@ test('v0.6.0 new roles pin both theme values, references, and applicability', ()
   for (const name of Object.keys(expected).filter((candidate) => candidate.startsWith('color-'))) {
     assert.equal(data.applicability[name], 'cross-platform');
   }
+  // Re-pinned at 0.9.0 (ledger 2026-10-13): in rem, the same pixels at the
+  // default text size.
   const controls = {
-    'control-hero': '56px',
-    'control-large': '44px',
-    'control-default': '36px',
-    'control-small': '28px',
+    'control-hero': '3.5rem',
+    'control-large': '2.75rem',
+    'control-default': '2.25rem',
+    'control-small': '1.75rem',
   };
   for (const [name, value] of Object.entries(controls)) {
     assert.equal(data.tokens[name], value);
@@ -217,7 +221,8 @@ test('v0.6.0 new roles pin both theme values, references, and applicability', ()
     'font-line-height-regular': '1.5',
     'font-letter-spacing-regular': '-0.011em',
     'font-size-small': '0.875rem',
-    'font-line-height-small': '1.5',
+    // Re-pinned at 0.9.0 (ledger 2026-10-13): 22 on 14.
+    'font-line-height-small': 'calc(22 / 14)',
     'font-letter-spacing-small': '-0.013em',
     'font-size-mini': '0.8125rem',
     'font-line-height-mini': '1.5',
@@ -267,7 +272,7 @@ test('v0.7.0 additions pin values, references and applicability', () => {
   assert.equal(data.applicability['radius-28'], 'cross-platform');
   assert.match(read('dist/swift/GeneratedTokens.swift'), /public static let r28: CGFloat = 28/);
   assert.deepEqual(
-    Object.keys(data.tokens).filter((name) => name.startsWith('radius-')),
+    Object.keys(data.tokens).filter((name) => /^radius-(?:\d+|full)$/.test(name)),
     ['radius-4', 'radius-6', 'radius-8', 'radius-12', 'radius-16', 'radius-20', 'radius-24', 'radius-28', 'radius-full'],
     'the ladder is 4/8/12/16/20/24/28/full with radius-6 kept off it; no radius-10',
   );
@@ -276,16 +281,17 @@ test('v0.7.0 additions pin values, references and applicability', () => {
   assert.equal(data.applicability['border-hairline'], 'web-only');
 
   // The Button roles (sheet items 3 and 4; decisions A9: the prototype's
-  // Button, its dark glass made opaque).
+  // Button, its dark glass made opaque). The dark primary grounds are
+  // re-pinned at 0.9.0 (ledger 2026-10-13): teal-700, and it mixed 90% with white.
   const references = {
-    'color-action-primary-bg': ['{teal-600}', '#2e585a'],
-    'color-action-primary-bg-hover': ['{teal-700}', '#43696b'],
+    'color-action-primary-bg': ['{teal-600}', '{teal-700}'],
+    'color-action-primary-bg-hover': ['{teal-700}', '#4e686a'],
     'color-action-primary-fg': ['{stone-000}', '{stone-000}'],
     'color-button-secondary-bg-hover': ['{stone-150}', '#40403f'],
   };
   const values = {
-    'color-action-primary-bg': ['#47696b', '#2e585a'],
-    'color-action-primary-bg-hover': ['#3a5759', '#43696b'],
+    'color-action-primary-bg': ['#47696b', '#3a5759'],
+    'color-action-primary-bg-hover': ['#3a5759', '#4e686a'],
     'color-action-primary-fg': ['#ffffff', '#ffffff'],
     'color-button-secondary-bg-hover': ['#f1f1ec', '#40403f'],
   };
@@ -312,12 +318,14 @@ test('v0.7.0 surface roles pin values, references, applicability and their order
     'color-surface-box': ['{stone-000}', '#ffffff17'],
     'color-border-block': ['#ecece9', '#ffffff14'],
     'color-border-box': ['#d0d0c8', '#ffffff24'],
-    'color-border-box-focus': ['#bdbdb3', '#ffffff33'],
+    // Re-pinned at 0.9.0 (ledger 2026-10-13): the focused rim takes the
+    // accent, and the shadows hold the strengths they were drawn at.
+    'color-border-box-focus': ['{color-accent}', '{color-accent}'],
     'color-border-control': ['#e3e3de', '#ffffff1f'],
     'color-border-overlay': ['#e8e8e3', '#ffffff1a'],
-    'shadow-block': ['0 2px 8px #4d4d470d', '{shadow-lift}'],
-    'shadow-box': ['0 1px 2px #4d4d470d', '{shadow-lift}'],
-    'shadow-overlay': ['0 1px 2px #4d4d470d, 0 8px 24px #4d4d4714', '0 2px 6px #0000003d, 0 12px 32px #00000066'],
+    'shadow-block': ['0 2px 8px rgb(77 77 71 / 5%)', '{shadow-lift}'],
+    'shadow-box': ['0 1px 2px rgb(77 77 71 / 5%)', '{shadow-lift}'],
+    'shadow-overlay': ['0 1px 2px rgb(77 77 71 / 5%), 0 8px 24px rgb(77 77 71 / 8%)', '0 2px 6px rgb(0 0 0 / 24%), 0 12px 32px rgb(0 0 0 / 40%)'],
   };
   for (const [name, [light, dark]] of Object.entries(references)) {
     assert.equal(data.themes.light[name], light, `${name} light reference drifted`);
@@ -330,10 +338,11 @@ test('v0.7.0 surface roles pin values, references, applicability and their order
   assert.equal('color-surface-overlay' in data.themes.dark, false);
 
   // The box is the one outlined surface, firmer than anything else on the
-  // page: rims rise block, overlay, box, box focused, with the control ring
-  // between the block's and the box's, in both themes.
+  // page: the resting rims rise block, overlay, box, with the control ring
+  // between the block's and the box's, in both themes. The focused rim takes
+  // the accent from 0.9.0, pinned in its own test.
   const alpha = (hex) => Number.parseInt(hex.slice(7, 9), 16);
-  const order = ['color-border-block', 'color-border-overlay', 'color-border-box', 'color-border-box-focus'];
+  const order = ['color-border-block', 'color-border-overlay', 'color-border-box'];
   const dark = order.map((name) => alpha(resolvedThemes.dark[name]));
   const light = order.map((name) => relativeLuminance(resolvedThemes.light[name]));
   for (let i = 1; i < order.length; i += 1) {
@@ -345,15 +354,25 @@ test('v0.7.0 surface roles pin values, references, applicability and their order
   assert.ok(control.light < light[0] && control.light > light[2], 'light control ring sits between block and box');
 });
 
+// A role that references another role in both themes is an alias of it
+// (the 2026-08-17 inverse roles), not a fold; a reference to a palette
+// primitive such as {color-green} is not.
+const isAlias = (name) => ['light', 'dark'].every((theme) => {
+  const value = data.themes[theme][name];
+  return /^\{color-[a-z0-9-]+\}$/.test(value) && value.slice(1, -1) in data.themes[theme];
+});
+
 test('v0.7.0 roles fold into no existing role (invariant 6)', () => {
+  // color-border-box-focus left the list at 0.9.0: it takes the accent by
+  // reference, an alias.
   const added = [
     'color-action-primary-bg', 'color-action-primary-bg-hover', 'color-action-primary-fg', 'color-button-secondary-bg-hover',
-    'color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box', 'color-border-box-focus',
+    'color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box',
     'color-border-control', 'color-border-overlay', 'shadow-block', 'shadow-box', 'shadow-overlay',
   ];
   const pair = (name) => `${resolvedThemes.light[name]} | ${resolvedThemes.dark[name]}`;
   const existing = new Map(
-    Object.keys(data.themes.dark).filter((name) => !added.includes(name)).map((name) => [pair(name), name]),
+    Object.keys(data.themes.dark).filter((name) => !added.includes(name) && !isAlias(name)).map((name) => [pair(name), name]),
   );
   const seen = new Map();
   for (const name of added) {
@@ -517,6 +536,171 @@ test('v0.8.0 neutral badge tint is 7% of the ink, with no foreground of its own'
 test('v0.8.0 black is pure black beside the stone ramp, not the brand black', () => {
   assert.deepEqual([data.tokens.black, data.applicability.black, data.tokens['brand-black']], ['#000000', 'cross-platform', '#1b1b1b']);
   assert.match(read('dist/swift/GeneratedTokens.swift'), /public static let black = Color\(uiColor: blackUIColor\)/);
+});
+
+// 0.9.0 (ledger 2026-10-13): the prototype's findings against 0.8.0 and its
+// open proposals, on Ivan's rulings, taken by Richard on 2026-10-13.
+const over = (hex, share, ground) =>
+  `#${[1, 3, 5].map((at) => Math.round(Number.parseInt(hex.slice(at, at + 2), 16) * share + Number.parseInt(ground.slice(at, at + 2), 16) * (1 - share)).toString(16).padStart(2, '0')).join('')}`;
+
+test('0.9.0 focus ring is the accent, 3:1 or more on every ground', () => {
+  // 12.48: every control draws the fields' ring, 2px of the accent.
+  for (const theme of ['light', 'dark']) {
+    assert.equal(data.themes[theme]['color-focus-ring'], '{color-accent}');
+    for (const ground of ['color-bg-primary', 'color-bg-secondary', 'color-surface-card']) {
+      const ratio = contrast(resolvedThemes[theme]['color-focus-ring'], resolvedThemes[theme][ground]);
+      assert.ok(ratio >= 3, `${theme} focus ring on ${ground} is ${ratio.toFixed(2)}:1`);
+    }
+  }
+  assert.equal(resolvedThemes.light['color-focus-ring'], '#3c8286');
+});
+
+test('0.9.0 tooltip is the brand black on both grounds, its words white at 4.5:1 or more', () => {
+  // 12.43: a note laid on the page. The ink resolves like the primary
+  // action's label in both themes, so it is minted as an alias of that role
+  // (invariant 6), at the ruled brand white.
+  for (const theme of ['light', 'dark']) {
+    assert.equal(data.themes[theme]['color-surface-tooltip'], '{brand-black}');
+    assert.equal(data.themes[theme]['color-text-on-tooltip'], '{color-action-primary-fg}');
+    assert.equal(resolvedThemes[theme]['color-text-on-tooltip'], data.tokens['brand-white']);
+    const ratio = contrast(resolvedThemes[theme]['color-text-on-tooltip'], resolvedThemes[theme]['color-surface-tooltip']);
+    assert.ok(ratio >= 4.5, `${theme} tooltip words are ${ratio.toFixed(2)}:1`);
+  }
+  assert.equal(data.applicability['color-text-on-tooltip'], 'cross-platform');
+  assert.match(read('dist/swift/GeneratedTokens.swift'), /public static let colorTextOnTooltip = /);
+});
+
+test('0.9.0 words take the tertiary ink or firmer, which clears 4.5:1 on both grounds', () => {
+  // 12.46: words never read the quaternary ink; it keeps marks beside words
+  // and disabled labels. Its value is unchanged (pinned above).
+  for (const theme of ['light', 'dark']) {
+    for (const ground of ['color-bg-primary', 'color-bg-secondary']) {
+      const ratio = contrast(resolvedThemes[theme]['color-text-tertiary'], resolvedThemes[theme][ground]);
+      assert.ok(ratio >= 4.5, `${theme} tertiary ink on ${ground} is ${ratio.toFixed(2)}:1`);
+    }
+  }
+});
+
+test('0.9.0 dark primary grounds are teal-700 and teal-700 mixed 90% with white', () => {
+  const towardWhite = (hex, share) =>
+    `#${hex.slice(1).match(/../g).map((part) => Math.round(Number.parseInt(part, 16) * share + 255 * (1 - share)).toString(16).padStart(2, '0')).join('')}`;
+  assert.equal(data.themes.dark['color-action-primary-bg'], '{teal-700}');
+  assert.equal(data.themes.dark['color-action-primary-bg-hover'], towardWhite(data.tokens['teal-700'], 0.9));
+  assert.equal(data.themes.light['color-action-primary-bg'], '{teal-600}');
+  assert.equal(data.themes.light['color-action-primary-bg-hover'], '{teal-700}');
+});
+
+test('0.9.0 box rim takes the accent while you write in it', () => {
+  for (const theme of ['light', 'dark']) assert.equal(data.themes[theme]['color-border-box-focus'], '{color-accent}');
+  // 12.46: 2.86:1 against the rim at rest on paper, Ivan's written exception
+  // to 3:1; in the dark, against the rim at rest over the page, 3:1 or more.
+  assert.equal(contrast(resolvedThemes.light['color-border-box-focus'], resolvedThemes.light['color-border-box']).toFixed(2), '2.86');
+  const resting = resolvedThemes.dark['color-border-box'];
+  const drawn = over(resting.slice(0, 7), Number.parseInt(resting.slice(7, 9), 16) / 255, resolvedThemes.dark['color-bg-primary']);
+  assert.ok(contrast(resolvedThemes.dark['color-border-box-focus'], drawn) >= 3);
+});
+
+test('0.9.0 small text stands on a line of 22, and no other size is 14', () => {
+  // 12.83: every text at 14 stands on the one line of 22.
+  const ratio = (value) => {
+    const match = String(value).match(/^calc\((\d+(?:\.\d+)?) \/ (\d+(?:\.\d+)?)\)$/);
+    return match ? Number(match[1]) / Number(match[2]) : Number(value);
+  };
+  assert.equal(data.tokens['font-size-small'], '0.875rem');
+  assert.equal(data.tokens['font-line-height-small'], 'calc(22 / 14)');
+  const line = Number.parseFloat(data.tokens['font-size-small']) * 16 * ratio(data.tokens['font-line-height-small']);
+  assert.equal(Math.round(line * 1e6) / 1e6, 22);
+  assert.deepEqual(Object.entries(data.tokens).filter(([, value]) => value === '0.875rem').map(([name]) => name), ['font-size-small']);
+  assert.match(read('python/tiptree_ui/_tokens.py'), /'font-line-height-small': 'calc\(22 \/ 14\)'/);
+});
+
+test('0.9.0 motion has four steps, brisk and slow beside quick and regular', () => {
+  // 12.44: what opens takes brisk, what Althea adds to the page takes slow.
+  const speeds = { 'speed-quick': '0.1s', 'speed-brisk': '0.15s', 'speed-regular': '0.25s', 'speed-slow': '0.4s' };
+  assert.deepEqual(Object.keys(data.tokens).filter((name) => name.startsWith('speed-')), Object.keys(speeds));
+  for (const [name, value] of Object.entries(speeds)) {
+    assert.equal(data.tokens[name], value);
+    assert.equal(data.applicability[name], 'cross-platform');
+  }
+  const swift = read('dist/swift/GeneratedTokens.swift');
+  assert.match(swift, /public static let brisk: TimeInterval = 0\.15/);
+  assert.match(swift, /public static let slow: TimeInterval = 0\.4/);
+});
+
+test('0.9.0 corner roles point at three steps of the ladder', () => {
+  const roles = { 'radius-block': '{radius-20}', 'radius-field': '{radius-16}', 'radius-row': '{radius-12}' };
+  assert.deepEqual(Object.keys(data.tokens).filter((name) => /^radius-[a-z]+$/.test(name) && name !== 'radius-full'), Object.keys(roles));
+  const swift = read('dist/swift/GeneratedTokens.swift');
+  for (const [name, value] of Object.entries(roles)) {
+    assert.equal(data.tokens[name], value);
+    assert.equal(data.applicability[name], 'cross-platform');
+    assert.match(swift, new RegExp(`public static let ${name.slice('radius-'.length)}: CGFloat = ${value.match(/\d+/)[0]}\\n`));
+  }
+});
+
+test('0.9.0 shadows hold the strengths they were drawn at, each within 0.2 of a point', () => {
+  const layers = (value) => value.split(/,\s*/).map((layer) => {
+    const hex = layer.match(/^(.*) #([0-9a-f]{6})([0-9a-f]{2})$/);
+    if (hex) return { geometry: hex[1], rgb: hex[2].match(/../g).map((part) => Number.parseInt(part, 16)), alpha: (Number.parseInt(hex[3], 16) / 255) * 100 };
+    const rgb = layer.match(/^(.*) rgb\((\d+) (\d+) (\d+) \/ (\d+(?:\.\d+)?)%\)$/);
+    return { geometry: rgb[1], rgb: rgb.slice(2, 5).map(Number), alpha: Number(rgb[5]) };
+  });
+  const replaced = {
+    light: {
+      'shadow-lift': '0 4px 24px #4d4d4706, 0 4px 32px #4d4d4706, 0 16px 32px #4d4d4704',
+      'shadow-block': '0 2px 8px #4d4d470d',
+      'shadow-box': '0 1px 2px #4d4d470d',
+      'shadow-overlay': '0 1px 2px #4d4d470d, 0 8px 24px #4d4d4714',
+    },
+    dark: {
+      'shadow-lift': '0 2px 6px #00000033, 0 8px 24px #00000047',
+      'shadow-overlay': '0 2px 6px #0000003d, 0 12px 32px #00000066',
+    },
+  };
+  for (const [theme, names] of Object.entries(replaced)) {
+    for (const [name, before] of Object.entries(names)) {
+      const now = layers(data.themes[theme][name]);
+      const then = layers(before);
+      assert.equal(now.length, then.length, `${theme} ${name} changed its layers`);
+      now.forEach((layer, index) => {
+        assert.equal(layer.geometry, then[index].geometry);
+        assert.deepEqual(layer.rgb, then[index].rgb);
+        assert.ok(Math.abs(layer.alpha - then[index].alpha) <= 0.2, `${theme} ${name} moved ${Math.abs(layer.alpha - then[index].alpha).toFixed(2)} points`);
+      });
+    }
+  }
+  assert.doesNotMatch(read('dist/swift/GeneratedTokens.swift'), /shadow/i);
+});
+
+test('0.9.0 control heights are in rem, the same pixels at the default text size', () => {
+  const pixels = { 'control-hero': 56, 'control-large': 44, 'control-default': 36, 'control-small': 28 };
+  for (const [name, value] of Object.entries(pixels)) {
+    assert.match(data.tokens[name], /rem$/);
+    assert.equal(Number.parseFloat(data.tokens[name]) * 16, value);
+  }
+});
+
+test('0.9.0 done mark is the palette green, 3:1 or more on the primary ground', () => {
+  // 12.64: a step done is green, the role color.done; it is drawn on the
+  // primary ground only (on paper's secondary ground it reads 2.80:1).
+  for (const theme of ['light', 'dark']) {
+    assert.equal(data.themes[theme]['color-mark-done'], '{color-green}');
+    const ratio = contrast(resolvedThemes[theme]['color-mark-done'], resolvedThemes[theme]['color-bg-primary']);
+    assert.ok(ratio >= 3, `${theme} done mark on the primary ground is ${ratio.toFixed(2)}:1`);
+  }
+  assert.equal(data.applicability['color-mark-done'], 'cross-platform');
+  assert.equal(foldsInto('color-mark-done'), undefined);
+  const marks = ['new', 'live', 'idle', 'community', 'expired', 'done'].map((mark) => `color-mark-${mark}`);
+  for (const theme of ['light', 'dark']) {
+    assert.equal(new Set(marks.map((name) => resolvedThemes[theme][name])).size, marks.length, `${theme} marks collapse`);
+  }
+  assert.match(read('dist/swift/GeneratedTokens.swift'), /public static let colorMarkDone = /);
+});
+
+test('0.9.0 z-overlay is a non-modal layer under the popovers; a modal veil at z-dialog - 1 stands over them', () => {
+  const z = (name) => Number(data.tokens[`z-${name}`]);
+  assert.ok(z('header') < z('overlay') && z('overlay') < z('popover'));
+  assert.ok(z('dialog') - 1 > z('popover'));
 });
 
 test('font stacks lead with the variable face and keep the metric fallbacks', () => {

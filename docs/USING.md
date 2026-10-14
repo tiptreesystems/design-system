@@ -120,6 +120,13 @@ A corner inside a corner is the outer corner less the gap: a block at 20 with
 at 24 with 6 holds round controls of 36. `radius-6` stays for Lacuna and is
 off the ladder: no new use.
 
+Three corner roles name the rules that recur, so a rule is re-tuned in one
+place: `radius-block` (`{radius-20}`, a block that holds rows),
+`radius-field` (`{radius-16}`, a field and anything that is one) and
+`radius-row` (`{radius-12}`, a row or an item not inside a block, and a
+tip). Read the role where the rule is meant and the numeric step where only
+the size is; a corner inside a corner stays a formula over the role.
+
 `--tt-border-hairline` is 1px, and 0.5px under
 `@media (resolution >= 192dpi)`, which `primitives.css` (and `tokens.css`)
 already carries; alias it (`--border-hairline: var(--tt-border-hairline)`)
@@ -127,15 +134,17 @@ and delete the app's own media block.
 
 Three surfaces and a control ring: a block in the flow
 (`color-surface-block`, `color-border-block`, `shadow-block`), the box
-(`color-surface-box`, `color-border-box`, firming to `color-border-box-focus`
-on `:focus-within`, `shadow-box`), and anything that floats (the existing
-`color-surface-card`, `color-border-overlay`, `shadow-overlay`); a Button's
+(`color-surface-box`, `color-border-box`, taking the accent through
+`color-border-box-focus` while you write in it, `shadow-box`), and anything
+that floats (the existing `color-surface-card`, `color-border-overlay`,
+`shadow-overlay`); a Button's
 ring is `color-border-control`, and a pill's, a chip's or a field's ring at
 rest is `color-action-secondary-border`, a step lighter than the content line
 in the light. An overlay draws its edge inside its shadow
 list, `box-shadow: var(--tt-shadow-overlay), 0 0 0 1px var(--tt-color-border-overlay)`,
 so a host that silences elevation sets a layer such as `0 0 #0000`, never
-`none`, which would drop the ring with it.
+`none`, which would drop the ring with it. The shadows hold the strengths
+they were drawn at, as `rgb(… / n%)` strings (web-only).
 
 ## Spacing and glyph sizes
 
@@ -154,8 +163,44 @@ or default control and `--tt-glyph-large` (1.25rem, 20) the glyph in a large
 or hero control. Set an icon's width and height from them so a glyph grows
 with its words; the line stays 1.5px at both, because every stroked shape
 carries `vector-effect="non-scaling-stroke"` (Icons, below). The control
-heights (`control-*`) are still px at 0.8.0, so at a raised text size the
-glyph grows inside a control that does not.
+heights are in rem too, `control-small` to `control-hero` (28, 36, 44 and 56
+at the default text size), so at a raised text size a control grows with its
+words and its glyph.
+
+## Inks, the focus ring and the tooltip
+
+- **Words take `color-text-tertiary` or firmer.** It reads 4.5:1 or more on
+  `color-bg-primary` and `color-bg-secondary` in both themes.
+  `color-text-quaternary` is for marks beside words and for disabled labels
+  only: on paper it reads 4.08:1 and 3.69:1, under what words need.
+- **Text at 14 stands on a line of 22.** `font-line-height-small` is
+  `calc(22 / 14)`; set `font-size-small` and `font-line-height-small`
+  together, never one without the other, and test that no text at 14 sits on
+  another line.
+- **The focus ring is the accent.** `color-focus-ring` resolves to
+  `color-accent` in both themes, drawn `focus-ring-width` wide and
+  `focus-ring-offset` out: 3:1 or more on every ground.
+- **A tooltip** is `color-surface-tooltip`, the brand black on both grounds,
+  with its words in `color-text-on-tooltip`, white on both. Never ink it
+  with `color-text-on-inverse`, which is the brand black in the dark.
+- **The marks** (`color-mark-new`, `-live`, `-idle`, `-community`,
+  `-expired`, `-done`) are drawn beside words, not as words. `color-mark-done`
+  is the palette green on both grounds; draw it on the primary ground only,
+  since on paper it reads 2.80:1 on `color-bg-secondary`.
+
+## Motion and layers
+
+Four speeds, each for what a moment is, not the nearest number:
+`speed-quick` 0.1s for what answers the pointer or the focus, `speed-brisk`
+0.15s for what opens (a tip, a menu, a dialog, a section), `speed-regular`
+0.25s for a panel folding and `speed-slow` 0.4s for what Althea adds to the
+page arriving. Loops that last seconds keep their own times.
+
+The layers stand header, overlay, popover, dialog, toast, tooltip.
+`z-overlay` is a layer that floats without stopping the page, under the
+popovers, so a menu left open stays over it. A modal's veil is not
+`z-overlay`: it stands one under its dialog, `calc(var(--tt-z-dialog) - 1)`,
+over every popover it dims.
 
 ## Icons
 
