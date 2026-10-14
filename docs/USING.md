@@ -179,7 +179,8 @@ words and its glyph.
   another line.
 - **The focus ring is the accent.** `color-focus-ring` resolves to
   `color-accent` in both themes, drawn `focus-ring-width` wide and
-  `focus-ring-offset` out: 3:1 or more on every ground.
+  `focus-ring-offset` out: 3:1 or more on every page ground and surface;
+  not on the inverse chrome in the dark (2.22:1), where no control draws it.
 - **A tooltip** is `color-surface-tooltip`, the brand black on both grounds,
   with its words in `color-text-on-tooltip`, white on both. Never ink it
   with `color-text-on-inverse`, which is the brand black in the dark.

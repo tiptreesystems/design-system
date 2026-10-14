@@ -1598,8 +1598,9 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
 - **`z-overlay`**, documented, no value change: a layer that floats without
   stopping the page, under the popovers; a modal's veil stands one under its
   dialog, as the prototype's command menu draws it
-  (`app/shell/command.css:27`, `calc(var(--tt-z-dialog) - 1)`), the
-  question at `package-proposals.md:23`. A test holds the order.
+  (`app/shell/command.css:27` at `54ab90f`,
+  `calc(var(--tt-z-dialog) - 1)`), the question at
+  `package-proposals.md:23`. A test holds the order.
 - **The `sort` glyph** (icons): Solar `sort-linear`, three lines with the
   longest first, imported with `scripts/icon-body.mjs` from Iconify as
   `solar`, linear, CC BY 4.0; its body matches the look's drawing

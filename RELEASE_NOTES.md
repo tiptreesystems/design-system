@@ -74,7 +74,12 @@ the box's rim while you write, the small text's line, the control heights
   the brand black in the dark; switch it to `color-text-on-tooltip`, or the
   dark tooltip is black on black. Its focus rings turn from blue to teal on
   paper, and its text at 14 that reads `font-line-height-small` (the
-  highlights page's inputs) gains the pixel of line.
+  highlights page's inputs) gains the pixel of line. Its vendored chat widget
+  bakes the package's CSS in, and moves only when a widget is rebuilt from a
+  frontend commit that pins 0.9.0; the wheel bump alone leaves it as is.
+- docs: its words on the quaternary ink
+  (`docs_server/web/src/styles/components/cards.css:66`, `code-block.css:27`,
+  `collapsible-item.css:44`) move to the tertiary.
 - website-v2 (and the homepage copy marketing-site carries): replace the
   vendored `primitives.css` and theme file byte for byte, the sha256s in the
   pin test and the `?v=0.9.0` queries. The focus ring on paper turns teal,
