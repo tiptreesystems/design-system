@@ -68,7 +68,7 @@ Consumer entries are appended to the ledger only after the corresponding merge.
 
 ## 4. Open work (no sequence implied)
 
-- **Components by graduation:** Button, in a separate project after the Althea rebuild's landing (Richard, 2026-10-02; ledger 2026-10-03), as 0.10.0 (Richard, 2026-10-13); the landing builds it app-local on the v0.7.0 Button roles (`.tt-button`, the four `control-*` sizes, no geometry knobs); then the theme boot/toggle module (three hand-rolled copies exist across the estate), Badge, Toast.
+- **Components by graduation:** Button, in a separate project after the Althea rebuild's landing (Richard, 2026-10-02; ledger 2026-10-03), as 0.11.0 (Richard, 2026-10-13 as 0.10.0; 2026-10-31, the token cut 0.10.0 having taken the number); the landing builds it app-local on the v0.7.0 Button roles (`.tt-button`, the four `control-*` sizes, no geometry knobs); then the theme boot/toggle module (three hand-rolled copies exist across the estate), Badge, Toast.
 - **Icon library:** its second consumer is docs' Linear adoption; app extension entries fold in at each minor; the export, and any component the landing consumes, is withdrawn at the first minor cut after the Althea landing's pull request is closed without merging or is reverted, and a minor cut while the landing is open on its branch withdraws nothing (ledger 2026-10-03, amending 2026-10-01). 1.0 when the names have survived a second merged consumer, the names snapshot is unchanged for one release after it, provenance is complete, and the public-surface test runs in CI (it does from v0.7.0).
 - **Explorer hosting** per release tag (GitHub Pages).
 - **In-repo estate audit script** to replace pinned-SHA matrix evidence.

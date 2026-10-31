@@ -1733,8 +1733,8 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   local pack installed `--no-save` in the owner's checkout; Richard tags
   after it, and Althea then pins the release. The other consumers bump at
   their own pace.
-- **Open for Richard.** The 2026-10-13 entry gives 0.10.0 to the Button's
-  graduation (and `docs/OPERATING_GUIDE.md` §4 repeats it); this cut takes
-  the number, so the Button's line moves to the next minor, or this cut is
-  renumbered before its tag.
+- **The number.** The 2026-10-13 entry gave 0.10.0 to the Button's
+  graduation; this cut takes the number and the Button's line moves to
+  0.11.0 (Richard, 2026-10-31; `docs/OPERATING_GUIDE.md` §4 follows). Amends
+  the 2026-10-13 entry's release line.
 - **No candidate**: no `v0.10.0-rc.N` is cut.
