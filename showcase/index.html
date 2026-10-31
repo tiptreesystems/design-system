@@ -138,7 +138,7 @@
   </div>
 
   <h2>Hairline</h2>
-  <p><code>--tt-border-hairline</code> is 1px, and 0.5px under <code>@media (resolution &gt;= 192dpi)</code> in <code>primitives.css</code> and <code>tokens.css</code>. The value is the token's; how an engine rasterises half a pixel is its own.</p>
+  <p><code>--tt-border-hairline</code> is 1px at every density: a line of one device pixel on a rounded rim draws across two half-bright pixels, so no high-density block halves it.</p>
   <div class="hairlines" id="hairlines"></div>
 
   <h2>Spacing</h2>
@@ -254,7 +254,7 @@
   probe.remove();
   const mediaRows = Object.values(data.media ?? {}).map((spec) => `${spec.query}: ${Object.entries(spec.tokens).map(([name, value]) => `${name} ${value}`).join(', ')}`).join('<br>');
   document.querySelector('#hairlines').innerHTML =
-    `<div class="hairline-sample"><div class="hairline-sample__line"></div>--tt-border-hairline<br>base ${data.base['border-hairline']}; ${mediaRows}<br>here: devicePixelRatio ${devicePixelRatio}, computed ${rendered}</div>` +
+    `<div class="hairline-sample"><div class="hairline-sample__line"></div>--tt-border-hairline<br>base ${data.base['border-hairline']}${mediaRows ? `; ${mediaRows}` : ''}<br>here: devicePixelRatio ${devicePixelRatio}, computed ${rendered}</div>` +
     `<div class="hairline-sample"><div class="hairline-sample__line hairline-sample__line--one"></div>1px, for comparison</div>`;
 
   const pixels = (rem) => `${Number.parseFloat(rem) * 16}`;

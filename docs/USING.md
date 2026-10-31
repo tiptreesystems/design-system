@@ -127,14 +127,13 @@ place: `radius-block` (`{radius-20}`, a block that holds rows),
 tip). Read the role where the rule is meant and the numeric step where only
 the size is; a corner inside a corner stays a formula over the role.
 
-`--tt-border-hairline` is 1px, and 0.5px under
-`@media (resolution >= 192dpi)`, which `primitives.css` (and `tokens.css`)
-already carries; alias it (`--border-hairline: var(--tt-border-hairline)`)
-and delete the app's own media block.
+`--tt-border-hairline` is 1px at every density (no high-density block since
+0.10.0); alias it (`--border-hairline: var(--tt-border-hairline)`) and delete
+the app's own media block.
 
 Three surfaces and a control ring: a block in the flow
 (`color-surface-block`, `color-border-block`, `shadow-block`), the box
-(`color-surface-box`, `color-border-box`, taking the accent through
+(`color-surface-box`, `color-border-box`, a stone firmer through
 `color-border-box-focus` while you write in it, `shadow-box`), and anything
 that floats (the existing `color-surface-card`, `color-border-overlay`,
 `shadow-overlay`); a Button's

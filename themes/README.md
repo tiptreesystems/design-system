@@ -13,7 +13,7 @@ Sub-brands are **token-value overrides** under a `[data-brand]` attribute — th
 | `--tt-color-bg-primary` (surface tint) | yes, within contrast budget |
 | spacing scale, type ladder, focus rings, z-scale | **locked** |
 
-Since 0.9.0 the focus ring and the box's rim while you write (`--tt-color-focus-ring`, `--tt-color-border-box-focus`) resolve to `--tt-color-accent`, so a sub-brand accent moves both with it and must keep 3:1 against every ground the ring is drawn on.
+Since 0.9.0 the focus ring (`--tt-color-focus-ring`) resolves to `--tt-color-accent`, so a sub-brand accent moves it and must keep 3:1 against every ground the ring is drawn on. Since 0.10.0 the box's rim while you write (`--tt-color-border-box-focus`) is a neutral stone, which an accent does not move.
 
 ## Status
 

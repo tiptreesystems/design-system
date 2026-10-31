@@ -1676,3 +1676,65 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   prototype's `main`; `RELEASING.md` step 3 for the other consumers at their
   bumps; and, before Althea's verification, the `CLAUDE.md` consumer-edit
   fence, amended by Richard to match `RELEASING.md` step 3.
+
+## 2026-10-30 — v0.10.0: every line at 1px and a field's focused rim one stone past its rest (Ivan's rulings 12.263 and 12.264)
+
+- **Source.** The Althea prototype at `45c0f04`: `docs/decisions.md` 12.263
+  and 12.264 (Ivan, 2026-10-30), its held values in
+  `app/tokens/proposals.css:21-22, 39-40, 50-51`, and its handoff patch for
+  this repository (`docs/handoff/checklist-scroll-discs-2026-10-30/design-system/`),
+  applied as written. Built on `release/v0.10.0` from `main` `82858d1` (the
+  `v0.9.0` tag); every version surface reads `0.10.0`.
+- **The hairline** (web-only): `border-hairline` is 1px at every density;
+  the `media.high-density` block (`(resolution >= 192dpi)`, 0.5px) is
+  removed from `tokens/tokens.json`, so `primitives.css` and `tokens.css`
+  carry no media block. 12.264: the Box's 24 corner drew its one device
+  pixel at 76 to 89 of the straight run's 91 on a 2x screen, and 91 all
+  round at 1px ("we need all at 1px minimum, no 0.5px things"). The
+  generator keeps its media mechanism and its validation; no block is
+  declared. Amends the 2026-10-01 entry's high-density block.
+- **The box's rim while you write** (cross-platform):
+  `color-border-box-focus` light `{color-accent}` → `{stone-400}`
+  (`#bebeb3`), dark `{color-accent}` → `{stone-650}` (`#5c5c55`). 12.263:
+  "barely more than the non-selected stroke", one stone past the rim at rest
+  (`#d0d0c8` on paper, white at 14 in 100 in the dark); 1.21:1 against it on
+  paper and 1.77:1 against it drawn over the dark page. The keyboard's ring,
+  `color-focus-ring`, keeps the accent ("Keep the accent"). Amends the
+  2026-10-13 entry's box rim; the role is no longer an alias, so it rejoins
+  the 2026-10-01 entry's fold test and folds into no role.
+- **Tests.** `tests/decisions.test.mjs` re-pins the role in the v0.7.0
+  surface roles, returns it to the fold test, replaces the 0.9.0 box-rim
+  test with a 0.10.0 one (stone-400 and stone-650, not the accent, firmer
+  than the rim at rest, the ring on the accent) and the media-block test
+  with one that no block is emitted while the validator still refuses a bad
+  one. `tests/public-surface/v0.10.0.json` records the surface. `npm run ci`
+  passes on the branch: 57 Node tests, 5 Python tests, the budgets.
+- **Public surface.** Against v0.9.0 it removes two CSS name/block pairs,
+  `--tt-border-hairline` under `@media (resolution >= 192dpi) :root` in
+  `primitives.css` and `tokens.css`, recorded under the notes' Removed
+  heading; it adds and renames nothing. The Swift diff changes
+  `colorBorderBoxFocus` only.
+- **Measured payloads** (raw / Brotli; 0.9.0 from the 2026-10-13 entry,
+  against `0.10.0`).
+
+  | Generated file | 0.9.0 | 0.10.0 | Ceiling |
+  |---|---:|---:|---:|
+  | `primitives.css` | 5,441 / 1,352 | 5,360 / 1,302 | 12,288 / 3,072 |
+  | `themes/light-default.css` | 8,358 / 1,279 | 8,353 / 1,278 | 9,216 / 2,048 |
+  | `themes/dark-default.css` | 8,359 / 1,286 | 8,354 / 1,287 | 9,216 / 2,048 |
+  | `themes/explicit.css` | 8,373 / 1,280 | 8,368 / 1,275 | 9,216 / 2,048 |
+  | `tokens.css` | 13,734 / 2,505 | 13,647 / 2,470 | 14,336 / 3,072 |
+  | `icons/icons.js` | 94,544 / 20,015 | 94,546 / 20,034 | 102,400 / 22,528 |
+  | `icons/icons.json` | 109,433 / 20,562 | 109,434 / 20,556 | 118,784 / 23,552 |
+
+- **Consumers.** Every consumer's lines on a dense screen go from 0.5 to 1,
+  and every focused rim that reads the role leaves the accent. Althea first:
+  the frontend branch that takes 12.259 to 12.264 verifies 0.10.0 from a
+  local pack installed `--no-save` in the owner's checkout; Richard tags
+  after it, and Althea then pins the release. The other consumers bump at
+  their own pace.
+- **Open for Richard.** The 2026-10-13 entry gives 0.10.0 to the Button's
+  graduation (and `docs/OPERATING_GUIDE.md` §4 repeats it); this cut takes
+  the number, so the Button's line moves to the next minor, or this cut is
+  renumbered before its tag.
+- **No candidate**: no `v0.10.0-rc.N` is cut.

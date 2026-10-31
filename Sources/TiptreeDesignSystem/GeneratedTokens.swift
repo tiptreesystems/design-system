@@ -1,5 +1,5 @@
 // GENERATED from tokens/tokens.json — DO NOT EDIT.
-// Design-system version 0.9.0.
+// Design-system version 0.10.0.
 import SwiftUI
 import UIKit
 
@@ -278,9 +278,9 @@ public enum TiptreeTokens {
       traits.userInterfaceStyle == .dark ? UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 36.0 / 255.0) : UIColor(red: 208.0 / 255.0, green: 208.0 / 255.0, blue: 200.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorBorderBox = Color(uiColor: colorBorderBoxUIColor)
-    // color-border-box-focus: light #3c8286, dark #82a7a9
+    // color-border-box-focus: light #bebeb3, dark #5c5c55
     public static let colorBorderBoxFocusUIColor = UIColor { traits in
-      traits.userInterfaceStyle == .dark ? UIColor(red: 130.0 / 255.0, green: 167.0 / 255.0, blue: 169.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 60.0 / 255.0, green: 130.0 / 255.0, blue: 134.0 / 255.0, alpha: 255.0 / 255.0)
+      traits.userInterfaceStyle == .dark ? UIColor(red: 92.0 / 255.0, green: 92.0 / 255.0, blue: 85.0 / 255.0, alpha: 255.0 / 255.0) : UIColor(red: 190.0 / 255.0, green: 190.0 / 255.0, blue: 179.0 / 255.0, alpha: 255.0 / 255.0)
     }
     public static let colorBorderBoxFocus = Color(uiColor: colorBorderBoxFocusUIColor)
     // color-border-control: light #e3e3de, dark #ffffff1f

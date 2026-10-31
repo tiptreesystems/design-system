@@ -8,5 +8,5 @@ components join only after a production consumer adopts their shared contract.
 
 from tiptree_ui._tokens import TOKENS, for_brand
 
-__version__ = "0.9.0"
+__version__ = "0.10.0"
 __all__ = ["TOKENS", "for_brand", "__version__"]

@@ -318,9 +318,10 @@ test('v0.7.0 surface roles pin values, references, applicability and their order
     'color-surface-box': ['{stone-000}', '#ffffff17'],
     'color-border-block': ['#ecece9', '#ffffff14'],
     'color-border-box': ['#d0d0c8', '#ffffff24'],
-    // Re-pinned at 0.9.0 (ledger 2026-10-13): the focused rim takes the
-    // accent, and the shadows hold the strengths they were drawn at.
-    'color-border-box-focus': ['{color-accent}', '{color-accent}'],
+    // Re-pinned at 0.9.0 (ledger 2026-10-13): the shadows hold the
+    // strengths they were drawn at. Re-pinned at 0.10.0 (ledger 2026-10-30):
+    // the focused rim is a stone past the rim at rest.
+    'color-border-box-focus': ['{stone-400}', '{stone-650}'],
     'color-border-control': ['#e3e3de', '#ffffff1f'],
     'color-border-overlay': ['#e8e8e3', '#ffffff1a'],
     'shadow-block': ['0 2px 8px rgb(77 77 71 / 5%)', '{shadow-lift}'],
@@ -339,8 +340,8 @@ test('v0.7.0 surface roles pin values, references, applicability and their order
 
   // The box is the one outlined surface, firmer than anything else on the
   // page: the resting rims rise block, overlay, box, with the control ring
-  // between the block's and the box's, in both themes. The focused rim takes
-  // the accent from 0.9.0, pinned in its own test.
+  // between the block's and the box's, in both themes. The focused rim, a
+  // stone past the rim at rest from 0.10.0, is pinned in its own test.
   const alpha = (hex) => Number.parseInt(hex.slice(7, 9), 16);
   const order = ['color-border-block', 'color-border-overlay', 'color-border-box'];
   const dark = order.map((name) => alpha(resolvedThemes.dark[name]));
@@ -363,11 +364,9 @@ const isAlias = (name) => ['light', 'dark'].every((theme) => {
 });
 
 test('v0.7.0 roles fold into no existing role (invariant 6)', () => {
-  // color-border-box-focus left the list at 0.9.0: it takes the accent by
-  // reference, an alias.
   const added = [
     'color-action-primary-bg', 'color-action-primary-bg-hover', 'color-action-primary-fg', 'color-button-secondary-bg-hover',
-    'color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box',
+    'color-surface-block', 'color-surface-box', 'color-border-block', 'color-border-box', 'color-border-box-focus',
     'color-border-control', 'color-border-overlay', 'shadow-block', 'shadow-box', 'shadow-overlay',
   ];
   const pair = (name) => `${resolvedThemes.light[name]} | ${resolvedThemes.dark[name]}`;
@@ -590,16 +589,6 @@ test('0.9.0 dark primary grounds are teal-700 and teal-700 mixed 90% with white'
   assert.equal(data.themes.light['color-action-primary-bg-hover'], '{teal-700}');
 });
 
-test('0.9.0 box rim takes the accent while you write in it', () => {
-  for (const theme of ['light', 'dark']) assert.equal(data.themes[theme]['color-border-box-focus'], '{color-accent}');
-  // 12.46: 2.86:1 against the rim at rest on paper, Ivan's written exception
-  // to 3:1; in the dark, against the rim at rest over the page, 3:1 or more.
-  assert.equal(contrast(resolvedThemes.light['color-border-box-focus'], resolvedThemes.light['color-border-box']).toFixed(2), '2.86');
-  const resting = resolvedThemes.dark['color-border-box'];
-  const drawn = over(resting.slice(0, 7), Number.parseInt(resting.slice(7, 9), 16) / 255, resolvedThemes.dark['color-bg-primary']);
-  assert.ok(contrast(resolvedThemes.dark['color-border-box-focus'], drawn) >= 3);
-});
-
 test('0.9.0 small text stands on a line of 22, and no other size is 14', () => {
   // 12.83: every text at 14 stands on the one line of 22.
   const ratio = (value) => {
@@ -703,25 +692,46 @@ test('0.9.0 z-overlay is a non-modal layer under the popovers; a modal veil at z
   assert.ok(z('dialog') - 1 > z('popover'));
 });
 
+// 0.10.0 (ledger 2026-10-30): Ivan's 12.263 and 12.264.
+test('0.10.0 box rim is a stone past its rest while you write in it, not the accent', () => {
+  // 12.263: barely more than the rim at rest; the keyboard's ring keeps the
+  // accent.
+  assert.equal(data.themes.light['color-border-box-focus'], '{stone-400}');
+  assert.equal(data.themes.dark['color-border-box-focus'], '{stone-650}');
+  for (const theme of ['light', 'dark']) {
+    assert.notEqual(resolvedThemes[theme]['color-border-box-focus'], resolvedThemes[theme]['color-accent']);
+    assert.equal(data.themes[theme]['color-focus-ring'], '{color-accent}');
+  }
+  // Firmer than the rim at rest: 1.21:1 against it on paper; in the dark,
+  // 1.77:1 against the rim at rest drawn over the page.
+  const light = resolvedThemes.light;
+  assert.ok(relativeLuminance(light['color-border-box-focus']) < relativeLuminance(light['color-border-box']));
+  assert.equal(contrast(light['color-border-box-focus'], light['color-border-box']).toFixed(2), '1.21');
+  const resting = resolvedThemes.dark['color-border-box'];
+  const drawn = over(resting.slice(0, 7), Number.parseInt(resting.slice(7, 9), 16) / 255, resolvedThemes.dark['color-bg-primary']);
+  assert.ok(relativeLuminance(resolvedThemes.dark['color-border-box-focus']) > relativeLuminance(drawn));
+  assert.equal(contrast(resolvedThemes.dark['color-border-box-focus'], drawn).toFixed(2), '1.77');
+});
+
 test('font stacks lead with the variable face and keep the metric fallbacks', () => {
   assert.match(data.tokens['font-sans'], /^'Inter Variable', 'Inter', 'Inter Fallback', /);
   assert.match(data.tokens['font-serif'], /^'Literata', 'Literata Fallback', /);
 });
 
-test('media blocks are emitted after :root in primitives and compat only', () => {
-  const block = '@media (resolution >= 192dpi) {\n  :root {\n    --tt-border-hairline: 0.5px;\n  }\n}\n';
+test('0.10.0 hairline is 1px at every density: no media block is emitted', () => {
+  // 12.264: a line of one device pixel on a rounded rim draws across two
+  // half-bright pixels, so the dense screen's 0.5 is set aside.
+  assert.deepEqual(data.media, {});
   for (const file of ['dist/css/primitives.css', 'dist/css/tokens.css']) {
     const css = read(file);
-    assert.ok(css.includes(block), `${file} lacks the high-density block`);
-    assert.ok(css.indexOf(block) > css.indexOf('}'), `${file} must declare the block after the base :root`);
+    assert.doesNotMatch(css, /@media/, `${file} declares a media block`);
     assert.match(css, /--tt-border-hairline: 1px;/);
   }
   for (const theme of ['light-default', 'dark-default', 'explicit']) {
     assert.doesNotMatch(read(`dist/css/themes/${theme}.css`), /@media|border-hairline/);
   }
-  assert.deepEqual(JSON.parse(read('dist/showcase-data.json')).media, {
-    'high-density': { query: '(resolution >= 192dpi)', tokens: { 'border-hairline': '0.5px' } },
-  });
+  assert.deepEqual(JSON.parse(read('dist/showcase-data.json')).media, {});
+  // The generator still guards a media block, should one be ruled again.
   const query = '(resolution >= 192dpi)';
   const withMedia = (media) => ({ ...data, media });
   const rejected = {
