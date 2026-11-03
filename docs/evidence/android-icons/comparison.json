@@ -1,0 +1,166 @@
+{
+  "comparisons": 1572,
+  "failed": 0,
+  "worst": [
+    {
+      "glyph": "check-circle",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.009218954248366013,
+      "passed": true
+    },
+    {
+      "glyph": "check-circle",
+      "theme": "light",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.009133986928104574,
+      "passed": true
+    },
+    {
+      "glyph": "database",
+      "theme": "light",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.008712418300653595,
+      "passed": true
+    },
+    {
+      "glyph": "database",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.008673202614379085,
+      "passed": true
+    },
+    {
+      "glyph": "plus-heavy",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.008088235294117648,
+      "passed": true
+    },
+    {
+      "glyph": "plus-heavy",
+      "theme": "light",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.008026143790849673,
+      "passed": true
+    },
+    {
+      "glyph": "table-header",
+      "theme": "light",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.0071013071895424836,
+      "passed": true
+    },
+    {
+      "glyph": "users-group-rounded",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.006806576797385621,
+      "passed": true
+    },
+    {
+      "glyph": "users-group-rounded",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.006673815359477124,
+      "passed": true
+    },
+    {
+      "glyph": "user-rounded",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.006500204248366013,
+      "passed": true
+    },
+    {
+      "glyph": "table-header",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.006418300653594771,
+      "passed": true
+    },
+    {
+      "glyph": "user-rounded",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.006301062091503268,
+      "passed": true
+    },
+    {
+      "glyph": "database",
+      "theme": "light",
+      "density": 2,
+      "size": 20,
+      "mean_rgb_error": 0.005709967320261438,
+      "passed": true
+    },
+    {
+      "glyph": "database",
+      "theme": "dark",
+      "density": 2,
+      "size": 20,
+      "mean_rgb_error": 0.005676470588235293,
+      "passed": true
+    },
+    {
+      "glyph": "question-circle",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.005607843137254902,
+      "passed": true
+    },
+    {
+      "glyph": "question-circle",
+      "theme": "light",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.0055,
+      "passed": true
+    },
+    {
+      "glyph": "table-header",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.005131740196078431,
+      "passed": true
+    },
+    {
+      "glyph": "table-header",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.005019403594771242,
+      "passed": true
+    },
+    {
+      "glyph": "close-circle",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.004702614379084967,
+      "passed": true
+    },
+    {
+      "glyph": "code-square",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.004689542483660132,
+      "passed": true
+    }
+  ]
+}

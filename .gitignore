@@ -3,6 +3,11 @@ node_modules/
 .build/
 .swiftpm/
 .DS_Store
+android/.gradle/
+android/.kotlin/
+android/**/build/
+android/build/
+android/local.properties
 
 python/build/
 python/dist/

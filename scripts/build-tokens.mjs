@@ -16,6 +16,7 @@ import { brotliCompressSync, constants as zlibConstants } from 'node:zlib';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildIcons } from './build-icons.mjs';
+import { buildAndroid } from './build-android.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PREFIX = '--tt-';
@@ -414,6 +415,7 @@ export function build() {
   copyFileSync(join(ROOT, 'dist/manifest.json'), join(pythonAssets, 'manifest.json'));
   // After the Python assets: the generated roots above were just recreated.
   const icons = buildIcons(ROOT, { tokensVersion: data.meta.version });
+  buildAndroid(ROOT, data, resolved);
 
   return {
     tokens: Object.keys(data.tokens).length,

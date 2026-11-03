@@ -6,6 +6,14 @@ registry. Each tag is the Swift Package release and produces an npm tarball, a
 Python wheel, `SHA256SUMS`, and GitHub build-provenance attestations from the
 same source commit.
 
+The Android candidate adds a Maven-layout ZIP (AAR, sources, POM, Gradle module
+metadata and checksums) to the next approved release. It is a GitHub Release
+asset, not a registry publication. Never add it retroactively to v0.10.0. See
+`android/README.md` for local staging, API/units and exact-version consumption.
+Its release job compiles/tests/lints the library and validates archive contents;
+before tagging, also run the emulator/contact-sheet proof and the isolated
+platform-android consumer gates. Record those results with the consumer SHA.
+
 ## Cut a release
 
 1. Update `RELEASE_NOTES.md` (its `# vX.Y.Z` heading is a version surface)

@@ -31,6 +31,33 @@ jobs:
           -destination 'generic/platform=iOS'
           CODE_SIGNING_ALLOWED=NO
 
+  android-candidate:
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager 'platforms;android-37' 'build-tools;36.0.0'
+      - name: Build and verify unpublished Android candidate
+        run: >-
+          android/gradlew -p android :design-system:assembleDebug :design-system:assembleRelease
+          :design-system:testDebugUnitTest :design-system:lintDebug
+          :design-system:assembleDebugAndroidTest :design-system:candidateArchive
+      - run: python3 scripts/check_android_artifact.py android/build/candidate/*-maven.zip
+      - run: cd android/build/candidate && sha256sum *.zip > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: design-system-android-candidate-${{ github.sha }}
+          path: |
+            android/build/candidate/
+            android/design-system/build/reports/
+          if-no-files-found: error
+          retention-days: 14
+
   candidate-artifacts:
     needs: [checks, swift-package]
     runs-on: ubuntu-latest
