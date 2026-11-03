@@ -35,25 +35,52 @@ before regenerating anything. Native compilation remains a separate required gat
 
 ## Gradle consumption and distribution
 
-The file-based Maven candidate contains an AAR, sources, POM, Gradle module
-metadata and checksums. It follows the existing immutable GitHub Release asset
-policy; it does not publish to Maven Central, GitHub Packages or `mavenLocal`.
-For a future release, distribute the Maven-layout ZIP alongside `SHA256SUMS`
-and provenance. Consumers download and verify the exact asset before extracting
-it into a local Maven repository. Keep the asset URL/version/hash in the
-consumer's bootstrap configuration and lock/verify resolved dependencies. Do
-not copy Kotlin/icon sources or use a floating version.
+Each approved release retains a Maven-layout ZIP (AAR, sources, POM, Gradle
+module metadata and checksums), `SHA256SUMS` and provenance on GitHub Releases.
+After a stable release, the workflow also serves its exact files through this
+repository's GitHub Pages site. No Maven Central or GitHub Packages publication
+is required. Gradle reads the standard Maven endpoint directly; consuming builds
+need no Python, GitHub CLI, custom downloader, credentials or copied Kotlin sources.
 
-For local integration, point a settings-level Maven repository at the extracted
-archive or `android/build/maven`, filtering it to this module:
+After the first Android release and Pages setup in `RELEASING.md`:
 
 ```kotlin
 // settings.gradle.kts, inside dependencyResolutionManagement.repositories
-maven {
-    url = uri(providers.environmentVariable("TIPTREE_DESIGN_SYSTEM_REPOSITORY").get())
-    content { includeModule("com.tiptreesystems", "design-system-android") }
+exclusiveContent {
+    forRepository {
+        maven {
+            name = "TiptreeDesignSystem"
+            url = uri("https://tiptreesystems.github.io/design-system/maven")
+        }
+    }
+    filter { includeModule("com.tiptreesystems", "design-system-android") }
 }
-// app/build.gradle.kts; local proof only, replace with the approved exact release
+// app/build.gradle.kts — accept stable 0.x releases, never cross into 1.x
+implementation("com.tiptreesystems:design-system-android") {
+    version { strictly("[0.10.0,1.0.0)") }
+}
+```
+
+The equivalent version-catalog requirement is
+`tiptreeDesignSystem = { strictly = "[0.10.0,1.0.0)" }`. The lower bound is a
+minimum requirement, not a claim that an Android artifact was published at 0.10.0.
+The feed lists stable releases only; RCs remain downloadable ZIPs for explicit
+candidate testing. A strict upper bound also rejects a transitive dependency
+that would require the next major. New 0.x releases can still contain the
+provisional API changes described by the catalog policy; review their release notes.
+
+Gradle normally caches dynamic version selections for 24 hours. Use
+`--refresh-dependencies` to resolve a newer compatible release immediately,
+`--offline` to reuse cached dependencies, and `:app:dependencyInsight --dependency
+design-system-android --configuration debugRuntimeClasspath` to inspect the result.
+Offline use requires a prior successful resolution. A new dependency affects
+the next build, not an already installed application. Consumers that require a
+repeatable release build can use Gradle dependency locking and verification.
+
+Before that first release, or for local integration, use `android/build/maven`
+or the verified extracted ZIP as the repository URL and select the exact candidate:
+
+```kotlin
 implementation("com.tiptreesystems:design-system-android:0.10.0-android.local")
 ```
 

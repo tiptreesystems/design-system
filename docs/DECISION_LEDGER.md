@@ -1775,3 +1775,24 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   measured local results, rendering receipts, consumer changes and limitations.
   The owner explicitly requested local testing before any push or PR. Maintainer
   and visual approval, release numbering, remote CI and adoption remain pending.
+
+## 2026-11-03 — Android Maven delivery revision (#4 / draft PR #5)
+
+- **Request.** The Android consumer owner requested native Gradle version ranges
+  without Maven Central or GitHub Packages publication, and moved PR #5 to draft
+  for the change. This revises the ZIP-only distribution proposal above; it does
+  not record maintainer approval, a release, or consumer adoption.
+- **Delivery.** Keep immutable Maven ZIPs/checksums/provenance on GitHub Releases.
+  A serialized GitHub Actions workflow reconstructs a static Maven repository
+  from every stable Android release and deploys it on this repo's GitHub Pages
+  site. Version files retain their exact bytes; only the discovery metadata
+  changes. RCs remain ZIP-only. No external registry service, binary Git branch,
+  token/icon change, or modification of the existing 0.10.0 release is involved.
+- **Consumption.** The isolated Android worktree uses the Pages URL and a strict
+  `[0.10.0,1.0.0)` requirement. Gradle owns downloads, caching, refresh and offline
+  use. The previously uncommitted consumer-side Python downloader is removed.
+  Local candidate repository/version overrides remain available for verification.
+- **Evidence and activation.** See `docs/evidence/android-maven-verification.md`.
+  The GitHub Pages setting and first approved Android release are still needed.
+  Distribution docs explain enablement and recovery after a failed deployment;
+  the local proof neither publishes a site nor changes repository settings.

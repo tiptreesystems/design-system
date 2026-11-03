@@ -29,7 +29,7 @@ append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
 - The proposed [Android export](android/README.md) supplies generated Kotlin
   tokens, semantic Compose theming and the canonical icon catalog in an AAR.
   It is currently an unpublished local candidate; Android units, font ownership,
-  compatibility, notices and local Maven consumption are documented there.
+  compatibility, notices, GitHub-hosted Maven delivery and local candidates are documented there.
 - No component CSS is currently published. The dormant Button material under
   `specs/`, `docs/`, and `tests/parity/` records the delivery and parity research
   that established the component-graduation method.
@@ -65,7 +65,8 @@ npm run ci
 deterministic generation, decision tests, Python composition tests, and
 raw/Brotli payload budgets. CI also compiles the Swift Package and builds
 unpublished npm and wheel candidates. Releases are immutable Git tags and
-GitHub Release assets; consumers pin exact versions, URLs, and lockfiles.
+GitHub Release assets; Android additionally uses a static Maven mirror on GitHub
+Pages with bounded Gradle version ranges. Other consumer pins remain unchanged.
 
 ## Repository map
 
