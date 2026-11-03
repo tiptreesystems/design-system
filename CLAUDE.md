@@ -3,7 +3,7 @@
 One typed token/theme source, consumed as versioned artifacts (npm package,
 Python wheel, Swift Package, or the release's generated CSS vendored byte-for-byte by a static site),
 and one icon registry, shipped in the npm package and the wheel, with an Android candidate
-documented in `android/README.md`. Components join only after production adoption; CSS + markup
+documented in `android/README.md` and a Swift icon candidate in `docs/SWIFT_ICONS.md`. Components join only after production adoption; CSS + markup
 specs are then the canonical web implementation. Generated native tokens serve
 iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 
@@ -19,6 +19,7 @@ iOS. Full architecture: `docs/OPERATING_GUIDE.md`.
 | `icons/prototype-names.json` | SOURCE — the prototype port's rename map (port aid, not published) |
 | `tests/public-surface/*.json` | SOURCE — each release's public names; written only by `node scripts/public-surface.mjs --write`, frozen once the version is tagged |
 | `Sources/TiptreeDesignSystem/GeneratedTokens.swift` | GENERATED + COMMITTED — never edit; rebuilt by `npm run build` and checked by `npm run ci` |
+| `Sources/TiptreeDesignSystem/GeneratedIcons/` | GENERATED + COMMITTED — native Swift paths/catalog/notices; never hand-edit |
 | `android/design-system/src/main/generated/` | GENERATED + COMMITTED — Kotlin tokens/icons, XML colors and notices; rebuilt by `npm run build` and checked by `npm run ci` |
 | `dist/` (including `dist/icons/`), `python/tiptree_ui/_tokens.py`, `python/tiptree_ui/assets/` (including `icons.json`, `icons.js`) | GENERATED — never edit; rebuilt by `npm run build` |
 
@@ -35,6 +36,11 @@ system python3 is 3.9). Wheel proof: `python3.12 -m pip wheel python/ --no-deps 
 Android changes additionally run the library build/unit tests/lint and local Maven
 artifact checks in `android/README.md`; rendering changes need its emulator/SVG
 parity proof. Native tokens/icons are generated; the Compose adapter is authored.
+
+Swift icon changes additionally run the iOS package build,
+`python3 scripts/test-swift-icons.py <fresh-output-directory>` and the canonical
+SVG comparison in `docs/SWIFT_ICONS.md`. Keep generated tokens byte-identical
+unless a separate token change is authorized.
 
 ## Invariants (CI-enforced; do not work around them)
 

@@ -1,0 +1,208 @@
+{
+  "comparisons": 1572,
+  "failed": 0,
+  "worst": [
+    {
+      "glyph": "server-2",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.046742238562091504,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "server-2",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04633374183006536,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "user-id",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.045649509803921566,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "moon-stars",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04563929738562091,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "buildings",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.0451031454248366,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "clipboard",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04496017156862745,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "user-id",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04477634803921569,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "buildings",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04443933823529412,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "moon-stars",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04435763888888889,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "calendar",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.044337214052287584,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "calendar",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.044178921568627454,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "clipboard",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04405637254901961,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "layers",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.043086192810457516,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "layers",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04306576797385621,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "documents",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04288705065359477,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "documents",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04280535130718954,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "cpu",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.042407066993464054,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "cpu",
+      "theme": "light",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04128880718954248,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "widget",
+      "theme": "dark",
+      "density": 1,
+      "size": 16,
+      "mean_rgb_error": 0.04120200163398693,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    },
+    {
+      "glyph": "pause-circle",
+      "theme": "dark",
+      "density": 1,
+      "size": 20,
+      "mean_rgb_error": 0.040679738562091505,
+      "limit": 0.05,
+      "ink_outside_one_pixel": false,
+      "passed": true
+    }
+  ],
+  "profile": "swift: 5% at 16/20pt, 2.5% at 40pt/1x, 2% at 40pt/2x; ink support within 1px",
+  "ink_support_failures": 0
+}

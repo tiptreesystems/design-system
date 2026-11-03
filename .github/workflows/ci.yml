@@ -32,6 +32,18 @@ jobs:
           -scheme TiptreeDesignSystem
           -destination 'generic/platform=iOS'
           CODE_SIGNING_ALLOWED=NO
+      - name: Test Swift icons and bundled notices
+        run: python3 scripts/test-swift-icons.py .build/swift-icons
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: swift-icon-proof-${{ github.sha }}
+          path: |
+            .build/swift-icons/Tests.xcresult/
+            .build/swift-icons/native-*.png
+            .build/swift-icons/native-names.txt
+          if-no-files-found: warn
+          retention-days: 14
 
   android-candidate:
     needs: checks
