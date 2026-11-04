@@ -1738,3 +1738,61 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   0.11.0 (Richard, 2026-10-31; `docs/OPERATING_GUIDE.md` §4 follows). Amends
   the 2026-10-13 entry's release line.
 - **No candidate**: no `v0.10.0-rc.N` is cut.
+
+## 2026-11-03 — Android exports, local implementation proposal (#4)
+
+- **Request/evidence.** The Android consumer owner requested a native token,
+  Compose-theme and icon export, linked to the independent Swift icon proposal
+  (#3). Baseline: design-system `3669918e` (v0.10.0); isolated platform-android
+  consumer `a72fb977`. The live Android checkout has concurrent work and is not
+  edited. This entry records an engineering proposal, not a designer ruling,
+  release approval, production adoption or a change to the provisional catalog.
+- **Ownership.** `tokens/tokens.json` and `icons/icons.json` remain byte-for-byte
+  unchanged. Generated Android Kotlin/XML/notices join the existing build. The
+  handwritten Compose adapter exposes the complete semantic palette alongside
+  Material mappings. No shared product control, font binary, brand mark, app role map,
+  Swift/JNI dependency or unapproved icon extension is introduced.
+- **Native adaptation.** All 148 declared cross-platform names are exported.
+  Seventy-four web-only names additionally receive explicit Android units:
+  CSS px → dp, rem → 16 dp for geometry; rem → 16 sp for text; tracking → em;
+  line-height ratios, exact variable weights, milliseconds and Bézier easing.
+  Canonical applicability is unchanged. Seven CSS shadow recipes, six browser
+  stacking levels and scrollbar-thumb color remain unsupported. Fonts and the
+  display-heading family fallback are documented candidate adapter policy in
+  `android/README.md`, not new token values.
+- **Icons.** All 131 canonical drawings are generated with provenance. The native
+  painter preserves fixed 1.5 dp strokes (and sanctioned 1 dp sparkles) as geometry
+  scales; ordinary scaled drawables would alter that contract. Native conics
+  preserve circles/ellipses rather than approximating them through path arcs.
+  Drawing names, app-owned semantics/labels, opt-in RTL mirroring and notices
+  follow the catalog policy. Android adaptive launcher assets remain app-owned.
+- **Distribution.** Stage an AAR, sources and Maven metadata in a local filesystem
+  repository and package it as an immutable GitHub Release ZIP with checksums
+  and provenance at a future approved release. No package registry. Local builds
+  use `0.10.0-android.local`; no artifact is added to the existing 0.10.0 release.
+  Generation and native artifact budgets are separate from unchanged web budgets.
+- **Proof/review boundary.** `docs/evidence/android-local-verification.md` records
+  measured local results, rendering receipts, consumer changes and limitations.
+  The owner explicitly requested local testing before any push or PR. Maintainer
+  and visual approval, release numbering, remote CI and adoption remain pending.
+
+## 2026-11-03 — Android Maven delivery revision (#4 / draft PR #5)
+
+- **Request.** The Android consumer owner requested native Gradle version ranges
+  without Maven Central or GitHub Packages publication, and moved PR #5 to draft
+  for the change. This revises the ZIP-only distribution proposal above; it does
+  not record maintainer approval, a release, or consumer adoption.
+- **Delivery.** Keep immutable Maven ZIPs/checksums/provenance on GitHub Releases.
+  A serialized GitHub Actions workflow reconstructs a static Maven repository
+  from every stable Android release and deploys it on this repo's GitHub Pages
+  site. Version files retain their exact bytes; only the discovery metadata
+  changes. RCs remain ZIP-only. No external registry service, binary Git branch,
+  token/icon change, or modification of the existing 0.10.0 release is involved.
+- **Consumption.** The isolated Android worktree uses the Pages URL and a strict
+  `[0.10.0,1.0.0)` requirement. Gradle owns downloads, caching, refresh and offline
+  use. The previously uncommitted consumer-side Python downloader is removed.
+  Local candidate repository/version overrides remain available for verification.
+- **Evidence and activation.** See `docs/evidence/android-maven-verification.md`.
+  The GitHub Pages setting and first approved Android release are still needed.
+  Distribution docs explain enablement and recovery after a failed deployment;
+  the local proof neither publishes a site nor changes repository settings.

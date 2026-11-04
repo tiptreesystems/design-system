@@ -55,17 +55,37 @@ jobs:
           python -m pip wheel python/ --no-deps --wheel-dir release/python
       - name: Check artifact contents
         run: python scripts/check_artifacts.py release/npm/*.tgz release/python/*.whl
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: "16111833"
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
+      - run: sdkmanager 'platforms;android-37.0' 'build-tools;36.0.0'
+      - name: Build and verify Android release artifact
+        run: |
+          android/gradlew -p android :design-system:assembleDebug :design-system:assembleRelease \
+            :design-system:testDebugUnitTest :design-system:lintDebug \
+            :design-system:assembleDebugAndroidTest :design-system:candidateArchive \
+            "-PandroidVersion=$(node -p "require('./package.json').version")"
+          python scripts/check_android_artifact.py android/build/candidate/*-maven.zip
+          mkdir -p release/android
+          cp android/build/candidate/*-maven.zip release/android/
       - name: Create SHA-256 checksums
         working-directory: release
         run: |
           shopt -s nullglob
-          tgz=(npm/*.tgz) whl=(python/*.whl)
-          if [[ ${#tgz[@]} -ne 1 || ${#whl[@]} -ne 1 ]]; then
-            echo "::error::expected exactly 1 tarball and 1 wheel; found ${#tgz[@]} .tgz, ${#whl[@]} .whl"
+          tgz=(npm/*.tgz) whl=(python/*.whl) native=(android/*.zip)
+          if [[ ${#tgz[@]} -ne 1 || ${#whl[@]} -ne 1 || ${#native[@]} -ne 1 ]]; then
+            echo "::error::expected exactly 1 tarball, 1 wheel and 1 Android archive"
             exit 1
           fi
           (cd npm && sha256sum -- *.tgz) > SHA256SUMS
           (cd python && sha256sum -- *.whl) >> SHA256SUMS
+          (cd android && sha256sum -- *.zip) >> SHA256SUMS
           cat SHA256SUMS
       - name: Attest release artifact provenance
         uses: actions/attest-build-provenance@v4
@@ -73,6 +93,7 @@ jobs:
           subject-path: |
             release/npm/*.tgz
             release/python/*.whl
+            release/android/*.zip
             release/SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
@@ -80,6 +101,7 @@ jobs:
           path: |
             release/npm/*.tgz
             release/python/*.whl
+            release/android/*.zip
             release/SHA256SUMS
           if-no-files-found: error
           retention-days: 90
@@ -92,8 +114,18 @@ jobs:
           gh release create "$GITHUB_REF_NAME" \
             release/npm/*.tgz \
             release/python/*.whl \
+            release/android/*.zip \
             release/SHA256SUMS \
             --verify-tag \
             --notes-file RELEASE_NOTES.md \
             --title "$GITHUB_REF_NAME" \
             "${prerelease[@]}"
+
+  maven-pages:
+    needs: build
+    if: ${{ !contains(github.ref_name, '-rc.') }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/maven-pages.yml

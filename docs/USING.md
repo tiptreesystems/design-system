@@ -1,5 +1,9 @@
 # Using the design system
 
+For the unpublished Android candidate, see [`android/README.md`](../android/README.md).
+It documents Compose tokens/icons, exact-version Gradle consumption, native units,
+font ownership and notices. Existing published consumer formats are unchanged.
+
 The current production contract is primitives plus one theme policy. No shared
 component CSS is published. Althea is the first consumer and uses an alias adapter:
 its established token names remain stable while their values flow from `--tt-*`.

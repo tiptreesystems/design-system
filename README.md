@@ -26,12 +26,17 @@ append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
 - Python and Swift exports are generated from the same source for non-CSS
   consumers. The Swift export is committed as an importable Swift Package
   source so Xcode consumers do not need Node or a synchronization script.
+- The proposed [Android export](android/README.md) supplies generated Kotlin
+  tokens, semantic Compose theming and the canonical icon catalog in an AAR.
+  It is currently an unpublished local candidate; Android units, font ownership,
+  compatibility, notices, GitHub-hosted Maven delivery and local candidates are documented there.
 - No component CSS is currently published. The dormant Button material under
   `specs/`, `docs/`, and `tests/parity/` records the delivery and parity research
   that established the component-graduation method.
 
 Generated CSS and language exports are build products. Do not edit `dist/`,
 `Sources/TiptreeDesignSystem/GeneratedTokens.swift`,
+`android/design-system/src/main/generated/`,
 `python/tiptree_ui/_tokens.py`, or `python/tiptree_ui/assets/` directly. The
 Swift Package source is generated but committed so it is present in Git tags.
 
@@ -60,7 +65,8 @@ npm run ci
 deterministic generation, decision tests, Python composition tests, and
 raw/Brotli payload budgets. CI also compiles the Swift Package and builds
 unpublished npm and wheel candidates. Releases are immutable Git tags and
-GitHub Release assets; consumers pin exact versions, URLs, and lockfiles.
+GitHub Release assets; Android additionally uses a static Maven mirror on GitHub
+Pages with bounded Gradle version ranges. Other consumer pins remain unchanged.
 
 ## Repository map
 
