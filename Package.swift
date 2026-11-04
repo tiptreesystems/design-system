@@ -14,6 +14,8 @@ let package = Package(
         ),
     ],
     targets: [
-        .target(name: "TiptreeDesignSystem"),
+        .target(name: "TiptreeDesignSystem", resources: [.copy("GeneratedIcons/Notices")]),
+        .testTarget(name: "TiptreeDesignSystemTests", dependencies: ["TiptreeDesignSystem"],
+                    path: "tests/TiptreeDesignSystemTests"),
     ]
 )

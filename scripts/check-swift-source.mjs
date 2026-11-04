@@ -1,3 +1,4 @@
+import { checkSwiftIcons, swiftIconFiles } from './build-swift-icons.mjs';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,3 +29,6 @@ if (actual !== expected) {
 }
 
 console.log('verified: committed Swift package source matches tokens/tokens.json');
+
+checkSwiftIcons(ROOT, swiftIconFiles(ROOT, data.meta.version));
+console.log('verified: committed Swift icons and notices match canonical sources');

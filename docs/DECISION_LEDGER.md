@@ -1796,3 +1796,35 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   The GitHub Pages setting and first approved Android release are still needed.
   Distribution docs explain enablement and recovery after a failed deployment;
   the local proof neither publishes a site nor changes repository settings.
+
+## 2026-11-03 — Swift icon export implementation proposal (#3)
+
+- **Request/base.** The consumer owner requested implementation, local verification,
+  `codex-simplify`, then an upstream PR for #3. Branch `tt/swift-icons` is stacked
+  on Android PR #5 head `4cf546da`; its PR initially targets `tt/android-exports`
+  so maintainers see only the Swift addition. Merge Android first, then retarget
+  Swift to `main`. This is engineering evidence, not a release or designer ruling.
+- **Representation.** Generate all 131 canonical glyphs as native SwiftUI paths,
+  typed drawing names, metadata and compatibility aliases. No runtime SVG library,
+  build plugin, font binary, brand mark, role map or product component is added.
+  The original token export and canonical values/artwork are unchanged. App
+  migration stays in platform-ios#75; the 88 web-only token names remain outside
+  this issue.
+- **Native policy.** Map CSS px to points; transform the 24-unit geometry before
+  applying fixed 1.5 pt strokes and sanctioned 1 pt sparkle details. Preserve
+  conics, fill rules, caps/joins, cuts, tint and clipping. Host code owns Dynamic
+  Type size, localized labels, 44 pt targets and opt-in semantic RTL mirroring.
+- **Distribution/compatibility.** Commit generated paths plus byte-exact NOTICE,
+  Apache/CC BY licenses and the canonical provenance registry in the SwiftPM
+  `Notices/` resource bundle. The next approved immutable Git tag contains all
+  inputs for offline native builds. No retroactive release mutation. Provisional
+  alias/rename/withdrawal policy remains the registry policy; npm/Python contracts
+  and existing Android generated output are unchanged.
+- **Budgets/proof.** `swift-icons.budgets.json` gates 524,288 B raw, 65,536 B Brotli
+  and 145,000 B notices; measured 450,318 / 53,151 / 140,666 B respectively.
+  `docs/evidence/swift-icons-local-verification.md` records tests, clean no-Node
+  build, contact sheets, raster tolerances and cleanup. The Swift image profile
+  permits measured rasterizer edge-color differences while requiring visible ink
+  within one physical pixel in both directions. Maintainer/designer review of
+  that profile and the sheets, release numbering and consumer adoption remain
+  pending; the Android 2% comparison gate is unchanged.

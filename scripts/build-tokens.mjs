@@ -1,3 +1,4 @@
+import { buildSwiftIcons } from './build-swift-icons.mjs';
 // Zero-dependency token/theme generator with optional graduated components.
 // Source files are tokens/tokens.json, icons/icons.json and any
 // css/components/**/*.css; every file under dist/ and Python package assets is
@@ -416,6 +417,7 @@ export function build() {
   // After the Python assets: the generated roots above were just recreated.
   const icons = buildIcons(ROOT, { tokensVersion: data.meta.version });
   buildAndroid(ROOT, data, resolved);
+  buildSwiftIcons(ROOT, data.meta.version);
 
   return {
     tokens: Object.keys(data.tokens).length,

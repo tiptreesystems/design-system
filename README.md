@@ -22,7 +22,8 @@ append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
   module of Solar Linear glyphs keyed by what they draw, generated from
   `icons/icons.json`, which records each glyph's provenance and licence. It is
   provisional at 0.7.0, also ships in the wheel as `tiptree_ui/assets/icons.json`
-  and `icons.js`, and has no Swift form.
+  and `icons.js`. The unreleased [Swift icon export](docs/SWIFT_ICONS.md) adds
+  native paths and bundled notices from the same registry.
 - Python and Swift exports are generated from the same source for non-CSS
   consumers. The Swift export is committed as an importable Swift Package
   source so Xcode consumers do not need Node or a synchronization script.
@@ -36,6 +37,7 @@ append-only in [`docs/DECISION_LEDGER.md`](docs/DECISION_LEDGER.md).
 
 Generated CSS and language exports are build products. Do not edit `dist/`,
 `Sources/TiptreeDesignSystem/GeneratedTokens.swift`,
+`Sources/TiptreeDesignSystem/GeneratedIcons/`,
 `android/design-system/src/main/generated/`,
 `python/tiptree_ui/_tokens.py`, or `python/tiptree_ui/assets/` directly. The
 Swift Package source is generated but committed so it is present in Git tags.
@@ -63,7 +65,7 @@ npm run ci
 
 `npm run ci` is the required local gate: committed Swift-source parity,
 deterministic generation, decision tests, Python composition tests, and
-raw/Brotli payload budgets. CI also compiles the Swift Package and builds
+raw/Brotli payload budgets. CI also compiles and tests the Swift Package and builds
 unpublished npm and wheel candidates. Releases are immutable Git tags and
 GitHub Release assets; Android additionally uses a static Maven mirror on GitHub
 Pages with bounded Gradle version ranges. Other consumer pins remain unchanged.

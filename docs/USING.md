@@ -89,7 +89,8 @@ let accent = TiptreeTokens.Colors.colorAccent
 ```
 
 Commit `Package.resolved`. Native components and application-specific semantic
-aliases remain app-local; the package currently publishes tokens only. Package
+aliases remain app-local; published v0.10.0 contains tokens only. The unreleased
+[Swift icon export](SWIFT_ICONS.md) adds native drawings and bundled attribution. Package
 consumers do not run Node or the token generator.
 
 ## Static sites
@@ -252,7 +253,9 @@ export const ROLES = { search: 'magnifier', dismiss: 'close', send: 'arrow-up', 
 - **Static sites:** vendor `dist/icons/icons.js` byte-for-byte from the
   release tarball like the CSS, pin its sha256 in the same test, and import it
   with `?v=X.Y.Z`.
-- There is no Swift form; iOS keeps its own assets.
+- **Swift:** the unreleased [native icon export](SWIFT_ICONS.md) generates the same
+  catalog as typed SwiftUI paths with fixed strokes and bundled notices. App role
+  maps remain app-owned; adopt only after a new immutable release.
 
 ## Components
 

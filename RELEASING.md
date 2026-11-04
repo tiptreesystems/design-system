@@ -250,3 +250,14 @@ the hashes in the test, and the version queries.
 
 Copy `dist/icons/icons.js` too when the site uses icons, pin its sha256 in the
 same test, and import it with `?v=X.Y.Z`.
+
+### Swift icon source and resource gate
+
+The unreleased icon export joins the next approved immutable tag, never v0.10.0
+retroactively. `npm run ci` verifies committed native drawings and byte-exact
+notices before rebuilding and enforces `swift-icons.budgets.json`. CI and release
+workflows build the iOS package and run simulator tests, retaining contact sheets
+and the test result. Before releasing drawing/compiler/renderer changes, rerun
+the native/web comparison in `docs/SWIFT_ICONS.md` and obtain designer visual
+approval. Test a clean source snapshot without Node to verify the tagged package
+contains its resources; npm/wheel file contracts are unchanged by this export.
