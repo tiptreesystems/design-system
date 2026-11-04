@@ -32,9 +32,8 @@ web file changes; nothing is removed or renamed.
   exported. Fonts are not bundled.
 - The AAR carries `NOTICE`, both licences and the provenance registry under
   `assets/tiptree-design-system/`.
-- Served from the Maven mirror at
-  `https://tiptreesystems.github.io/design-system/maven` once the release
-  workflow deploys it. See `android/README.md`.
+- Shipped as this release's Maven-layout ZIP; there is no hosted Maven
+  endpoint. See `android/README.md`.
 
 ## What each consumer does at its bump
 
@@ -45,9 +44,10 @@ web file changes; nothing is removed or renamed.
   Adopting the icons is platform-ios#75: link `TiptreeDesignSystem`, draw
   through `TiptreeIcon` behind the app's own role map, and show the bundled
   notices in the app's acknowledgements.
-- platform-android: add the Maven mirror as an exclusive repository for
-  `com.tiptreesystems`, require `[0.11.0,1.0.0)`, and show the bundled
-  notices in the app's licences screen.
+- platform-android: verify the Android ZIP, commit it extracted as a local
+  Maven folder declared as the exclusive repository for
+  `com.tiptreesystems`, pin `0.11.0`, and show the bundled notices in the
+  app's licences screen.
 - Pin the release only after its tag.
 
 ## Removed / Renamed

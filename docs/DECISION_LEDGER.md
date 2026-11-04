@@ -1882,3 +1882,24 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   withdraws the icon export under the 2026-10-03 clause, was not readable
   from here and is confirmed before the tag.
 - **No candidate**: no `v0.11.0-rc.N` is cut.
+
+## 2026-11-04 — Android ships as the release ZIP only; the Pages Maven mirror is removed (Federico)
+
+- **Decision.** The GitHub Pages Maven mirror (2026-11-03, "Android Maven
+  delivery revision"; merged in #5 at `b5f5a64`) is removed before it ever
+  deployed. Pages is meant for sites, not an artifact feed, and its setting
+  was never enabled, so the first stable tag would have failed its
+  `maven-pages` job after the immutable release already existed.
+- **What ships.** Each release's Maven-layout ZIP, with `SHA256SUMS` and
+  provenance, is the whole Android distribution, as the 2026-11-03 proposal
+  first had it. Consumers verify it and commit it extracted as a local Maven
+  repository, pinning the exact version like every other consumer; the
+  bounded `[0.11.0,1.0.0)` range goes with the feed.
+- **Removed.** `.github/workflows/maven-pages.yml`, the `maven-pages` job in
+  `release.yml`, `scripts/build_maven_site.py`, its test and CI's step for it.
+  Still no registry: Maven Central, GitHub Packages and JitPack stay out. A
+  hosted endpoint later needs a new entry; the code is in history at `b5f5a64`.
+- **Unchanged.** The archive, `scripts/check_android_artifact.py`, the
+  release's Android build and checks, and every version surface.
+- **Settings.** Immutable releases are on (every published release reports
+  `immutable: true`), which settles that pre-tag item.
