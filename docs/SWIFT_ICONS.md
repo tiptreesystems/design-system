@@ -1,9 +1,8 @@
 # Swift icon export
 
 Implementation for [#3](https://github.com/tiptreesystems/design-system/issues/3).
-This is an unreleased candidate; **v0.10.0 does not contain these APIs**. A maintainer
-must approve a new immutable version before consumers pin it. iOS app adoption is
-separate ([platform-ios#75](https://github.com/tiptreesystems/platform-ios/issues/75)).
+These APIs first ship in **v0.11.0**; v0.10.0 and earlier do not contain them.
+Pin the release only after its tag. iOS app adoption is separate ([platform-ios#75](https://github.com/tiptreesystems/platform-ios/issues/75)).
 
 ## Native representation and ownership
 

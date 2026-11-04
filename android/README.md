@@ -1,9 +1,9 @@
-# Android candidate
+# Android library
 
-This is the local implementation proposed in design-system #4, based on
-v0.10.0 (`3669918e`). It has not been published or adopted on a consumer's main
-branch. The maintainer chooses the next release version. Do not attach these
-new artifacts to v0.10.0 or claim designer approval from the engineering checks.
+Proposed in design-system #4 and merged in #5; it first ships in v0.11.0. It
+has not been adopted on a consumer's main branch. v0.10.0 and earlier releases
+have no Android artifact. Do not claim designer approval from the engineering
+checks.
 
 The library is generated from `tokens/tokens.json` and `icons/icons.json`.
 It requires Android API 23+ and Compose; it does not use Swift, JNI, a runtime
@@ -57,13 +57,13 @@ exclusiveContent {
 }
 // app/build.gradle.kts — accept stable 0.x releases, never cross into 1.x
 implementation("com.tiptreesystems:design-system-android") {
-    version { strictly("[0.10.0,1.0.0)") }
+    version { strictly("[0.11.0,1.0.0)") }
 }
 ```
 
 The equivalent version-catalog requirement is
-`tiptreeDesignSystem = { strictly = "[0.10.0,1.0.0)" }`. The lower bound is a
-minimum requirement, not a claim that an Android artifact was published at 0.10.0.
+`tiptreeDesignSystem = { strictly = "[0.11.0,1.0.0)" }`. 0.11.0 is the first
+release with an Android artifact.
 The feed lists stable releases only; RCs remain downloadable ZIPs for explicit
 candidate testing. A strict upper bound also rejects a transitive dependency
 that would require the next major. New 0.x releases can still contain the
@@ -81,7 +81,7 @@ Before that first release, or for local integration, use `android/build/maven`
 or the verified extracted ZIP as the repository URL and select the exact candidate:
 
 ```kotlin
-implementation("com.tiptreesystems:design-system-android:0.10.0-android.local")
+implementation("com.tiptreesystems:design-system-android:0.11.0-android.local")
 ```
 
 Use `--refresh-dependencies` when rebuilding the same unpublished local version.

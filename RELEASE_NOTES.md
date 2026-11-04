@@ -1,49 +1,63 @@
-# v0.10.0
+# v0.11.0
 
-Two values, from Ivan's rulings 12.263 and 12.264 in the Althea prototype,
-recorded in the 2026-10-30 entry in `docs/DECISION_LEDGER.md`: the hairline
-is 1px on every screen, and the box's rim while you write is a neutral one
-stone past its rest, not the accent. Nothing is added or renamed; the
-hairline's high-density media block is removed.
+Two native exports, from issues #3 and #4 (PRs #6 and #5), recorded in the
+2026-11-03 and 2026-11-04 entries in `docs/DECISION_LEDGER.md`: the icon
+catalog for SwiftUI in the Swift Package, and the first Android library, with
+tokens, a Compose theme and the icon catalog. No token value, role, glyph or
+web file changes; nothing is removed or renamed.
 
-## Tokens
+## Swift Package
 
-- Changed, web-only: `border-hairline` is 1px at every density. The
-  `@media (resolution >= 192dpi)` block that set it to 0.5px in
-  `primitives.css` and `tokens.css` is gone: a line of one device pixel on a
-  rounded rim is drawn across two half-bright pixels, so a corner read
-  beaded beside its straight run.
+- Added: `TiptreeIcon`, a SwiftUI view that draws any of the 131 canonical
+  glyphs as native paths at 1.5 pt strokes (1 pt for the sanctioned sparkle
+  parts) at every size, tinted by the foreground style, decorative unless
+  given a `label`, mirrored in right-to-left layouts only when asked.
+- Added: `TiptreeGlyph`, one case per canonical name in lower camel case
+  (`.moonStars`); `rawValue` keeps the canonical name and `named(_:)` also
+  resolves registry aliases.
+- Added: `TiptreeIconResources` (`.notice`, `.apacheLicense`,
+  `.creativeCommonsLicense`, `.registry`) over the bundled `Notices/`
+  resources: `NOTICE`, both licences and the provenance registry, byte-exact.
+- `TiptreeTokens` is unchanged. No runtime SVG parser, Node step or new
+  dependency; iOS 17+ as before. See `docs/SWIFT_ICONS.md`.
 
-## Roles
+## Android (new)
 
-- Changed: `color-border-box-focus` → `{stone-400}` (`#bebeb3`) on paper and
-  `{stone-650}` (`#5c5c55`) in the dark (was the accent in both themes): the
-  box's rim while you write is barely firmer than the rim at rest (1.21:1
-  against `#d0d0c8` on paper; 1.77:1 against the rim at rest drawn over the
-  dark page). `color-focus-ring`, the keyboard's ring, keeps the accent.
+- Added: `com.tiptreesystems:design-system-android:0.11.0`, an AAR for API
+  23+ with Compose: `TiptreeTokens` (primitives, 148 cross-platform names
+  and 74 web-only names in dp, sp, em, milliseconds and Bézier easing),
+  `TiptreeColors.light` / `.dark`, `TiptreeTheme` with its Material mapping
+  and `TiptreeFonts`, and `TiptreeIcons` / `TiptreeIcon` for the 131 glyphs
+  at fixed strokes. Shadows, stacking levels and the scrollbar thumb are not
+  exported. Fonts are not bundled.
+- The AAR carries `NOTICE`, both licences and the provenance registry under
+  `assets/tiptree-design-system/`.
+- Served from the Maven mirror at
+  `https://tiptreesystems.github.io/design-system/maven` once the release
+  workflow deploys it. See `android/README.md`.
 
 ## What each consumer does at its bump
 
-- Every consumer: on a dense screen, every line, rim and divider drawn at
-  `--tt-border-hairline` turns from 0.5px to 1px; anything that offsets or
-  sums by the hairline moves by half a pixel there. Delete any local media
-  block that set the hairline itself.
-- Every consumer that reads `color-border-box-focus`: a focused field's rim
-  turns from teal to the neutral stone; a field that should keep the accent
-  while focused reads `color-focus-ring` instead.
-- Althea: its box and the fields that read the role take the new rim with no
-  CSS change; its lines on a dense screen take the 1px.
-- platform-ios: `colorBorderBoxFocus` changes; it reads no hairline.
+- Althea, docs, Lacuna, marketing-site, website-v2: nothing. The tarball,
+  the wheel and every generated CSS and icon file are unchanged apart from
+  the version they name.
+- platform-ios: nothing is required; the token diff is the version comment.
+  Adopting the icons is platform-ios#75: link `TiptreeDesignSystem`, draw
+  through `TiptreeIcon` behind the app's own role map, and show the bundled
+  notices in the app's acknowledgements.
+- platform-android: add the Maven mirror as an exclusive repository for
+  `com.tiptreesystems`, require `[0.11.0,1.0.0)`, and show the bundled
+  notices in the app's licences screen.
 - Pin the release only after its tag.
 
 ## Removed / Renamed
 
-- Removed: the high-density block of `border-hairline`
-  (`@media (resolution >= 192dpi) :root` in `primitives.css` and
-  `tokens.css`). The name stays, at 1px.
+Nothing.
 
 ## Artifacts
 
-npm tarball, Python wheel, `SHA256SUMS` and provenance attestations. The
-`v0.10.0` tag is the Swift Package release; its diff changes
-`colorBorderBoxFocus` in both themes and adds nothing.
+npm tarball, Python wheel, and, new in this release, the Android Maven ZIP
+(`tiptree-design-system-android-0.11.0-maven.zip`: AAR, sources, POM, Gradle
+module metadata and checksums), with `SHA256SUMS` and provenance attestations
+over all three. The `v0.11.0` tag is the Swift Package release; its diff adds
+the icon API and its resources and changes no token.

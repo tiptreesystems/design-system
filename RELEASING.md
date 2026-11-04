@@ -7,10 +7,10 @@ package-registry service. Each tag is the Swift Package release and produces an 
 Python wheel, `SHA256SUMS`, and GitHub build-provenance attestations from the
 same source commit.
 
-The Android candidate adds a Maven-layout ZIP (AAR, sources, POM, Gradle module
-metadata and checksums) to the next approved release. It is a GitHub Release
+From v0.11.0 each release also carries an Android Maven-layout ZIP (AAR,
+sources, POM, Gradle module metadata and checksums). It is a GitHub Release
 asset and the source of the static Maven mirror. Never add it retroactively to
-v0.10.0. See `android/README.md` for local staging, API/units and Gradle consumption.
+an earlier release. See `android/README.md` for local staging, API/units and Gradle consumption.
 Its release job compiles/tests/lints the library and validates archive contents;
 before tagging, also run the emulator/contact-sheet proof and the isolated
 platform-android consumer gates. Record those results with the consumer SHA.
@@ -253,8 +253,7 @@ same test, and import it with `?v=X.Y.Z`.
 
 ### Swift icon source and resource gate
 
-The unreleased icon export joins the next approved immutable tag, never v0.10.0
-retroactively. `npm run ci` verifies committed native drawings and byte-exact
+The icon export first ships in v0.11.0; earlier tags never gain it. `npm run ci` verifies committed native drawings and byte-exact
 notices before rebuilding and enforces `swift-icons.budgets.json`. CI and release
 workflows build the iOS package and run simulator tests, retaining contact sheets
 and the test result. Before releasing drawing/compiler/renderer changes, rerun

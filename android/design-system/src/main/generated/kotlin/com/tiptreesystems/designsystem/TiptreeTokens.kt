@@ -1,4 +1,4 @@
-// GENERATED from tokens/tokens.json v0.10.0; DO NOT EDIT.
+// GENERATED from tokens/tokens.json v0.11.0; DO NOT EDIT.
 package com.tiptreesystems.designsystem
 
 import androidx.compose.animation.core.CubicBezierEasing
@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 
 object TiptreeTokens {
-    const val sourceVersion: String = "0.10.0"
+    const val sourceVersion: String = "0.11.0"
     object Colors {
         val black: Color = Color(0xFF000000)
         val brandBlack: Color = Color(0xFF1B1B1B)

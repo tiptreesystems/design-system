@@ -1,4 +1,4 @@
-// GENERATED from icons/icons.json v0.10.0; DO NOT EDIT.
+// GENERATED from icons/icons.json v0.11.0; DO NOT EDIT.
 // Solar by 480 Design (CC BY 4.0); see bundled Notices for provenance/modifications.
 import SwiftUI
 
