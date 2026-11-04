@@ -89,8 +89,8 @@ let accent = TiptreeTokens.Colors.colorAccent
 ```
 
 Commit `Package.resolved`. Native components and application-specific semantic
-aliases remain app-local; published v0.10.0 contains tokens only. The unreleased
-[Swift icon export](SWIFT_ICONS.md) adds native drawings and bundled attribution. Package
+aliases remain app-local. From v0.11.0 the package also carries the
+[Swift icon export](SWIFT_ICONS.md): native drawings and bundled attribution. Package
 consumers do not run Node or the token generator.
 
 ## Static sites

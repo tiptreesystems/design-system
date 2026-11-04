@@ -1828,3 +1828,78 @@ Append-only record of scope decisions, pinned integration inputs, and acceptance
   within one physical pixel in both directions. Maintainer/designer review of
   that profile and the sheets, release numbering and consumer adoption remain
   pending; the Android 2% comparison gate is unchanged.
+
+## 2026-11-04 — v0.11.0: the Swift icon export and the first Android library (Federico)
+
+- **Source.** PR #5 (Android exports, #4; merge `a544d40`) and PR #6 (Swift
+  icons, #3; merge `ceaa48c`), as the three 2026-11-03 entries record them.
+  Built on `release/v0.11.0` from `main` `ceaa48c`; every version surface
+  reads `0.11.0`.
+- **The number.** A minor under the 0.x policy: the release adds names (the
+  Swift `TiptreeIcon`, `TiptreeGlyph` and `TiptreeIconResources`; the Android
+  library `com.tiptreesystems:design-system-android`) and removes or renames
+  none (Federico, 2026-11-04).
+- **Unchanged.** `tokens/tokens.json` and `icons/icons.json` change only
+  their version. Built from the `v0.10.0` tag and from this branch, every file
+  under `dist/` and `python/tiptree_ui/` differs only in the version it names,
+  and `npm pack` lists the same 14 files; the committed Swift and Android
+  generated sources change only their version markers.
+  `tests/public-surface/v0.11.0.json` equals v0.10.0's but for its version;
+  the snapshot does not yet record the Swift icon or Android names.
+- **Android.** The first release with an Android artifact, so the documented
+  Gradle requirement's lower bound moves to `[0.11.0,1.0.0)`
+  (`android/README.md`; amends the 2026-11-03 Maven delivery entry's
+  `[0.10.0,1.0.0)`).
+- **Proof on the branch.** `npm run ci`: 69 Node tests, 5 Python tests, the
+  web, Android and Swift icon budgets. Generic iOS build of the package;
+  `scripts/test-swift-icons.py`: 5 simulator tests. Android
+  assemble debug/release, unit tests, lint, androidTest assembly and
+  `candidateArchive` with `-PandroidVersion=0.11.0`;
+  `scripts/check_android_artifact.py` passes the archive (181,369 B; AAR
+  139,071 B). `npm pack`, the wheel and `scripts/check_artifacts.py` pass.
+- **Measured payloads** (raw / Brotli; 0.10.0 from the 2026-10-30 entry and,
+  for the native exports, from their evidence receipts; against `0.11.0`).
+
+  | Generated file | 0.10.0 | 0.11.0 | Ceiling |
+  |---|---:|---:|---:|
+  | `primitives.css` | 5,360 / 1,302 | 5,360 / 1,305 | 12,288 / 3,072 |
+  | `themes/light-default.css` | 8,353 / 1,278 | 8,353 / 1,280 | 9,216 / 2,048 |
+  | `themes/dark-default.css` | 8,354 / 1,287 | 8,354 / 1,288 | 9,216 / 2,048 |
+  | `themes/explicit.css` | 8,368 / 1,275 | 8,368 / 1,279 | 9,216 / 2,048 |
+  | `tokens.css` | 13,647 / 2,470 | 13,647 / 2,474 | 14,336 / 3,072 |
+  | `icons/icons.js` | 94,546 / 20,034 | 94,546 / 20,064 | 102,400 / 22,528 |
+  | `icons/icons.json` | 109,434 / 20,556 | 109,434 / 20,574 | 118,784 / 23,552 |
+  | Android generated files | 286,751 / 38,153 | 286,751 / 38,165 | 327,680 / 49,152 |
+  | Swift icons (notices) | 450,318 / 53,151 (140,666) | 450,318 / 53,155 (140,666) | 524,288 / 65,536 (145,000) |
+
+- **Before the tag** (`RELEASING.md` steps 3 and 4, and the 2026-11-03
+  entries). Not run on this branch: the consumer verification (Althea, docs,
+  Lacuna, marketing-site, website-v2, a platform-ios compile); the Android
+  emulator/contact-sheet proof and the isolated platform-android gates; the
+  designer's review of the Swift image profile and sheets and of the Android
+  sheets; the GitHub Pages setting and the immutable-releases setting. The
+  Althea landing's pull request state, which decides whether this minor
+  withdraws the icon export under the 2026-10-03 clause, was not readable
+  from here and is confirmed before the tag.
+- **No candidate**: no `v0.11.0-rc.N` is cut.
+
+## 2026-11-04 — Android ships as the release ZIP only; the Pages Maven mirror is removed (Federico)
+
+- **Decision.** The GitHub Pages Maven mirror (2026-11-03, "Android Maven
+  delivery revision"; merged in #5 at `b5f5a64`) is removed before it ever
+  deployed. Pages is meant for sites, not an artifact feed, and its setting
+  was never enabled, so the first stable tag would have failed its
+  `maven-pages` job after the immutable release already existed.
+- **What ships.** Each release's Maven-layout ZIP, with `SHA256SUMS` and
+  provenance, is the whole Android distribution, as the 2026-11-03 proposal
+  first had it. Consumers verify it and commit it extracted as a local Maven
+  repository, pinning the exact version like every other consumer; the
+  bounded `[0.11.0,1.0.0)` range goes with the feed.
+- **Removed.** `.github/workflows/maven-pages.yml`, the `maven-pages` job in
+  `release.yml`, `scripts/build_maven_site.py`, its test and CI's step for it.
+  Still no registry: Maven Central, GitHub Packages and JitPack stay out. A
+  hosted endpoint later needs a new entry; the code is in history at `b5f5a64`.
+- **Unchanged.** The archive, `scripts/check_android_artifact.py`, the
+  release's Android build and checks, and every version surface.
+- **Settings.** Immutable releases are on (every published release reports
+  `immutable: true`), which settles that pre-tag item.

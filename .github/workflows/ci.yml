@@ -19,8 +19,6 @@ jobs:
         with:
           python-version: "3.11"
       - run: npm run ci
-      - name: Test Maven site assembly
-        run: python -m unittest discover -s scripts/tests -v
 
   swift-package:
     runs-on: macos-15

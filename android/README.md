@@ -1,9 +1,9 @@
-# Android candidate
+# Android library
 
-This is the local implementation proposed in design-system #4, based on
-v0.10.0 (`3669918e`). It has not been published or adopted on a consumer's main
-branch. The maintainer chooses the next release version. Do not attach these
-new artifacts to v0.10.0 or claim designer approval from the engineering checks.
+Proposed in design-system #4 and merged in #5; it first ships in v0.11.0. It
+has not been adopted on a consumer's main branch. v0.10.0 and earlier releases
+have no Android artifact. Do not claim designer approval from the engineering
+checks.
 
 The library is generated from `tokens/tokens.json` and `icons/icons.json`.
 It requires Android API 23+ and Compose; it does not use Swift, JNI, a runtime
@@ -35,14 +35,18 @@ before regenerating anything. Native compilation remains a separate required gat
 
 ## Gradle consumption and distribution
 
-Each approved release retains a Maven-layout ZIP (AAR, sources, POM, Gradle
+Each approved release carries a Maven-layout ZIP (AAR, sources, POM, Gradle
 module metadata and checksums), `SHA256SUMS` and provenance on GitHub Releases.
-After a stable release, the workflow also serves its exact files through this
-repository's GitHub Pages site. No Maven Central or GitHub Packages publication
-is required. Gradle reads the standard Maven endpoint directly; consuming builds
-need no Python, GitHub CLI, custom downloader, credentials or copied Kotlin sources.
+That ZIP is the whole Android distribution: there is no hosted Maven endpoint,
+and nothing is published to Maven Central, GitHub Packages or another registry.
+0.11.0 is the first release with an Android artifact.
 
-After the first Android release and Pages setup in `RELEASING.md`:
+To adopt a release, download `tiptree-design-system-android-X.Y.Z-maven.zip`
+and `SHA256SUMS` from its GitHub Release, check the ZIP against `SHA256SUMS`,
+run `gh attestation verify <zip> --repo tiptreesystems/design-system`, and
+extract it into a folder committed in the consuming repository, for example
+`third_party/tiptree-maven/`. A later release extracts beside the earlier
+version directory; the files stay byte-for-byte the release's.
 
 ```kotlin
 // settings.gradle.kts, inside dependencyResolutionManagement.repositories
@@ -50,38 +54,25 @@ exclusiveContent {
     forRepository {
         maven {
             name = "TiptreeDesignSystem"
-            url = uri("https://tiptreesystems.github.io/design-system/maven")
+            url = uri(settingsDir.resolve("third_party/tiptree-maven"))
         }
     }
     filter { includeModule("com.tiptreesystems", "design-system-android") }
 }
-// app/build.gradle.kts — accept stable 0.x releases, never cross into 1.x
-implementation("com.tiptreesystems:design-system-android") {
-    version { strictly("[0.10.0,1.0.0)") }
-}
+// app/build.gradle.kts
+implementation("com.tiptreesystems:design-system-android:0.11.0")
 ```
 
-The equivalent version-catalog requirement is
-`tiptreeDesignSystem = { strictly = "[0.10.0,1.0.0)" }`. The lower bound is a
-minimum requirement, not a claim that an Android artifact was published at 0.10.0.
-The feed lists stable releases only; RCs remain downloadable ZIPs for explicit
-candidate testing. A strict upper bound also rejects a transitive dependency
-that would require the next major. New 0.x releases can still contain the
-provisional API changes described by the catalog policy; review their release notes.
+Pin the exact release, like every other consumer, and bump it deliberately:
+0.x releases can still contain the provisional API changes described by the
+catalog policy, so review their release notes. RCs are ZIPs on pre-releases,
+adopted the same way on a feature branch only.
 
-Gradle normally caches dynamic version selections for 24 hours. Use
-`--refresh-dependencies` to resolve a newer compatible release immediately,
-`--offline` to reuse cached dependencies, and `:app:dependencyInsight --dependency
-design-system-android --configuration debugRuntimeClasspath` to inspect the result.
-Offline use requires a prior successful resolution. A new dependency affects
-the next build, not an already installed application. Consumers that require a
-repeatable release build can use Gradle dependency locking and verification.
-
-Before that first release, or for local integration, use `android/build/maven`
-or the verified extracted ZIP as the repository URL and select the exact candidate:
+For local integration before a release, use `android/build/maven` or an
+extracted candidate ZIP as the repository URL and select the exact candidate:
 
 ```kotlin
-implementation("com.tiptreesystems:design-system-android:0.10.0-android.local")
+implementation("com.tiptreesystems:design-system-android:0.11.0-android.local")
 ```
 
 Use `--refresh-dependencies` when rebuilding the same unpublished local version.

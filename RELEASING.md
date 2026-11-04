@@ -1,16 +1,16 @@
 # Releasing the Tiptree design system
 
-The design system is distributed from immutable Git tags and GitHub Releases,
-with an Android Maven mirror hosted by this repository's GitHub Pages site.
+The design system is distributed from immutable Git tags and GitHub Releases.
 It is never published to npmjs, PyPI, Maven Central, GitHub Packages, or another
 package-registry service. Each tag is the Swift Package release and produces an npm tarball, a
 Python wheel, `SHA256SUMS`, and GitHub build-provenance attestations from the
 same source commit.
 
-The Android candidate adds a Maven-layout ZIP (AAR, sources, POM, Gradle module
-metadata and checksums) to the next approved release. It is a GitHub Release
-asset and the source of the static Maven mirror. Never add it retroactively to
-v0.10.0. See `android/README.md` for local staging, API/units and Gradle consumption.
+From v0.11.0 each release also carries an Android Maven-layout ZIP (AAR,
+sources, POM, Gradle module metadata and checksums). It is a GitHub Release
+asset and the only Android distribution; there is no hosted Maven endpoint.
+Never add it retroactively to
+an earlier release. See `android/README.md` for local staging, API/units and Gradle consumption.
 Its release job compiles/tests/lints the library and validates archive contents;
 before tagging, also run the emulator/contact-sheet proof and the isolated
 platform-android consumer gates. Record those results with the consumer SHA.
@@ -62,12 +62,9 @@ platform-android consumer gates. Record those results with the consumer SHA.
    release gates, builds both packages, checks their contents (below), writes
    their SHA-256 checksums, attests their provenance, and creates the GitHub
    Release with the checked-in notes.
-   For stable releases, it then calls `maven-pages.yml` to rebuild and deploy
-   the Maven mirror from all published stable Android archives. Release
-   candidates remain ZIP-only and never enter the Maven version index.
 7. Before announcing the release, download every asset, verify it against
-   `SHA256SUMS`, and run `gh attestation verify` on the tarball, wheel, and
-   checksum file.
+   `SHA256SUMS`, and run `gh attestation verify` on the tarball, wheel,
+   Android ZIP and checksum file.
 
    ```sh
    gh attestation verify <DOWNLOADED_ASSET> \
@@ -76,42 +73,6 @@ platform-android consumer gates. Record those results with the consumer SHA.
 
 Release assets are immutable. Never delete, replace, or re-upload an asset. If
 an artifact or its metadata is wrong, fix the source and cut a new version.
-
-### GitHub Pages Maven mirror
-
-Before the first Android release, a repository administrator enables **Settings
-→ Pages → Build and deployment → Source: GitHub Actions**. Configure the
-`github-pages` environment to allow the approved release tags (`v*`) and `main`
-for recovery. The workflow uses only `GITHUB_TOKEN` with `contents: read`,
-`pages: write` and `id-token: write`; consumers need no token. The site is public,
-like this repository. No Maven Central or GitHub Packages account is involved.
-
-The endpoint is `https://tiptreesystems.github.io/design-system/maven`.
-`scripts/build_maven_site.py` downloads every stable release that has an Android
-archive, verifies `SHA256SUMS`, internal checksums and module identity, and copies
-the exact version files into a fresh site. Old releases without Android assets
-are skipped. Incomplete/corrupt Android releases fail the deployment; they are
-never silently omitted. The mutable `maven-metadata.xml` lists all stable versions
-in numeric order. Versioned files are not rebuilt from today's source. No binaries
-are committed to a branch, and each deployment retains every published version.
-
-The Maven workflow serializes release/recovery deployments. A failed build leaves
-the live site intact. If deployment fails after the immutable release was created,
-fix the workflow and dispatch **Android Maven site** (`maven-pages.yml`) from
-`main`; do not rerun release creation or replace assets. Before announcing the
-release, verify its version appears in the live metadata and resolve it with
-Gradle `--refresh-dependencies`. Enablement and the first live deployment remain
-maintainer steps; local tests do not claim that the endpoint is already live.
-
-For local site assembly (read-only GitHub downloads, no deployment):
-
-```sh
-python3 scripts/build_maven_site.py --output /tmp/tiptree-maven-site
-python3 -m unittest discover -s scripts/tests -v
-```
-
-The output directory must not already exist. Assembly intentionally fails until
-the first approved Android release exists; local candidate ZIPs are not releases.
 
 ### Artifact contents
 
@@ -168,11 +129,10 @@ branch may pin a candidate; a default branch never does.
 
 ## Pin a consumer
 
-Consumers resolve immutable releases. Android may declare a bounded version
-range through the Maven mirror as described in `android/README.md`; Gradle
-resolves it to a concrete release. Other consumers keep their existing exact
-pin policy. Swift Package consumers use
-the Git tag; npm and Python consumers use the matching release-asset URL. Do not
+Consumers resolve immutable releases and pin them exactly. Swift Package
+consumers use the Git tag; npm and Python consumers use the matching
+release-asset URL; Android consumers commit the verified release ZIP, extracted,
+as a local Maven repository (`android/README.md`). Do not
 use a branch, a moving `latest` URL, a workspace path, or a registry alias.
 
 ### Swift Package consumers
@@ -253,8 +213,7 @@ same test, and import it with `?v=X.Y.Z`.
 
 ### Swift icon source and resource gate
 
-The unreleased icon export joins the next approved immutable tag, never v0.10.0
-retroactively. `npm run ci` verifies committed native drawings and byte-exact
+The icon export first ships in v0.11.0; earlier tags never gain it. `npm run ci` verifies committed native drawings and byte-exact
 notices before rebuilding and enforces `swift-icons.budgets.json`. CI and release
 workflows build the iOS package and run simulator tests, retaining contact sheets
 and the test result. Before releasing drawing/compiler/renderer changes, rerun

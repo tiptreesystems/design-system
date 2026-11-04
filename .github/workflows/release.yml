@@ -132,12 +132,3 @@ jobs:
             --notes-file RELEASE_NOTES.md \
             --title "$GITHUB_REF_NAME" \
             "${prerelease[@]}"
-
-  maven-pages:
-    needs: build
-    if: ${{ !contains(github.ref_name, '-rc.') }}
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    uses: ./.github/workflows/maven-pages.yml

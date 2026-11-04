@@ -1,4 +1,4 @@
-// GENERATED from tokens/tokens.json v0.10.0; DO NOT EDIT.
+// GENERATED from tokens/tokens.json v0.11.0; DO NOT EDIT.
 package com.tiptreesystems.designsystem
 
 import androidx.compose.runtime.Immutable

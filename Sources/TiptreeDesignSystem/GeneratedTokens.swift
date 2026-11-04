@@ -1,5 +1,5 @@
 // GENERATED from tokens/tokens.json — DO NOT EDIT.
-// Design-system version 0.10.0.
+// Design-system version 0.11.0.
 import SwiftUI
 import UIKit
 
